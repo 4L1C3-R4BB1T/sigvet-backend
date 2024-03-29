@@ -1,5 +1,6 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,9 +20,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class CidadeEntity extends BaseEntity {
     
+    @Column(length = 255, nullable = false)
     private String nome;
 
-    @JoinColumn(name = "uf_sigla")
+    @JoinColumn(name = "uf_sigla", nullable = false)
     @ManyToOne
     private UFEntity uf;    
 }

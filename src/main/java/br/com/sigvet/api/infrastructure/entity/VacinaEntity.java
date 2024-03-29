@@ -1,7 +1,9 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,10 +21,21 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class VacinaEntity extends BaseEntity {
     
+    @Column(length = 255, nullable = false)
     private String nome;
+
+    @Column(length = 255, nullable = false)
     private String fabricante;
+
+    @Column(length = 255, nullable = false)
     private String lote;
-    private Double precoUnitario;
+
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal precoUnitario;
+
+    @Column(nullable = false)
     private Integer estoque;
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate dataValidade;
 }

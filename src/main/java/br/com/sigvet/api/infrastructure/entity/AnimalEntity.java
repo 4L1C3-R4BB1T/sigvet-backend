@@ -2,7 +2,9 @@ package br.com.sigvet.api.infrastructure.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,12 +20,16 @@ import lombok.Setter;
 @Setter
 public class AnimalEntity extends BaseEntity {
     
+    @Column(length = 255, nullable = false)
     private String nome;
 
+    @Column(length = 255, nullable = true)
     private String raca;
 
+    @Column(nullable = false)
     private LocalDate dataNascimento;
 
+    @JoinColumn(name = "cliente_id", nullable = false)
     @ManyToOne
     private ClienteEntity cliente;
 }

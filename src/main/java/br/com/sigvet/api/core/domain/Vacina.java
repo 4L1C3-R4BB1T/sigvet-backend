@@ -1,5 +1,6 @@
 package br.com.sigvet.api.core.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -8,7 +9,7 @@ public class Vacina {
     private String nome;
     private String fabricante;
     private String lote;
-    private Double precoUnitario;
+    private BigDecimal precoUnitario;
     private Integer estoque;
     private LocalDate dataValidade;
     private LocalDateTime createdAt;
@@ -18,7 +19,7 @@ public class Vacina {
     }
 
     public Vacina(Long id, String nome, String fabricante, String lote,
-        Double precoUnitario, Integer estoque, LocalDate dataValidade,
+        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade,
         LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.nome = nome;
@@ -63,11 +64,11 @@ public class Vacina {
         this.lote = lote;
     }
 
-    public Double getPrecoUnitario() {
+    public BigDecimal getPrecoUnitario() {
         return precoUnitario;
     }
 
-    public void setPrecoUnitario(Double precoUnitario) {
+    public void setPrecoUnitario(BigDecimal precoUnitario) {
         this.precoUnitario = precoUnitario;
     }
 

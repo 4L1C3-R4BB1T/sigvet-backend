@@ -19,6 +19,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ClienteEntity extends UsuarioEntity {
     
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<AnimalEntity> animais;
 }

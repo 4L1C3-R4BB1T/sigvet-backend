@@ -3,6 +3,7 @@ package br.com.sigvet.api.infrastructure.entity;
 import java.time.LocalDateTime;
 
 import br.com.sigvet.api.core.enums.ConsultaStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,13 +25,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ConsultaEntity extends BaseEntity {
     
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataHorario;
 
-    @JoinColumn(name = "animal_id")
+    @JoinColumn(name = "animal_id", nullable = false)
     @ManyToOne
     private AnimalEntity animal;
 
-    @JoinColumn(name = "veterinario_id")
+    @JoinColumn(name = "veterinario_id", nullable = false)
     @ManyToOne
     private VeterinarioEntity veterinario;
 

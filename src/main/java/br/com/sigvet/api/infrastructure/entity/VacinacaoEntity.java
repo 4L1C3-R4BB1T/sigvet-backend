@@ -2,6 +2,7 @@ package br.com.sigvet.api.infrastructure.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,17 +21,19 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class VacinacaoEntity extends BaseEntity {
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataHorario;
 
-    @JoinColumn(name = "veterinario_id")
+    @JoinColumn(name = "veterinario_id", nullable = false)
     @ManyToOne
     private VeterinarioEntity veterinario;
 
-    @JoinColumn(name = "vacina_id")
+    @JoinColumn(name = "vacina_id", nullable = false)
     @ManyToOne
     private VacinaEntity vacina;
 
-    @JoinColumn(name = "animal_id")
+    @JoinColumn(name = "animal_id", nullable = false)
     @ManyToOne
     private AnimalEntity animal;
 }

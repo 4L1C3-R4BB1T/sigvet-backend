@@ -1,12 +1,10 @@
 
 spring:
     datasource:
-        url: jdbc:h2:mem:testdb
-        username: sa
-        password:
-    h2:
-        console:
-            enabled: true
-
-    flyway:
-        enabled: false
+        url: jdbc:postgresql://localhost:5432/sigvet_db
+        username: sigvet_user
+        password: sigvet_pass
+    
+    jpa:
+        hibernate:
+            ddl-auto: validate
