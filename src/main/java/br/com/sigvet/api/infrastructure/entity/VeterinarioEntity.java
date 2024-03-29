@@ -3,6 +3,7 @@ package br.com.sigvet.api.infrastructure.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 @Setter
+@PrimaryKeyJoinColumn(name = "id")
 public class VeterinarioEntity extends UsuarioEntity {
     
     @Column(length = 255, nullable = false)

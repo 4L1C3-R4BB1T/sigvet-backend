@@ -7,7 +7,7 @@ services:
         environment:
             POSTGRES_USER: sigvet_user 
             POSTGRES_PASSWORD: sigvet_pass 
-            POSTGRES_DB: sigvet_db
+            POSTGRES_DB: sigvet
         ports: 
             - 5432:5432
 

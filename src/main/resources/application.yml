@@ -1,10 +1,17 @@
 
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/sigvet_db
+        url: jdbc:postgresql://localhost:5432/sigvet
         username: sigvet_user
         password: sigvet_pass
     
     jpa:
         hibernate:
-            ddl-auto: validate
+            ddl-auto: update
+    h2:
+        console:
+            enabled: false
+    flyway:
+        locations:
+            - classpath:db/migration
+            - classpath:db/script

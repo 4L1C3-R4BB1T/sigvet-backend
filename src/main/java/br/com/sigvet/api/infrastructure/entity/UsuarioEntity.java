@@ -26,7 +26,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UsuarioEntity extends BaseEntity {
 
     @Column(length = 100, nullable = false)

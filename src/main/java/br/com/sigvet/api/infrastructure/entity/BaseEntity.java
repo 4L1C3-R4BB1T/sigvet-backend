@@ -23,7 +23,7 @@ import lombok.experimental.SuperBuilder;
 public class BaseEntity {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @Column(columnDefinition = "TIMESTAMP", nullable = false)
