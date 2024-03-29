@@ -1,7 +1,9 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Animal {
     private Long id;
@@ -17,7 +19,7 @@ public class Animal {
 
     public Animal(Long id, String nome, String raca,
         LocalDate dataNascimento, LocalDateTime createdAt,
-        LocalDateTime updatedAt, Cliente cliente) {
+        LocalDateTime updatedAt, Cliente cliente) throws DomainInvalidException {
         this.id = id;
         this.nome = nome;
         this.raca = raca;
@@ -25,6 +27,29 @@ public class Animal {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.cliente = cliente;
+        this.validate();
+    }
+
+    public void validate() throws DomainInvalidException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new DomainInvalidException("O nome do animal não pode estar vazio.");
+        }
+
+        if (nome.length() > 255) {
+            throw new DomainInvalidException("O nome do animal deve ter no máximo 255 caracteres.");
+        }
+
+        if (raca != null && raca.length() > 255) {
+            throw new DomainInvalidException("A raça do animal deve ter no máximo 255 caracteres.");
+        }
+
+        if (dataNascimento != null && dataNascimento.isAfter(LocalDate.now())) {
+            throw new DomainInvalidException("A data de nascimento do animal não pode ser no futuro.");
+        }
+
+        if (cliente == null || cliente.getId() == null) {
+            throw new DomainInvalidException("O animal deve estar associado a um cliente.");
+        }
     }
 
     public Long getId() {

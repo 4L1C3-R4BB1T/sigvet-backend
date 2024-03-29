@@ -1,8 +1,10 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Vacina {
     private Long id;
@@ -19,8 +21,7 @@ public class Vacina {
     }
 
     public Vacina(Long id, String nome, String fabricante, String lote,
-        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade,
-        LocalDateTime createdAt, LocalDateTime updatedAt) {
+        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
         this.id = id;
         this.nome = nome;
         this.fabricante = fabricante;
@@ -28,8 +29,39 @@ public class Vacina {
         this.precoUnitario = precoUnitario;
         this.estoque = estoque;
         this.dataValidade = dataValidade;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.validate();
+    }
+
+    public Vacina(String nome, String fabricante, String lote,
+        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
+        this.nome = nome;
+        this.fabricante = fabricante;
+        this.lote = lote;
+        this.precoUnitario = precoUnitario;
+        this.estoque = estoque;
+        this.dataValidade = dataValidade;
+        this.validate();
+    }
+
+    public void validate() throws DomainInvalidException {
+        if (nome == null || nome.isEmpty()) {
+            throw new DomainInvalidException("O nome da vacina não pode ser vazio.");
+        }
+        if (fabricante == null || fabricante.isEmpty()) {
+            throw new DomainInvalidException("O fabricante da vacina não pode ser vazio.");
+        }
+        if (lote == null || lote.isEmpty()) {
+            throw new DomainInvalidException("O lote da vacina não pode ser vazio.");
+        }
+        if (precoUnitario.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new DomainInvalidException("O preço unitário da vacina deve ser maior que zero.");
+        }
+        if (estoque <= 0) {
+            throw new DomainInvalidException("O estoque da vacina deve ser um número inteiro positivo.");
+        }
+        if (dataValidade.isBefore(LocalDate.now())) {
+            throw new DomainInvalidException("A data de validade da vacina deve ser no futuro.");
+        }
     }
 
     public Long getId() {

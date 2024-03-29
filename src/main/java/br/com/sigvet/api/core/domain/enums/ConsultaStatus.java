@@ -1,4 +1,4 @@
-package br.com.sigvet.api.core.enums;
+package br.com.sigvet.api.core.domain.enums;
 
 public enum ConsultaStatus {
     AGENDADO, CONCLUIDO, CANCELADO;

@@ -1,6 +1,8 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import java.time.LocalDateTime;
+
+import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Diagnostico {
     private Long id;
@@ -22,6 +24,31 @@ public class Diagnostico {
         this.consulta = consulta;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Diagnostico(String diagnostico,
+        String observacoes, Consulta consulta) {
+        this.diagnostico = diagnostico;
+        this.observacoes = observacoes;
+        this.consulta = consulta;
+    }
+
+    public void valite() throws DomainInvalidException {
+        if (diagnostico == null || diagnostico.trim().isEmpty()) {
+            throw new DomainInvalidException("O diagnóstico não pode estar vazio.");
+        }
+        if (diagnostico.length() > 255) {
+            throw new DomainInvalidException("O diagnóstico deve ter no máximo 255 caracteres.");
+        }
+
+        if (consulta == null) {
+            throw new DomainInvalidException("O a consulta não pode ser nulo.");
+        }
+
+        if (consulta.getId() == null) {
+            throw new DomainInvalidException("O a consulta precisa ter um id já associado");
+        }
+
     }
 
     public Long getId() {

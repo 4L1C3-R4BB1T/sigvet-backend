@@ -1,6 +1,8 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import java.time.LocalDateTime;
+
+import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Vacinacao { 
     private Long id;
@@ -15,15 +17,31 @@ public class Vacinacao {
     }
 
     public Vacinacao(Long id, LocalDateTime dataHorario,
-        Veterinario veterinario, Vacina vacina, Animal animal,
-        LocalDateTime createdAt, LocalDateTime updatedAt) {
+        Veterinario veterinario, Vacina vacina, Animal animal) throws DomainInvalidException {
         this.id = id;
         this.dataHorario = dataHorario;
         this.veterinario = veterinario;
         this.vacina = vacina;
         this.animal = animal;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.validate();
+    }
+
+    public Vacinacao(LocalDateTime dataHorario,
+        Veterinario veterinario, Vacina vacina, Animal animal) throws DomainInvalidException {
+        this.dataHorario = dataHorario;
+        this.veterinario = veterinario;
+        this.vacina = vacina;
+        this.animal = animal;
+        this.validate();
+    }
+
+     public void validate() throws DomainInvalidException {
+        if (dataHorario == null) {
+            throw new DomainInvalidException("A data e horário da vacinação não podem ser nulos.");
+        }
+        if (veterinario == null || vacina == null || animal == null) {
+            throw new DomainInvalidException("O veterinário, vacina e animal devem ser especificados.");
+        }
     }
 
     public Long getId() {

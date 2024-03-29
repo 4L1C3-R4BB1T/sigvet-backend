@@ -2,7 +2,7 @@ package br.com.sigvet.api.infrastructure.entity;
 
 import java.time.LocalDateTime;
 
-import br.com.sigvet.api.core.enums.ConsultaStatus;
+import br.com.sigvet.api.core.domain.enums.ConsultaStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

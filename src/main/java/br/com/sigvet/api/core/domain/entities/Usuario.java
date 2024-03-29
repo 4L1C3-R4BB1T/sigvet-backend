@@ -1,7 +1,6 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
@@ -20,8 +19,7 @@ public class Usuario {
     }
 
     public Usuario(Long id, String usuario, String senha,
-        String email, String nome, Documento cpf, String telefone,
-        LocalDateTime createdAt, LocalDateTime updatedAt) {
+        String email, String nome, Documento cpf, String telefone) throws DomainInvalidException {
         this.id = id;
         this.usuario = usuario;
         this.senha = senha;
@@ -29,19 +27,52 @@ public class Usuario {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.validate();
+    }
+
+    public Usuario(String usuario, String senha,
+        String email, String nome, Documento cpf, String telefone) throws DomainInvalidException {
+        this.usuario = usuario;
+        this.senha = senha;
+        this.email = email;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.validate();
     }
 
     public void validate() throws DomainInvalidException {
-        if (email == null || !Pattern.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", email)) {
-            throw new DomainInvalidException("O email é inválido");
+        if (usuario == null || usuario.trim().isEmpty()) {
+            throw new DomainInvalidException("O nome de usuário não pode estar vazio.");
+        }
+        if (usuario.length() > 100) {
+            throw new DomainInvalidException("O nome de usuário deve ter no máximo 100 caracteres.");
+        }
+
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new DomainInvalidException("A senha não pode estar vazia.");
+        }
+
+        if (senha.length() > 100) {
+            throw new DomainInvalidException("A senha deve ter no máximo 100 caracteres.");
+        }
+
+        if (email == null || !email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+            throw new DomainInvalidException("O email deve ser um e-mail válido.");
+        }
+
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new DomainInvalidException("O nome não pode estar vazio.");
+        }
+        if (nome.length() > 100) {
+            throw new DomainInvalidException("O nome deve ter no máximo 100 caracteres.");
         }
 
         if (telefone != null && telefone.length() > 18) {
-            throw new DomainInvalidException("O telefone pode ter no máximo 18 caracteres");
+            throw new DomainInvalidException("O telefone deve ter no máximo 18 caracteres.");
         }
     }
+
 
     public Long getId() {
         return id;

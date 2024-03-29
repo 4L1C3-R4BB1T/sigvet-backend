@@ -1,4 +1,4 @@
-package br.com.sigvet.api.core.domain;
+package br.com.sigvet.api.core.domain.entities;
 
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
