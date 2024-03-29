@@ -11,7 +11,7 @@ public class Usuario {
     private String senha;
     private String email;
     private String nome;
-    private Cpf cpf;
+    private Documento cpf;
     private String telefone;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -20,7 +20,7 @@ public class Usuario {
     }
 
     public Usuario(Long id, String usuario, String senha,
-        String email, String nome, Cpf cpf, String telefone,
+        String email, String nome, Documento cpf, String telefone,
         LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.usuario = usuario;
@@ -83,11 +83,11 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public Cpf getCpf() {
+    public Documento getCpf() {
         return cpf;
     }
 
-    public void setCpf(Cpf cpf) {
+    public void setCpf(Documento cpf) {
         this.cpf = cpf;
     }
 

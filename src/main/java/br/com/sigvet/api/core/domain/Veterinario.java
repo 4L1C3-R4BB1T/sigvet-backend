@@ -11,7 +11,7 @@ public class Veterinario extends Usuario {
     }
 
     public Veterinario(Long id, String usuario, String senha,
-        String email, String nome, Cpf cpf, String telefone,
+        String email, String nome, Documento cpf, String telefone,
         LocalDateTime createdAt, LocalDateTime updatedAt,
         String especialidade, String crmv, String crmvUF) {
         super(id, usuario, senha, email, nome, cpf, telefone,

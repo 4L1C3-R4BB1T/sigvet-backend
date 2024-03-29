@@ -2,11 +2,11 @@ package br.com.sigvet.api.core.domain;
 
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
-public class Cpf {
+public class Documento {
     
     private String valor;
 
-    public Cpf(String valor) throws DomainInvalidException {
+    public Documento(String valor) throws DomainInvalidException {
         setValor(valor);
     }
 

@@ -10,7 +10,7 @@ public class Cliente extends Usuario {
 
     public Cliente() {}
 
-    public Cliente(Long id, String usuario, String senha, String email, String nome, Cpf cpf, String telefone,
+    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone,
             LocalDateTime createdAt, LocalDateTime updatedAt, List<Animal> animais) {
         super(id, usuario, senha, email, nome, cpf, telefone, createdAt, updatedAt);
         this.animais = animais;
