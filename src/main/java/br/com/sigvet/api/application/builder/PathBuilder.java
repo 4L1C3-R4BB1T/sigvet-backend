@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.builders;
+package br.com.sigvet.api.application.builder;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import br.com.sigvet.api.application.constants.FilterConstants;
+import br.com.sigvet.api.application.constant.FilterConstants;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;

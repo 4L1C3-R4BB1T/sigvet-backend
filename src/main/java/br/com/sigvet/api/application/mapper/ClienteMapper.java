@@ -1,8 +1,11 @@
 package br.com.sigvet.api.application.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Documento;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -17,34 +20,53 @@ public class ClienteMapper {
 
     private final EnderecoMapper enderecoMapper;
 
-    public ClienteEntity toEntity(Cliente source) {
+    private final CidadeMapper cidadeMapper;
 
-        return ClienteEntity.builder()
-            .animais(source.getAnimais().stream().map(animalMapper::toEntity).toList())
+    public ClienteEntity toEntity(Cliente source) {
+        var clienteEntity =  ClienteEntity.builder()
             .cpf(source.getCpf().getValor())
             .createdAt(source.getCreatedAt())
             .updatedAt(source.getUpdatedAt())
-            .email(source.getEmail())
-            .endereco(enderecoMapper.toEntity(source.getEndereco()))        
+            .email(source.getEmail())       
             .id(source.getId())
             .nome(source.getNome())
             .senha(source.getSenha())
             .telefone(source.getTelefone())
             .usuario(source.getUsuario())
             .build();
+
+        clienteEntity.setEndereco(enderecoMapper.toEntity(source.getEndereco(), clienteEntity, cidadeMapper.toEntity(source.getEndereco().getCidade())));
+        clienteEntity.setAnimais(source.getAnimais().stream().map(animal -> animalMapper.toEntity(animal, clienteEntity)).toList());
+
+        return clienteEntity;
     }
 
-    public Cliente toCliente(ClienteEntity clienteSaved) throws DomainInvalidException {
-        return new Cliente(
-            clienteSaved.getId(),
-            clienteSaved.getUsuario(),
-            clienteSaved.getSenha(),
-            clienteSaved.getEmail(),
-            clienteSaved.getNome(),
-            new Documento(clienteSaved.getCpf()),
-            clienteSaved.getTelefone(),
-            enderecoMapper.toEndereco(clienteSaved.getEndereco())
+    public Cliente toCliente(ClienteEntity source) throws DomainInvalidException {
+        var cliente = new Cliente(
+            source.getId(), 
+            source.getUsuario(), 
+            source.getSenha(), 
+            source.getEmail(),
+             source.getNome(), 
+             new Documento(source.getCpf()),
+             source.getTelefone(),
+             source.getCreatedAt(),
+             source.getUpdatedAt()
         );
+
+
+        cliente.setEndereco(enderecoMapper.toEndereco(source.getEndereco(), cliente, cidadeMapper.toCidade(source.getEndereco().getCidade())));
+
+        List<Animal> animais = new ArrayList<>();
+
+        for (var animalEntity: source.getAnimais()) {
+            animais.add(animalMapper.toAnimal(animalEntity, cliente));
+        }
+
+       cliente.setAnimais(animais);
+
+       return cliente;
     }
+
 
 }

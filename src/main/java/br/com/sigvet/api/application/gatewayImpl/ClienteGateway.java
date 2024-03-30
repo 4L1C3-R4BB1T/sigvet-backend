@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.sigvet.api.application.builder.EntitySpecification;
 import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
@@ -28,44 +30,53 @@ public class ClienteGateway implements IClienteGateway {
     @Transactional
     @Override
     public Cliente save(Cliente record) throws DomainInvalidException {
-        var clienteSaved = clienteJpaRepository.save(clienteMapper.toEntity(record));
-        return clienteMapper.toCliente(clienteSaved);
+      return null;
     }
 
     @Override
     public Cliente findById(Long id) throws DomainInvalidException {
-        var clienteSaved = clienteJpaRepository.findById(id);
-
-        if (clienteSaved.isEmpty()) {
-            return null;
-        }
-
-        return clienteMapper.toCliente(clienteSaved.get());
+        return null;
     }
 
     @Override
     public PageModel<Cliente> findAll(FilterModel filter) throws DomainInvalidException {
+        Page<ClienteEntity> pageClienteEntity = clienteJpaRepository.findAll(
+            buildSpecification(filter),
+            filter.toPageable()
+        );
 
         List<Cliente> clientes = new ArrayList<>();
-        Page<ClienteEntity> page = clienteJpaRepository.findAll(filter.toPageable());
 
-        for (var cliente: page.getContent()) {
-            clientes.add(clienteMapper.toCliente(cliente));
+        for (var clienteEntity: pageClienteEntity.getContent()) {
+            clientes.add(clienteMapper.toCliente(clienteEntity));
         }
 
-       return new PageModel<Cliente>(clientes, page);
+      return new PageModel<>(clientes, pageClienteEntity);
+
     }
 
     @Override
     public Cliente update(Long id, Cliente source) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return null;
     }
 
     @Override
     public boolean delete(Cliente target) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        return false;
+    }
+
+    @Override
+    public Specification<ClienteEntity> buildSpecification(FilterModel filterModel) {
+        Specification<ClienteEntity> spec = Specification.where(null);
+
+        for (var equalFilter: filterModel.getEqualFilters()) 
+            spec = spec.and(EntitySpecification.equal(equalFilter, ClienteEntity.class));
+        
+        for (var inFilter: filterModel.getInFilters()) 
+            spec = spec.and(EntitySpecification.in(inFilter, ClienteEntity.class));
+
+
+        return spec;
     }
     
 }

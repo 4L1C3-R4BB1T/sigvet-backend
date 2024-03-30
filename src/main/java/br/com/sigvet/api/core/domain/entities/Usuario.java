@@ -41,6 +41,19 @@ public class Usuario {
         this.validate();
     }
 
+    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
+        this.id = id;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.email = email;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.validate();
+    }
+
     public Usuario() {
     }
 

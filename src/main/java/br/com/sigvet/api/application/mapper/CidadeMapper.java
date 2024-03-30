@@ -15,8 +15,6 @@ public class CidadeMapper {
 
     public CidadeEntity toEntity(Cidade source) {
         return CidadeEntity.builder()
-            .createdAt(source.getCreatedAt())
-            .updatedAt(source.getUpdatedAt())
             .id(source.getId())
             .nome(source.getNome())
             .uf(ufMapper.toEntity(source.getUf()))

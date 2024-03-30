@@ -2,6 +2,8 @@ package br.com.sigvet.api.core.domain.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Endereco {
@@ -11,33 +13,40 @@ public class Endereco {
     private String cep;
     private Integer numero;
     private Cidade cidade;
+
+    @JsonIgnore //TODO Colocando só pra testar, isso não é recomendável 
+    private Usuario usuario;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
 
-    public Endereco() {
-    }
-
-    public Endereco(Long id, String rua, String bairro, String cep,
-        Integer numero, Cidade cidade) throws DomainInvalidException {
+    public Endereco(Long id, String rua, String bairro, String cep, Integer numero, Cidade cidade, Usuario usuario,
+            LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.rua = rua;
         this.bairro = bairro;
         this.cep = cep;
         this.numero = numero;
         this.cidade = cidade;
-        this.validate();
+        this.usuario = usuario;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public Endereco(String rua, String bairro, String cep,
-        Integer numero, Cidade cidade) throws DomainInvalidException {
+    public Endereco(String rua, String bairro, String cep, Integer numero, Cidade cidade, Usuario usuario) {
         this.rua = rua;
         this.bairro = bairro;
         this.cep = cep;
         this.numero = numero;
         this.cidade = cidade;
-        this.validate();
+        this.usuario = usuario;
     }
+
+
+    public Endereco() {
+    }
+
+
 
     public void validate() throws DomainInvalidException {
         if (rua == null || rua.isEmpty()) {
@@ -65,6 +74,14 @@ public class Endereco {
         }
 
         cidade.validate(); 
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 

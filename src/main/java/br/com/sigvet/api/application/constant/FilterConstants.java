@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.constants;
+package br.com.sigvet.api.application.constant;
 
 public final class FilterConstants {
 

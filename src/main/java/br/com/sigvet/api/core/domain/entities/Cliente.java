@@ -1,5 +1,6 @@
 package br.com.sigvet.api.core.domain.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class Cliente extends Usuario {
             Endereco endereco) throws DomainInvalidException {
         super(usuario, senha, email, nome, cpf, telefone, endereco);
     }
+    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
+        super(id, usuario, senha, email, nome, cpf, telefone, createdAt, updatedAt);
+    }
+
 
 
     public Cliente() {}

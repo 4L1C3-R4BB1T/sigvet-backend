@@ -1,6 +1,5 @@
 package br.com.sigvet.api.core.domain.entities;
 
-import java.time.LocalDateTime;
 
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
@@ -8,16 +7,21 @@ public class Cidade {
     private Long id;
     private String nome;
     private UF uf;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public Cidade() {
     }
 
-    public Cidade(Long id, String nome, UF uf) {
+    public Cidade(Long id, String nome, UF uf) throws DomainInvalidException {
         this.id = id;
         this.nome = nome;
         this.uf = uf;
+        this.validate();
+    }
+
+    public Cidade(String nome, UF uf) throws DomainInvalidException {
+        this.nome = nome;
+        this.uf = uf;
+        this.validate();
     }
 
     public void validate() throws DomainInvalidException {
@@ -31,22 +35,6 @@ public class Cidade {
         if (uf == null) {
             throw new DomainInvalidException("O UF da cidade não pode ser nulo.");
         }
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
