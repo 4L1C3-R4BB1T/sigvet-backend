@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "animais")
@@ -18,6 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class AnimalEntity extends BaseEntity {
     
     @Column(length = 255, nullable = false)

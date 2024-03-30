@@ -31,9 +31,6 @@ public class Cidade {
         if (uf == null) {
             throw new DomainInvalidException("O UF da cidade não pode ser nulo.");
         }
-        if (uf.getId() == null) {
-            throw new DomainInvalidException("O ID do UF da cidade não pode ser nulo.");
-        }
     }
 
     public LocalDateTime getCreatedAt() {
@@ -68,11 +65,11 @@ public class Cidade {
         this.nome = nome;
     }
 
-    public UF getUF() {
+    public UF getUf() {
         return uf;
     }
 
-    public void setUF(UF uf) {
+    public void setUf(UF uf) {
         this.uf = uf;
     }
 }

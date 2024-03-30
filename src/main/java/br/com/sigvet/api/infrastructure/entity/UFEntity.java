@@ -31,4 +31,5 @@ public class UFEntity {
 
     @Column(length = 255, nullable = false)
     private String nome;
+
 }

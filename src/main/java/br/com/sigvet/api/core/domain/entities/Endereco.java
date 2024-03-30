@@ -11,7 +11,6 @@ public class Endereco {
     private String cep;
     private Integer numero;
     private Cidade cidade;
-    private Usuario usuario;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
@@ -20,25 +19,23 @@ public class Endereco {
     }
 
     public Endereco(Long id, String rua, String bairro, String cep,
-        Integer numero, Cidade cidade, Usuario usuario) throws DomainInvalidException {
+        Integer numero, Cidade cidade) throws DomainInvalidException {
         this.id = id;
         this.rua = rua;
         this.bairro = bairro;
         this.cep = cep;
         this.numero = numero;
         this.cidade = cidade;
-        this.usuario = usuario;
         this.validate();
     }
 
     public Endereco(String rua, String bairro, String cep,
-        Integer numero, Cidade cidade, Usuario usuario) throws DomainInvalidException {
+        Integer numero, Cidade cidade) throws DomainInvalidException {
         this.rua = rua;
         this.bairro = bairro;
         this.cep = cep;
         this.numero = numero;
         this.cidade = cidade;
-        this.usuario = usuario;
         this.validate();
     }
 
@@ -68,11 +65,6 @@ public class Endereco {
         }
 
         cidade.validate(); 
-
-        if (usuario == null) {
-            throw new DomainInvalidException("O usuário não pode ser nulo.");
-        }
-        usuario.validate(); 
     }
 
 
@@ -138,13 +130,5 @@ public class Endereco {
 
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }

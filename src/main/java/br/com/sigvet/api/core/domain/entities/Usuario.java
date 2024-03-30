@@ -5,21 +5,19 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Usuario {
-    private Long id;
-    private String usuario;
-    private String senha;
-    private String email;
-    private String nome;
-    private Documento cpf;
-    private String telefone;
+    protected Long id;
+    protected String usuario;
+    protected String senha;
+    protected String email;
+    protected String nome;
+    protected Documento cpf;
+    protected String telefone;
+    protected Endereco endereco;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public Usuario() {
-    }
-
-    public Usuario(Long id, String usuario, String senha,
-        String email, String nome, Documento cpf, String telefone) throws DomainInvalidException {
+    
+    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone,
+            Endereco endereco) throws DomainInvalidException {
         this.id = id;
         this.usuario = usuario;
         this.senha = senha;
@@ -27,19 +25,26 @@ public class Usuario {
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
+        this.endereco = endereco;
         this.validate();
     }
 
-    public Usuario(String usuario, String senha,
-        String email, String nome, Documento cpf, String telefone) throws DomainInvalidException {
+
+    public Usuario(String usuario, String senha, String email, String nome, Documento cpf, String telefone, Endereco endereco) throws DomainInvalidException {
         this.usuario = usuario;
         this.senha = senha;
         this.email = email;
         this.nome = nome;
         this.cpf = cpf;
         this.telefone = telefone;
+        this.endereco = endereco;
         this.validate();
     }
+
+    public Usuario() {
+    }
+
+   
 
     public void validate() throws DomainInvalidException {
         if (usuario == null || usuario.trim().isEmpty()) {
@@ -80,6 +85,14 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public String getUsuario() {
