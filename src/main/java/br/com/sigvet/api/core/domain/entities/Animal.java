@@ -3,8 +3,6 @@ package br.com.sigvet.api.core.domain.entities;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Animal {
@@ -14,7 +12,6 @@ public class Animal {
     private LocalDate dataNascimento;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @JsonIgnore //TODO Colocando só pra testar, isso não é recomendável 
     private Cliente cliente;
 
     public Animal() {

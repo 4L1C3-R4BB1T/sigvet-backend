@@ -4,11 +4,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.sigvet.api.application.gatewayImpl.ClienteGateway;
+import br.com.sigvet.api.application.mapper.ClienteDTOMapper;
 import br.com.sigvet.api.application.usecaseImpl.ListarClientesUseCase;
 import br.com.sigvet.api.usecase.cliente.IListarClientesUseCase;
 
 @Configuration
 public class ClienteConfig {
+
+
+    @Bean
+    ClienteDTOMapper clienteDTOMapper() {
+        return ClienteDTOMapper.MAPPER;
+    }
     
     @Bean
     IListarClientesUseCase listarClientesUseCase(ClienteGateway clienteGateway) {

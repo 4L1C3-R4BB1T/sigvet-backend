@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.sigvet.api.application.builder.EntitySpecification;
 import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
-import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
@@ -39,7 +39,7 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public PageModel<Cliente> findAll(FilterModel filter) throws DomainInvalidException {
+    public Page<Cliente> findAll(FilterModel filter) throws DomainInvalidException {
         Page<ClienteEntity> pageClienteEntity = clienteJpaRepository.findAll(
             buildSpecification(filter),
             filter.toPageable()
@@ -51,8 +51,7 @@ public class ClienteGateway implements IClienteGateway {
             clientes.add(clienteMapper.toCliente(clienteEntity));
         }
 
-      return new PageModel<>(clientes, pageClienteEntity);
-
+        return new PageImpl<>(clientes, pageClienteEntity.getPageable(), pageClienteEntity.getTotalElements());
     }
 
     @Override
