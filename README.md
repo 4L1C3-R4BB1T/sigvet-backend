@@ -1,13 +1,14 @@
-# SIGVet
+# 🐾 SIGVet - Sistema de Gerenciamento para Clínicas Veterinárias
 
-🛠️ Em construção.  
+🛠️ Em construção. 
 
+---
 
-## Tecnologias
+## 🔧 Tecnologias
 
-- Flyway
-- Docker
-- Postgres
-- Spring Boot
-- Spring Security
-- Spring Data JPA
+🔸 Flyway  
+🔸 Docker  
+🔸 Postgres  
+🔸 Spring Boot  
+🔸 Spring Security  
+🔸 Spring Data JPA  
