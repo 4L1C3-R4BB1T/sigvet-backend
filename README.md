@@ -1,6 +1,8 @@
-# 🐾 SIGVet - Sistema de Gerenciamento para Clínicas Veterinárias
+# 🐾 SIGVet
 
 🛠️ Em construção. 
+
+O SIGVet consiste em um Sistema de Gerenciamento para Clínicas Veterinárias.
 
 ---
 
