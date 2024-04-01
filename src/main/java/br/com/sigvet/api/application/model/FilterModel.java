@@ -60,7 +60,8 @@ public class FilterModel {
     
     private static Order extractOrder(String field) {
         var startsWithMinus = field.startsWith("-");
-        return startsWithMinus ? new Order(Direction.DESC, field) : new Order(Direction.ASC, field.replaceAll("-", "").trim());
+        field = field.replaceAll("-", "").trim();
+        return startsWithMinus ? new Order(Direction.DESC, field) : new Order(Direction.ASC, field);
     }
 
     public List<InFilterModel> getInFilters() {
