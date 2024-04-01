@@ -37,7 +37,17 @@ public class PathBuilder<T> {
 
             if (containsField(superClass, field1)) { 
 
-                Class<?> subClass = getAssociationClass(superClass, field1);
+                var clazz = superClass.getSuperclass();
+
+                if (Objects.nonNull(clazz)) {
+                    Class<?> subClass = getAssociationClass(clazz, field1); 
+                    if (containsField(subClass, field2)) {
+                        return root.get(field1).get(field2);
+                    }
+
+                }
+
+                Class<?> subClass = getAssociationClass(superClass, field1); 
 
                 if (containsField(subClass, field2)) {
                     return root.get(field1).get(field2);

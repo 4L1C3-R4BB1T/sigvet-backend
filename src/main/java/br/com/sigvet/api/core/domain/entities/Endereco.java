@@ -38,6 +38,14 @@ public class Endereco {
         this.usuario = usuario;
     }
 
+    public Endereco(String rua, String bairro, String cep, Integer numero, Cidade cidade) {
+        this.rua = rua;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.numero = numero;
+        this.cidade = cidade;
+    }
+
 
     public Endereco() {
     }

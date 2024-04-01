@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
+import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
@@ -29,8 +30,19 @@ public class ClienteGateway implements IClienteGateway {
     
     @Transactional
     @Override
-    public Cliente save(Cliente record) throws DomainInvalidException {
-      return null;
+    public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistenteException {
+        if (clienteJpaRepository.exists((root, query, cb) ->
+            cb.or(
+                cb.equal(cb.lower(root.get("email")), record.getEmail()),
+                cb.equal(cb.lower(root.get("usuario")), record.getUsuario()),
+                cb.equal(root.get("cpf"), record.getCpf().getValor())
+            ))) {
+            throw new UsuarioExistenteException("O cliente já existe (Email, Usuário ou CPF)");
+        }
+
+        var clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
+
+        return clienteMapper.toCliente(clienteEntity);
     }
 
     @Override
@@ -73,7 +85,6 @@ public class ClienteGateway implements IClienteGateway {
         
         for (var inFilter: filterModel.getInFilters()) 
             spec = spec.and(EntitySpecification.in(inFilter, ClienteEntity.class));
-
 
         return spec;
     }

@@ -5,11 +5,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import br.com.sigvet.api.application.dto.CriarClienteDTO;
+import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.core.domain.entities.Animal;
+import br.com.sigvet.api.core.domain.entities.Cidade;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Documento;
+import br.com.sigvet.api.core.domain.entities.Endereco;
+import br.com.sigvet.api.core.domain.entities.UF;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
+import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -21,6 +27,8 @@ public class ClienteMapper {
     private final EnderecoMapper enderecoMapper;
 
     private final CidadeMapper cidadeMapper;
+
+    private final CidadeJpaRepository cidadeJpaRepository;
 
     public ClienteEntity toEntity(Cliente source) {
         var clienteEntity =  ClienteEntity.builder()
@@ -66,6 +74,31 @@ public class ClienteMapper {
        cliente.setAnimais(animais);
 
        return cliente;
+    }
+    
+
+    //String rua, String bairro, String cep, Integer numero, Cidade cidade
+    public Cliente toCliente(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+
+        var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
+
+        if (cidadeEntity.isEmpty()) {
+            throw new CidadeNaoExistenteException("Cidade não encontrada");
+        }
+
+        var cidade = cidadeMapper.toCidade(cidadeEntity.get());
+
+        System.out.println("CPFSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS " + source.cpf());
+
+        return new Cliente(
+            source.usuario(),
+            source.senha(),
+            source.email(),
+            source.nome(),
+            new Documento(source.cpf()),
+            source.telefone(),
+            new Endereco(source.rua(), source.bairro(), source.cep(), source.numero(), cidade)
+        );
     }
 
 

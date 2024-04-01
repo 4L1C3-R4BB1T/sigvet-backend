@@ -1,5 +1,6 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
@@ -47,7 +48,7 @@ public class UsuarioEntity extends BaseEntity {
     @Column(length = 18, nullable = true)
     protected String telefone;
 
-    @OneToOne(mappedBy = "usuario")
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private EnderecoEntity endereco;
 
 }

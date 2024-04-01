@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public record ClienteDTO (
     Long id,
     String usuario,
-    String senha,
     String email,
     String nome,
     String cpf,
