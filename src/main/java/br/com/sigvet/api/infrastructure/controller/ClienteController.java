@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.JsonSerializable.Base;
-
 import br.com.sigvet.api.application.dto.AtualizarClienteDTO;
 import br.com.sigvet.api.application.dto.BaseResponse;
 import br.com.sigvet.api.application.dto.ClienteDTO;
