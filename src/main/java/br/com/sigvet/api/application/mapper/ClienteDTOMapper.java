@@ -23,5 +23,4 @@ public interface ClienteDTOMapper {
     ClienteDTO toClienteDTO(Cliente source);
 
     List<ClienteDTO> toClienteDTO(List<Cliente> source);
-
 }

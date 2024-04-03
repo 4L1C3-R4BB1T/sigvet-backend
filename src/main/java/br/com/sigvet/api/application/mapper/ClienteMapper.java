@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import br.com.sigvet.api.application.dto.AtualizarClienteDTO;
 import br.com.sigvet.api.application.dto.CriarClienteDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.core.domain.entities.Animal;
@@ -74,8 +75,6 @@ public class ClienteMapper {
        return cliente;
     }
     
-
-    //String rua, String bairro, String cep, Integer numero, Cidade cidade
     public Cliente toCliente(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
         var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
@@ -86,8 +85,6 @@ public class ClienteMapper {
 
         var cidade = cidadeMapper.toCidade(cidadeEntity.get());
 
-        System.out.println("CPFSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS " + source.cpf());
-
         return new Cliente(
             source.usuario(),
             source.senha(),
@@ -97,6 +94,19 @@ public class ClienteMapper {
             source.telefone(),
             new Endereco(source.rua(), source.bairro(), source.cep(), source.numero(), cidade)
         );
+    }
+
+    public Cliente toCliente(AtualizarClienteDTO source) throws DomainInvalidException {
+        return new Cliente(
+            source.usuario(),
+            source.senha(),
+            source.email(),
+            source.nome(),
+            new Documento(source.cpf()),
+            source.telefone(),
+            null
+        );
+
     }
 
 

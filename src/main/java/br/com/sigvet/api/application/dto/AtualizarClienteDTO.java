@@ -1,16 +1,15 @@
 package br.com.sigvet.api.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidadeId\":1}")
-public record CriarClienteDTO(
-
+@Tag(name = "AtualizarClienteDTO", description = "Operação de atualizar o cliente")
+@Schema(example = "{\"usuario\":\"joao123\",\"nome\":\"João da Silva\",\"senha\":\"senha123\",\"email\":\"joao@example.com\",\"cpf\":\"123.456.789-01\",\"telefone\":\"(12) 3456-7890\"}")
+public record AtualizarClienteDTO(
     @NotBlank(message = "cliente.usuario  é obrigatório")
     String usuario,
 
@@ -28,20 +27,7 @@ public record CriarClienteDTO(
     String cpf,
 
     @Size(max = 18, message = "cliente.telefone não pode ser maior que 18 caracteres")
-    String telefone,
-
-    @NotBlank(message = "cliente.rua  é obrigatório")
-    String rua,
-
-    @NotBlank(message = "cliente.bairro n é obrigatório")
-    String bairro,
-
-    @Pattern(regexp = "^\\d{5}-\\d{3}$", message = "cliente.cep não precisa estar no formato ddddd-dd")
-    String cep,
-
-    @Min(value = 0, message = "cliente.numero  é obrigatório")
-    Integer numero,
-
-    @NotNull(message = "cliente.cidadeId é obrigatório")
-    Long cidadeId
-) {}
+    String telefone
+) {
+    
+}
