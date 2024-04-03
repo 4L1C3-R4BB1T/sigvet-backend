@@ -1,7 +1,5 @@
 package br.com.sigvet.api.application.usecaseImpl;
 
-
-
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.gatewayImpl.ClienteGateway;
 import br.com.sigvet.api.core.domain.entities.Cliente;

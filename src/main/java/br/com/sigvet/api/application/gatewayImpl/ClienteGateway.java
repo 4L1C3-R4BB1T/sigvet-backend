@@ -2,14 +2,14 @@ package br.com.sigvet.api.application.gatewayImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.util.Assert;
 import br.com.sigvet.api.application.builder.EntitySpecification;
+import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
@@ -19,6 +19,7 @@ import br.com.sigvet.api.gateway.IClienteGateway;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import br.com.sigvet.api.infrastructure.repository.ClienteJpaRepository;
 import lombok.RequiredArgsConstructor;
+import static br.com.sigvet.api.application.utils.Utilities.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class ClienteGateway implements IClienteGateway {
     @Transactional
     @Override
     public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistenteException {
+        logger.info("Criando usuário ClienteGateway::save");
         if (clienteJpaRepository.exists((root, query, cb) ->
             cb.or(
                 cb.equal(cb.lower(root.get("email")), record.getEmail()),
@@ -41,17 +43,23 @@ public class ClienteGateway implements IClienteGateway {
         }
 
         var clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
-
+        logger.info("Usuário criado ClienteGateway::save");
         return clienteMapper.toCliente(clienteEntity);
     }
 
     @Override
-    public Cliente findById(Long id) throws DomainInvalidException {
-        return null;
+    public Cliente findById(Long id) throws DomainInvalidException, ClienteNaoEncontradoException {
+        Assert.notNull(id, "O id não pode ser nulo");
+        logger.info("Buscando cliente com id %d ClienteGateway::findById".formatted(id));
+        var clienteEntity = clienteJpaRepository.findById(id)
+            .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+        logger.info("Cliente com id %d no ClienteGateway::findById foi encontrado".formatted(id));
+        return clienteMapper.toCliente(clienteEntity);
     }
 
     @Override
     public Page<Cliente> findAll(FilterModel filter) throws DomainInvalidException {
+        logger.info("Buscando clientes ClienteGateway::findAll");
         Page<ClienteEntity> pageClienteEntity = clienteJpaRepository.findAll(
             buildSpecification(filter),
             filter.toPageable()
@@ -62,7 +70,7 @@ public class ClienteGateway implements IClienteGateway {
         for (var clienteEntity: pageClienteEntity.getContent()) {
             clientes.add(clienteMapper.toCliente(clienteEntity));
         }
-
+        logger.info("Busca de clientes realizada ClienteGateway::findAll");
         return new PageImpl<>(clientes, pageClienteEntity.getPageable(), pageClienteEntity.getTotalElements());
     }
 

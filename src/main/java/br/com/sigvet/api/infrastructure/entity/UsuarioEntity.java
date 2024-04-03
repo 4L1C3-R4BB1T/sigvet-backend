@@ -1,7 +1,9 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import br.com.sigvet.api.infrastructure.convert.CPFAttributeConvert;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Inheritance;
@@ -42,6 +44,7 @@ public class UsuarioEntity extends BaseEntity {
     @Column(length = 100, nullable = false)
     protected String nome;
 
+    @Convert(converter = CPFAttributeConvert.class)
     @Column(length = 14, nullable = false)
     protected String cpf;
 

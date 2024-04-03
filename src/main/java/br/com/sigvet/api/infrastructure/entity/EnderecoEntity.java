@@ -1,6 +1,8 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import br.com.sigvet.api.infrastructure.convert.CEPAttributeConvert;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,6 +29,7 @@ public class EnderecoEntity extends BaseEntity {
     @Column(length = 255, nullable = false)
     private String bairro;
 
+    @Convert(converter = CEPAttributeConvert.class)
     @Column(length = 8, nullable = false)
     private String cep;
 

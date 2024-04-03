@@ -7,12 +7,13 @@ import br.com.sigvet.api.application.gatewayImpl.ClienteGateway;
 import br.com.sigvet.api.application.mapper.ClienteDTOMapper;
 import br.com.sigvet.api.application.usecaseImpl.CadastrarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.ListarClientesUseCase;
+import br.com.sigvet.api.application.usecaseImpl.ObterClientePorIdUseCase;
 import br.com.sigvet.api.usecase.cliente.ICadastrarClienteUseCase;
 import br.com.sigvet.api.usecase.cliente.IListarClientesUseCase;
+import br.com.sigvet.api.usecase.cliente.IObterClientePorIdUseCase;
 
 @Configuration
 public class ClienteConfig {
-
 
     @Bean
     ClienteDTOMapper clienteDTOMapper() {
@@ -27,5 +28,10 @@ public class ClienteConfig {
     @Bean
     ICadastrarClienteUseCase cadastrarClienteUseCase(ClienteGateway clienteGateway) {
         return new CadastrarClienteUseCase(clienteGateway);
+    }
+
+    @Bean
+    IObterClientePorIdUseCase obterClientePorIdUseCase(ClienteGateway clienteGateway) {
+        return new ObterClientePorIdUseCase(clienteGateway);
     }
 }
