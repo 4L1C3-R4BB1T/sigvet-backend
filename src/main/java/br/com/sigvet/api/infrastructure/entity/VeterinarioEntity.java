@@ -2,7 +2,6 @@ package br.com.sigvet.api.infrastructure.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -12,12 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(
-    name = "veterinarios",
-    indexes = { 
-       @Index(name = "veterinarios_index_crmv", columnList = "crmv")
-    }
-)
+@Table(name = "veterinarios")
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder

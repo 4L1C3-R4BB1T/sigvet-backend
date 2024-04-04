@@ -1,4 +1,4 @@
-package br.com.sigvet.api;
+package br.com.sigvet.api.unittests.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -112,7 +112,6 @@ public class ClienteControllerTest {
             }
           """;
                 
-        
 
         when(cadastrarClienteUseCase.executar(any(Cliente.class))).then(answer -> {
             Cliente cliente = answer.getArgument(0);

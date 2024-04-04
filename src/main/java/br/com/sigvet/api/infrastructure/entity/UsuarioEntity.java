@@ -5,7 +5,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
@@ -17,13 +16,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(
-    name = "usuarios", 
-    indexes = {
-        @Index(name = "usuarios_index_usuario", columnList = "usuario"),
-        @Index(name = "usuarios_index_cpf", columnList = "cpf"),
-        @Index(name = "usuarios_index_email", columnList = "email"),
-})
+@Table(name = "usuarios")
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
