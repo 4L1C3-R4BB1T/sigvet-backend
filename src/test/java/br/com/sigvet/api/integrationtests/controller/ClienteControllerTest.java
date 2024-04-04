@@ -1,6 +1,5 @@
 package br.com.sigvet.api.integrationtests.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
@@ -44,10 +43,23 @@ public class ClienteControllerTest {
           1L               
       );
 
-
         RequestEntity<CriarClienteDTO> requestEntity = new RequestEntity<>(criarClienteDTO, HttpMethod.POST, new URI("/api/clientes"));
         ResponseEntity<BaseResponse<ClienteDTO>> response = testRestTemplate.exchange(requestEntity, ParameterizedTypeReference.forType(BaseResponse.class));
         assertTrue(response.getStatusCode().isSameCodeAs(HttpStatus.CREATED), () -> "O Status de retorno deve ser o 201 - CREATED");
         //TODO fazer mais testes
     }
+    
+
+    @DisplayName("Deletar cliente com requisição delete retorna booleano")
+    @Test
+    public void testeDeletarClienteComRequisicaoDeleteRetornaBoolean() throws URISyntaxException {
+        Long clienteId = 1L;
+
+        RequestEntity<Void> requestEntity = new RequestEntity<>(HttpMethod.DELETE, new URI("/api/clientes/%d".formatted(clienteId)));
+        ResponseEntity<BaseResponse<Boolean>> response = testRestTemplate.exchange(requestEntity, ParameterizedTypeReference.forType(BaseResponse.class));
+        assertTrue(response.getBody().getResult(), () -> "O resultado precisa ser true");
+    }
+
+
+
 }

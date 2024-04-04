@@ -6,6 +6,7 @@ CREATE TABLE consultas (
     status        VARCHAR(50)     NOT NULL,
     created_at       TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted     BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_consulta 
         PRIMARY KEY (id),
     CONSTRAINT fk_consulta_animal 

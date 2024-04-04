@@ -6,6 +6,7 @@ CREATE TABLE vacinacoes (
     vacina_id       BIGINT          NOT NULL,
     created_at      TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted     BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_vacinacao 
         PRIMARY KEY (id),
     CONSTRAINT fk_vacinacao_animal 

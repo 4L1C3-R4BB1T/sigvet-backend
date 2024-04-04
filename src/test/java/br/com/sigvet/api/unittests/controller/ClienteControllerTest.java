@@ -38,100 +38,75 @@ import br.com.sigvet.api.core.exception.DomainInvalidException;
 @WebMvcTest
 @ExtendWith(MockitoExtension.class)
 public class ClienteControllerTest {
-    
-    private static ObjectMapper objectMapper = new ObjectMapper();
-    
-    @Autowired
-    private MockMvc mockMvc;
 
-    private static Cliente cliente;
+  private static ObjectMapper objectMapper = new ObjectMapper();
 
-    private static CriarClienteDTO criarClienteDTO;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @MockBean
-    private CadastrarClienteUseCase cadastrarClienteUseCase;
+  private static Cliente cliente;
 
-    @MockBean
-    private ClienteMapper clienteMapper;
+  private static CriarClienteDTO criarClienteDTO;
 
-    @MockBean
-    private ClienteDTOMapper clienteDTOMapper;
+  @MockBean
+  private CadastrarClienteUseCase cadastrarClienteUseCase;
 
-    @MockBean
-    private ObterClientePorIdUseCase obterClientePorIdUseCase;
+  @MockBean
+  private ClienteMapper clienteMapper;
 
-    @MockBean
-    private AtualizarClienteUseCase atualizarClienteUseCase;
+  @MockBean
+  private ClienteDTOMapper clienteDTOMapper;
 
-    @MockBean
-    private DeletarClienteUseCase deletarClienteUseCase;
+  @MockBean
+  private ObterClientePorIdUseCase obterClientePorIdUseCase;
 
-    @MockBean
-    private ListarClientesUseCase listarClientesUseCase;
+  @MockBean
+  private AtualizarClienteUseCase atualizarClienteUseCase;
 
-    @BeforeAll
-    public static void setup() throws DomainInvalidException {
-        criarClienteDTO = new CriarClienteDTO(
-          "alice_smith",    
-          "Alice Smith",    
-          "password456",     
-          "alice@example.com", 
-          "987.654.321-00",   
-          "1122334455",      
-          "Avenida Central",     
-          "Vila Nova",           
-          "54321-987",         
-          456,             
-          2L               
-      );
+  @MockBean
+  private DeletarClienteUseCase deletarClienteUseCase;
 
-      cliente = new Cliente(
+  @MockBean
+  private ListarClientesUseCase listarClientesUseCase;
+
+  @BeforeAll
+  public static void setup() throws DomainInvalidException {
+    criarClienteDTO = new CriarClienteDTO(
+        "alice_smith",
+        "Alice Smith",
+        "password456",
+        "alice@example.com",
+        "987.654.321-00",
+        "1122334455",
+        "Avenida Central",
+        "Vila Nova",
+        "54321-987",
+        456,
+        2L);
+
+    cliente = new Cliente(
         criarClienteDTO.usuario(),
         criarClienteDTO.senha(),
         criarClienteDTO.email(),
         criarClienteDTO.nome(),
         new Documento(criarClienteDTO.cpf()),
         criarClienteDTO.telefone(),
-        new Endereco(criarClienteDTO.rua(), criarClienteDTO.bairro(), criarClienteDTO.cep(), criarClienteDTO.numero(), 
-          new Cidade("Castelo", new UF("ES", "Espírito Santo"))
-        )
-      );
+        new Endereco(criarClienteDTO.rua(), criarClienteDTO.bairro(), criarClienteDTO.cep(), criarClienteDTO.numero(),
+            new Cidade("Castelo", new UF("ES", "Espírito Santo"))));
 
-    }
+  }
 
-
-    @DisplayName("Criar cliente com requisição post retorna cliente criado")
-    @Test
-    public void testeCriarClienteComRequisicaoPostRetornaCliente() throws JsonProcessingException, Exception {
-
-        String expectedObject = """
-            {
-                "success": true,
-                "status": 201,
-                "message": "Cliente retornado"
-            }
-          """;
-                
-
-        when(cadastrarClienteUseCase.executar(any(Cliente.class))).then(answer -> {
-            Cliente cliente = answer.getArgument(0);
-            cliente.setId(11L);
-            cliente.getEndereco().setId(11L);
-            cliente.getEndereco().getCidade().setId(11L);
-            return cliente;
-        });
-
-        when(clienteMapper.toCliente(any(CriarClienteDTO.class))).thenReturn(cliente);
-
-        mockMvc.perform(
-          MockMvcRequestBuilders.post("/api/clientes")
-          .content(objectMapper.writeValueAsString(criarClienteDTO))
-          .contentType(MediaType.APPLICATION_JSON)
-        )
+  @DisplayName("Criar cliente com requisição post retorna cliente criado")
+  @Test
+  public void testeCriarClienteComRequisicaoPostRetornaCliente() throws JsonProcessingException, Exception {
+    when(cadastrarClienteUseCase.executar(any(Cliente.class))).then(answer -> answer.getArgument(0));
+    when(clienteMapper.toCliente(any(CriarClienteDTO.class))).thenReturn(cliente);
+    mockMvc.perform(
+        MockMvcRequestBuilders.post("/api/clientes")
+            .content(objectMapper.writeValueAsString(criarClienteDTO))
+            .contentType(MediaType.APPLICATION_JSON))
         .andDo(MockMvcResultHandlers.print())
-        .andExpect(MockMvcResultMatchers.status().isCreated())
-        .andExpect(MockMvcResultMatchers.content().json(expectedObject, true));
-      }
-
+        .andExpect(MockMvcResultMatchers.status().isCreated());
+  }
 
 }

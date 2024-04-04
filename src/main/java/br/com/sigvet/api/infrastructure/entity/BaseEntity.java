@@ -34,4 +34,7 @@ public class BaseEntity {
     @UpdateTimestamp
     protected LocalDateTime updatedAt;
 
+    @Column(columnDefinition = "BOOLEAN")
+    protected Boolean deleted;
+
 }

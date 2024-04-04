@@ -1,5 +1,7 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import org.hibernate.annotations.SQLDelete;
+
 import br.com.sigvet.api.infrastructure.convert.CEPAttributeConvert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -21,8 +23,9 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@SQLDelete(sql = "UPDATE enderecos SET deleted = true WHERE id = ?")
 public class EnderecoEntity extends BaseEntity {
-    
+
     @Column(length = 255, nullable = false)
     private String rua;
 
@@ -43,4 +46,6 @@ public class EnderecoEntity extends BaseEntity {
     @JoinColumn(name = "usuario_id", nullable = false)
     @OneToOne
     private UsuarioEntity usuario;
+
+    
 }

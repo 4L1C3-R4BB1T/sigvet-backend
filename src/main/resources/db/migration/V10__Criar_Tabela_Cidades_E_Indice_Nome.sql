@@ -4,6 +4,7 @@ CREATE TABLE cidades (
     uf_sigla    CHAR(2)         NOT NULL,
     created_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted     BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_cidade
         PRIMARY KEY (id),
     CONSTRAINT fk_cidade_uf 

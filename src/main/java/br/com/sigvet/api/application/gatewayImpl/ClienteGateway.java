@@ -22,6 +22,7 @@ import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import br.com.sigvet.api.infrastructure.repository.ClienteJpaRepository;
+import br.com.sigvet.api.infrastructure.repository.UsuarioJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class ClienteGateway implements IClienteGateway {
 
     private final ClienteJpaRepository clienteJpaRepository;
-
+    private final UsuarioJpaRepository usuarioJpaRepository;
     private final ClienteMapper clienteMapper;
 
     @Transactional
@@ -102,10 +103,19 @@ public class ClienteGateway implements IClienteGateway {
         return clienteMapper.toCliente(clienteEntity);
     }
 
+    @Transactional
     @Override
     public boolean delete(Long id) throws UsuarioExistenteException {
-        Assert.notNull(id, "Cliente não pode ser nulo");
-        return clienteJpaRepository.delete((root, query, cb) -> cb.equal(root.get("id"), id)) > 0;
+        logger.info("Entrando no método ClienteGateway::delete com id " + id);
+        try {
+            buscarClientePorId(id);
+            usuarioJpaRepository.deleteById(id);
+            logger.info("A entidade com id " + id + "foi deletada");
+            return true;
+        } catch (Exception ex) {
+            logger.info("Não foi possível deletar entidade cliente com o id " + id);
+            return false;
+        }
     }
 
     @Override

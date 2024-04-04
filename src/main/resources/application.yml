@@ -7,11 +7,9 @@ spring:
     
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: none
+        show-sql: true
+          
     h2:
         console:
             enabled: false
-    flyway:
-        locations:
-            - classpath:db/migration
-            - classpath:db/script

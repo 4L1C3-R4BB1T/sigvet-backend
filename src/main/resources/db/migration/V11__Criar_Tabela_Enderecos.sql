@@ -8,6 +8,7 @@ CREATE TABLE enderecos (
     usuario_id  BIGINT          NOT NULL,
     created_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted     BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_endereco
         PRIMARY KEY (id),
     CONSTRAINT fk_endereco_cidade 

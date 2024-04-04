@@ -8,6 +8,7 @@ CREATE TABLE vacinas (
     data_validade   TIMESTAMP       NOT NULL,
     created_at       TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at       TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted     BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_vacina 
         PRIMARY KEY (id)
 );
