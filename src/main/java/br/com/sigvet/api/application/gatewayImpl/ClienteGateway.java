@@ -35,16 +35,16 @@ public class ClienteGateway implements IClienteGateway {
     @Transactional
     @Override
     public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistenteException {
-        logger.info("Criando usuário ClienteGateway::save");
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.or(
-                cb.equal(cb.lower(root.get("email")), record.getEmail()),
-                cb.equal(cb.lower(root.get("usuario")), record.getUsuario()),
-                cb.equal(root.get("cpf"), record.getCpf().getValor())))) {
-            throw new UsuarioExistenteException("O cliente já existe (Email, Usuário ou CPF)");
-        }
+        logger.info("Criando usuário ClienteGateway::save", record);
+
+        validarEmailExistente(record.getEmail());
+        validarCpfExistente(record.getCpf().getValor());
+        validarUsuarioExistente(record.getUsuario());
 
         var clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
+
         logger.info("Usuário criado ClienteGateway::save");
+
         return clienteMapper.toCliente(clienteEntity);
     }
 
@@ -52,10 +52,7 @@ public class ClienteGateway implements IClienteGateway {
     public Cliente findById(Long id) throws DomainInvalidException, ClienteNaoEncontradoException {
         Assert.notNull(id, "O id não pode ser nulo");
         logger.info("Buscando cliente com id %d ClienteGateway::findById".formatted(id));
-        var clienteEntity = clienteJpaRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
-        logger.info("Cliente com id %d no ClienteGateway::findById foi encontrado".formatted(id));
-        return clienteMapper.toCliente(clienteEntity);
+        return clienteMapper.toCliente(buscarClientePorId(id));
     }
 
     @Override
@@ -78,17 +75,18 @@ public class ClienteGateway implements IClienteGateway {
     public Cliente update(Long id, Cliente source) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
 
-        var clienteEntity = clienteJpaRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+        var clienteEntity = buscarClientePorId(id);
 
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.or(
-                cb.equal(cb.lower(root.get("email")), source.getEmail()),
-                cb.equal(cb.lower(root.get("usuario")), source.getUsuario()),
-                cb.equal(root.get("cpf"), source.getCpf().getValor())))
-                && (!source.getEmail().equalsIgnoreCase(clienteEntity.getEmail())
-                        || !source.getCpf().getValor().equalsIgnoreCase(clienteEntity.getCpf())
-                        || !source.getUsuario().equalsIgnoreCase(clienteEntity.getUsuario()))) {
-            throw new UsuarioExistenteException("O cliente já existe (Email, Usuário ou CPF)");
+        if (!source.getEmail().equalsIgnoreCase(clienteEntity.getEmail())) {
+            validarEmailExistente(source.getEmail());
+        }
+        
+        if (!source.getCpf().getValor().equalsIgnoreCase(clienteEntity.getCpf())) {
+            validarCpfExistente(source.getCpf().getValor());
+        }
+
+        if (!source.getUsuario().equalsIgnoreCase(clienteEntity.getUsuario())) {
+            validarUsuarioExistente(source.getUsuario());
         }
 
         clienteEntity.setEmail(source.getEmail());
@@ -121,6 +119,29 @@ public class ClienteGateway implements IClienteGateway {
             spec = spec.and(EntitySpecification.in(inFilter, ClienteEntity.class));
 
         return spec;
+    }
+
+    public ClienteEntity buscarClientePorId(Long id) throws ClienteNaoEncontradoException {
+        return clienteJpaRepository.findById(id).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+    }
+    
+
+    private void validarEmailExistente(String email) throws UsuarioExistenteException {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("email"), email))) {
+            throw new UsuarioExistenteException("Email já em uso");
+        }
+    }
+    
+    private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("usuario"), usuario))) {
+            throw new UsuarioExistenteException("Usuário já em uso");
+        }
+    }
+    
+    private void validarCpfExistente(String cpf) throws UsuarioExistenteException {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("cpf"), cpf))) {
+            throw new UsuarioExistenteException("CPF já em uso");
+        }
     }
 
 }

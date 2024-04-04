@@ -72,15 +72,25 @@ public class ClienteController {
     })
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<ClienteDTO> create(@RequestBody @Valid CriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
+    public ResponseEntity<BaseResponse<ClienteDTO>> create(@RequestBody @Valid CriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
         var clienteToSave = clienteMapper.toCliente(record);
         var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(new HashMap<String, Object>() {
             {
                 put("id", clienteToSave.getId());
             }
         });
+
+        var clienteDTO = clienteDTOMapper.toClienteDTO(cadastrarClienteUseCase.executar(clienteToSave));
+
+        var baseResponse = new BaseResponse<ClienteDTO>(
+                true,
+                HttpStatus.CREATED.value(),
+                "Cliente retornado",
+                clienteDTO,
+                null);
+
         return ResponseEntity.created(uriBuilder.toUri())
-                .body(clienteDTOMapper.toClienteDTO(cadastrarClienteUseCase.executar(clienteToSave)));
+                .body(baseResponse);
     }
 
     @Operation(summary = "Operação de atualizar um cliente", responses = {
