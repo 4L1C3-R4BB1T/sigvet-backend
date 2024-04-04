@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.usecaseImpl;
+package br.com.sigvet.api.application.usecaseImpl.cliente;
 
 import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
 import br.com.sigvet.api.core.domain.entities.Cliente;

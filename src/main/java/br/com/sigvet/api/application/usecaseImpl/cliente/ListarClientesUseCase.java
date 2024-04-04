@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.usecaseImpl;
+package br.com.sigvet.api.application.usecaseImpl.cliente;
 
 import org.springframework.data.domain.Page;
 
