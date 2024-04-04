@@ -26,6 +26,8 @@ Ou se preferir use extensões disponibilizadas pelas IDE's.
 
 ## 🔧 Tecnologias
 
+🔸 Java  
+🔸 Spring  
 🔸 Flyway  
 🔸 Docker  
-🔸 Postgres  
+🔸 PostgreSQL  
