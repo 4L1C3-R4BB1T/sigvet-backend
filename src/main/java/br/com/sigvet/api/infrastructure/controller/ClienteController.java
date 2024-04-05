@@ -79,7 +79,7 @@ public class ClienteController extends CrudUseCaseController<Cliente, ClienteEnt
         public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id)
                         throws UsuarioExistenteException, DomainInvalidException, UsuarioNaoEncontradoException {
                 var result = deletarUseCase.executar(id);
-                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar cliente", result);
+                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -90,7 +90,7 @@ public class ClienteController extends CrudUseCaseController<Cliente, ClienteEnt
         })
         @GetMapping("/get")
         public ResponseEntity<PageModel<ClienteDTO>> list(
-                        @Parameter(description = "Filters for search", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros)
+                        @Parameter(description = "Filtros de pesquisas", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros)
                         throws DomainInvalidException {
                 var filter = new FilterModel(parametros);
                 var page = listarUseCase.executar(filter);
@@ -106,7 +106,7 @@ public class ClienteController extends CrudUseCaseController<Cliente, ClienteEnt
         @GetMapping("/get/{id}")
         public ResponseEntity<BaseResponse<ClienteDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
                 var clienteDTO = DTOMapper.toClienteDTO(obterPorIdUseCase.executar(id));
-                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar cliente", clienteDTO);
+                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
 

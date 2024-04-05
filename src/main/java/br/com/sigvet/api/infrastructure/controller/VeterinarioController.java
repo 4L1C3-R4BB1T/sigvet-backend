@@ -1,6 +1,5 @@
 package br.com.sigvet.api.infrastructure.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -88,7 +87,7 @@ public class VeterinarioController extends CrudUseCaseController<Veterinario, Ve
         }),
     })
     @GetMapping("/get")
-    public ResponseEntity<PageModel<VeterinarioDTO>> list(@Parameter(description = "Filters for search", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros) throws DomainInvalidException {
+    public ResponseEntity<PageModel<VeterinarioDTO>> list(@Parameter(description = "Filtros de pesquisa", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros) throws DomainInvalidException {
         var filter = new FilterModel(parametros);
         var page = listarUseCase.executar(filter);
         var veterinariosDTO = DTOMapper.toVeterinarioDTO(page.getContent());
