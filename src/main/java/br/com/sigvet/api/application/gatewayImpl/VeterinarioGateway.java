@@ -189,15 +189,10 @@ public class VeterinarioGateway implements IVeterinarioGateway {
     public boolean delete(Long id) {
         logger.info("Entrando no método ClienteGateway::delete com id " + id);
         try {
-            var usuarioOptional = usuarioJpaRepository.findById(id);
-            if (usuarioOptional.isPresent()) {
-                usuarioJpaRepository.deleteById(id);
-                logger.info("A entidade com id " + id + " foi deletada");
-                return true;
-            } else { 
-                logger.info("Não foi possível encontrar a entidade cliente com o id " + id);
-                return false;
-            }
+            buscarVeterinarioPorId(id);
+            usuarioJpaRepository.deleteById(id);
+            logger.info("A entidade com id " + id + " foi deletada");
+            return true;
         } catch (Exception ex) {
             logger.error("Erro ao excluir a entidade cliente com o id " + id, ex);
             return false;

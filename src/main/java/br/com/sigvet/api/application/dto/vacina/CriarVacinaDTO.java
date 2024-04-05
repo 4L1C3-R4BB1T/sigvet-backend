@@ -3,13 +3,14 @@ package br.com.sigvet.api.application.dto.vacina;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
 
 @Tag(name = "CriarVacinaDTO", description = "Payload para ser criar uma vacina")
+@Schema(example = "{\"nome\":\"NomeDaVacina\",\"fabricante\":\"FabricanteDaVacina\",\"precoUnitario\":10.50,\"estoque\":100,\"dataValidade\":\"2024-12-31\"}")
 public record CriarVacinaDTO(
 
     @NotBlank(message = "vacina.nome  é obrigatório")
@@ -17,10 +18,6 @@ public record CriarVacinaDTO(
 
     @NotBlank(message = "vacina.fabricante  é obrigatório")
     String fabricante,
-
-    @NotBlank(message = "vacina.lote não pode ser nula ou vazia")
-    @Size(max = 100, message = "vacina.lote não pode ser maior que 100 caracteres")
-    String lote,
 
     @NotNull(message = "vacina.precoUnitario não pode ser nulo")
     BigDecimal precoUnitario,

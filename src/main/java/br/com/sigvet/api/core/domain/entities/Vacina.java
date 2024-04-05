@@ -33,11 +33,10 @@ public class Vacina {
         this.validate();
     }
 
-    public Vacina(String nome, String fabricante, String lote, BigDecimal precoUnitario,
+    public Vacina(String nome, String fabricante, BigDecimal precoUnitario,
             Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
         this.nome = nome;
         this.fabricante = fabricante;
-        this.lote = lote;
         this.precoUnitario = precoUnitario;
         this.estoque = estoque;
         this.dataValidade = dataValidade;

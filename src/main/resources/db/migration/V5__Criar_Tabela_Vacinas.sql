@@ -2,7 +2,7 @@ CREATE TABLE vacinas (
     id              BIGSERIAL       NOT NULL, 
     nome            VARCHAR(255)    NOT NULL,
     fabricante      VARCHAR(255)    NOT NULL,
-    lote            VARCHAR(255)    NOT NULL,
+    lote            VARCHAR(255)    NULL,
     preco_unitario  DECIMAL(10, 2)  NOT NULL DEFAULT 0,
     estoque         INTEGER         NOT NULL DEFAULT 0,
     data_validade   TIMESTAMP       NOT NULL,
