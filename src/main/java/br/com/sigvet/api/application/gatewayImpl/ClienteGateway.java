@@ -2,8 +2,8 @@ package br.com.sigvet.api.application.gatewayImpl;
 
 import static br.com.sigvet.api.application.utils.Utilities.logger;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,68 +36,100 @@ public class ClienteGateway implements IClienteGateway {
     @Transactional
     @Override
     public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistenteException {
-        logger.info("Criando usuário ClienteGateway::save", record);
-
+        logger.info("Entrando no método ClienteGateway::save", record);
+        
+        // Verifica se o cliente fornecido não é nulo
+        Assert.notNull(record, "O cliente fornecido não pode ser nulo");
+        
+        // Validações de dados do cliente
         validarEmailExistente(record.getEmail());
-        validarCpfExistente(record.getCpf().getValor());
+        validarCpfUnico(record.getCpf().getValor());
         validarUsuarioExistente(record.getUsuario());
-
-        var clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
-
-        logger.info("Usuário criado ClienteGateway::save");
-
+        
+        // Converte o cliente em uma entidade e salva no repositório
+        ClienteEntity clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
+        
+        logger.info("Saíndo do método ClienteGateway::save");
+        
+        // Converte a entidade salva de volta para um objeto Cliente e retorna
         return clienteMapper.toCliente(clienteEntity);
     }
 
     @Override
     public Cliente findById(Long id) throws DomainInvalidException, ClienteNaoEncontradoException {
+        // Verifica se o ID fornecido não é nulo
         Assert.notNull(id, "O id não pode ser nulo");
-        logger.info("Buscando cliente com id %d ClienteGateway::findById".formatted(id));
-        return clienteMapper.toCliente(buscarClientePorId(id));
+        
+        logger.info("Buscando cliente pelo id " + id + " no método ClienteGateway::findById");
+        
+        // Busca o cliente pelo ID e converte a entidade para um objeto Cliente
+        ClienteEntity clienteEntity = buscarClientePorId(id);
+        
+        logger.info("Cliente encontrado pelo id " + id + " no método ClienteGateway::findById");
+        
+        return clienteMapper.toCliente(clienteEntity);
     }
+    
 
     @Override
-    public Page<Cliente> findAll(FilterModel filter) throws DomainInvalidException {
-        logger.info("Buscando clientes ClienteGateway::findAll");
+    public Page<Cliente> findAll(FilterModel filter) {
+        logger.info("Buscando todos os clientes no método ClienteGateway::findAll");
+
+        // Realiza a busca paginada dos clientes
         Page<ClienteEntity> pageClienteEntity = clienteJpaRepository.findAll(
                 buildSpecification(filter),
                 filter.toPageable());
 
-        List<Cliente> clientes = new ArrayList<>();
+        // Mapeia os resultados para objetos Cliente usando expressões lambda e streams
+        List<Cliente> clientes = pageClienteEntity.getContent().stream()
+                .map(clienteEntity -> {
+                    try {
+                        return clienteMapper.toCliente(clienteEntity);
+                    } catch (Exception ex) {
+                        // Log a exceção e retorne null ou um objeto Cliente de fallback
+                        logger.error("Erro ao converter clienteEntity para Cliente", ex);
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull) // Filtra elementos não nulos (caso ocorra alguma exceção)
+                .toList();
 
-        for (var clienteEntity : pageClienteEntity.getContent()) {
-            clientes.add(clienteMapper.toCliente(clienteEntity));
-        }
-        logger.info("Busca de clientes realizada ClienteGateway::findAll");
+        logger.info("Busca de todos os clientes finalizada no método ClienteGateway::findAll");
+
+        // Retorna os resultados mapeados como uma Page
         return new PageImpl<>(clientes, pageClienteEntity.getPageable(), pageClienteEntity.getTotalElements());
     }
 
     @Override
     public Cliente update(Long id, Cliente source) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
+        Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
+        // Verifica se o cliente com o ID fornecido existe
         var clienteEntity = buscarClientePorId(id);
 
-        if (!source.getEmail().equalsIgnoreCase(clienteEntity.getEmail())) {
+        // Validações de dados atualizados
+        if (!Objects.equals(source.getEmail(), clienteEntity.getEmail())) {
             validarEmailExistente(source.getEmail());
+            clienteEntity.setEmail(source.getEmail());
         }
         
-        if (!source.getCpf().getValor().equalsIgnoreCase(clienteEntity.getCpf())) {
-            validarCpfExistente(source.getCpf().getValor());
+        if (!Objects.equals(source.getCpf().getValor(), clienteEntity.getCpf())) {
+            validarCpfUnico(source.getCpf().getValor());
+            clienteEntity.setCpf(source.getCpf().getValor());
         }
 
-        if (!source.getUsuario().equalsIgnoreCase(clienteEntity.getUsuario())) {
+        if (!Objects.equals(source.getUsuario(), clienteEntity.getUsuario())) {
             validarUsuarioExistente(source.getUsuario());
+            clienteEntity.setUsuario(source.getUsuario());
         }
 
-        clienteEntity.setEmail(source.getEmail());
+        // Atualiza os demais campos do cliente
         clienteEntity.setNome(source.getNome());
         clienteEntity.setTelefone(source.getTelefone());
-        clienteEntity.setCpf(source.getCpf().getValor());
-        clienteEntity.setUsuario(source.getUsuario());
-        clienteEntity.setSenha(source.getSenha());
-        //TODO alterar senha e criptografar
+        clienteEntity.setSenha(source.getSenha()); // TODO: Implementar lógica para atualizar a senha de forma segura
 
+        // Salva as alterações no repositório
         clienteJpaRepository.save(clienteEntity);
 
         return clienteMapper.toCliente(clienteEntity);
@@ -105,18 +137,24 @@ public class ClienteGateway implements IClienteGateway {
 
     @Transactional
     @Override
-    public boolean delete(Long id) throws UsuarioExistenteException {
+    public boolean delete(Long id) {
         logger.info("Entrando no método ClienteGateway::delete com id " + id);
         try {
-            buscarClientePorId(id);
-            usuarioJpaRepository.deleteById(id);
-            logger.info("A entidade com id " + id + "foi deletada");
-            return true;
+            var usuarioOptional = usuarioJpaRepository.findById(id);
+            if (usuarioOptional.isPresent()) {
+                usuarioJpaRepository.deleteById(id);
+                logger.info("A entidade com id " + id + " foi deletada");
+                return true;
+            } else { 
+                logger.info("Não foi possível encontrar a entidade cliente com o id " + id);
+                return false;
+            }
         } catch (Exception ex) {
-            logger.info("Não foi possível deletar entidade cliente com o id " + id);
+            logger.error("Erro ao excluir a entidade cliente com o id " + id, ex);
             return false;
         }
     }
+    
 
     @Override
     public Specification<ClienteEntity> buildSpecification(FilterModel filterModel) {
@@ -136,22 +174,23 @@ public class ClienteGateway implements IClienteGateway {
     }
     
 
-    private void validarEmailExistente(String email) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("email"), email))) {
-            throw new UsuarioExistenteException("Email já em uso");
+    private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.and(cb.equal(cb.lower(root.get(atributo)), valor.trim().toLowerCase()), cb.equal(root.get("deleted"), false)))) {
+            throw new UsuarioExistenteException(mensagemErro);
         }
+    }
+    
+    private void validarEmailExistente(String email) throws UsuarioExistenteException {
+        validarExistencia("email", email, "Email já em uso");
     }
     
     private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("usuario"), usuario))) {
-            throw new UsuarioExistenteException("Usuário já em uso");
-        }
+        System.out.println(usuario);
+        validarExistencia("usuario", usuario, "Usuário já em uso");
     }
     
-    private void validarCpfExistente(String cpf) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("cpf"), cpf))) {
-            throw new UsuarioExistenteException("CPF já em uso");
-        }
+    private void validarCpfUnico(String cpf) throws UsuarioExistenteException {
+        validarExistencia("cpf", cpf.replaceAll("\\D", ""), "CPF já em uso");
     }
-
+    
 }

@@ -1,10 +1,10 @@
 CREATE TABLE usuarios (
     id          BIGSERIAL       NOT NULL,
-    usuario     VARCHAR(100)    NOT NULL UNIQUE,
+    usuario     VARCHAR(100)    NOT NULL,
     senha       VARCHAR(100)    NOT NULL,
-    email       VARCHAR(100)    NOT NULL UNIQUE,
+    email       VARCHAR(100)    NOT NULL,
     nome        VARCHAR(100)    NOT NULL,
-    cpf         CHAR(14)        NOT NULL UNIQUE,
+    cpf         CHAR(14)        NOT NULL,
     telefone    VARCHAR(18)     NULL,
     created_at  TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at  TIMESTAMP       NOT NULL DEFAULT NOW(),

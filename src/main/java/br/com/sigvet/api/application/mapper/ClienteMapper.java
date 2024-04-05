@@ -40,6 +40,7 @@ public class ClienteMapper {
             .senha(source.getSenha())
             .telefone(source.getTelefone())
             .usuario(source.getUsuario())
+            .deleted(false)
             .build();
 
         clienteEntity.setEndereco(enderecoMapper.toEntity(source.getEndereco(), clienteEntity, cidadeMapper.toEntity(source.getEndereco().getCidade())));
