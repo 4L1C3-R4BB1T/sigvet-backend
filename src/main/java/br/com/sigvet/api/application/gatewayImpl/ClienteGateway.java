@@ -160,7 +160,7 @@ public class ClienteGateway implements IClienteGateway {
 
     @Override
     public Specification<ClienteEntity> buildSpecification(FilterModel filterModel) {
-        Specification<ClienteEntity> spec = Specification.where(null);
+        Specification<ClienteEntity> spec = Specification.where((root, query, cb) -> cb.equal(root.get("deleted"), false));
 
         for (var equalFilter : filterModel.getEqualFilters())
             spec = spec.and(EntitySpecification.equal(equalFilter, ClienteEntity.class));

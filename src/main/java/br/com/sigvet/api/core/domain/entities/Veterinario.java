@@ -11,6 +11,15 @@ public class Veterinario extends Usuario {
     public Veterinario() {
     }
 
+    public Veterinario(String usuario, String senha, String email, String nome, Documento cpf, String telefone,
+    String especialidade, String crmv, String crmvUf) {
+        super(usuario, senha, email, nome, cpf, telefone);
+        this.especialidade = especialidade;
+        this.crmv = crmv;
+        this.crmvUf = crmvUf;
+    }
+
+
     public Veterinario(Long id, String usuario, String senha, String email, String nome,
             Documento cpf, String telefone, Endereco endereco, String especialidade, String crmv,
             String crmvUf) throws DomainInvalidException {

@@ -41,7 +41,7 @@ public final class ClienteMapper {
             .id(source.getId())
             .nome(source.getNome())
             .senha(source.getSenha())
-            .telefone(source.getTelefone())
+            .telefone(source.getTelefone()) 
             .usuario(source.getUsuario())
             .deleted(false) //TODO validar isso no futuro, talvez altere o valor já setado no banco
             .build();

@@ -1,6 +1,7 @@
 package br.com.sigvet.api.application.dto.veterinario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-//TODO colocar crmv e crmvUf
+@Tag(name = "CriarVeterinarioDTO", description = "Operação de criar um veterinario")
 @Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidadeId\":1}")
 public record CriarVeterinarioDTO(
 
@@ -28,11 +29,14 @@ public record CriarVeterinarioDTO(
     @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "veterinario.cpf precisa estar no formato ddd.ddd.ddd-dd")
     String cpf,
 
-    @NotBlank(message = "veterinario.bairro é obrigatório")
+    @NotBlank(message = "veterinario.crmv é obrigatório")
     String crmv,
 
-    @NotBlank(message = "veterinario.bairro é obrigatório")
+    @NotBlank(message = "veterinario.crmvUf é obrigatório")
     String crmvUf,
+
+    @NotBlank(message = "veterinario.especialidade é obrigatório")
+    String especialidade,
 
     @Size(max = 18, message = "veterinario.telefone não pode ser maior que 18 caracteres")
     String telefone,

@@ -13,6 +13,16 @@ public class Usuario {
     protected String nome;
     protected Documento cpf;
     protected String telefone;
+    
+    public Usuario(String usuario, String senha, String email, String nome, Documento cpf, String telefone) {
+        this.usuario = usuario;
+        this.senha = senha;
+        this.email = email;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.telefone = telefone;
+    }
+
     protected Endereco endereco;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

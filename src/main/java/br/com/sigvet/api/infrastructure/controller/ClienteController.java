@@ -46,7 +46,7 @@ import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Clientes")
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/customer")
 @RequiredArgsConstructor
 @Validated
 public class ClienteController {
