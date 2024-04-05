@@ -50,9 +50,7 @@ public class Vacina {
         if (fabricante == null || fabricante.isEmpty()) {
             throw new DomainInvalidException("O fabricante da vacina não pode ser vazio.");
         }
-        if (lote == null || lote.isEmpty()) {
-            throw new DomainInvalidException("O lote da vacina não pode ser vazio.");
-        }
+ 
         if (precoUnitario.compareTo(BigDecimal.ZERO) < 0) {
             throw new DomainInvalidException("O preço unitário da vacina deve ser maior que zero.");
         }

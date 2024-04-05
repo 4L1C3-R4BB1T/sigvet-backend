@@ -2,6 +2,7 @@ package br.com.sigvet.api.infrastructure.controller;
 
 import java.util.Map;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

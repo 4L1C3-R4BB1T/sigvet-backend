@@ -5,9 +5,9 @@ import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 
 @Tag(name = "CriarVacinaDTO", description = "Payload para ser criar uma vacina")
 @Schema(example = "{\"nome\":\"NomeDaVacina\",\"fabricante\":\"FabricanteDaVacina\",\"precoUnitario\":10.50,\"estoque\":100,\"dataValidade\":\"2024-12-31\"}")
@@ -26,6 +26,6 @@ public record CriarVacinaDTO(
     Integer estoque,
 
     @NotNull(message = "vacina.dataValidade não pode ser nulo")
-    @Past(message = "vacina.dataValidade não pode estar no passado")
+    @FutureOrPresent(message = "vacina.dataValidade não pode estar no passado")
     LocalDate dataValidade
 ) {}
