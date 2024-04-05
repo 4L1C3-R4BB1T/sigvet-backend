@@ -6,6 +6,7 @@ import br.com.sigvet.api.core.domain.enums.ConsultaStatus;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Consulta {
+
     private Long id;
     private LocalDateTime dataHorario;
     private Animal animal;
@@ -17,8 +18,8 @@ public class Consulta {
     public Consulta() {
     }
 
-    public Consulta(Long id, LocalDateTime dataHorario, Animal animal,
-        Veterinario veterinario, ConsultaStatus status) throws DomainInvalidException {
+    public Consulta(Long id, LocalDateTime dataHorario, Animal animal, Veterinario veterinario,
+            ConsultaStatus status) throws DomainInvalidException {
         this.id = id;
         this.dataHorario = dataHorario;
         this.animal = animal;
@@ -27,8 +28,8 @@ public class Consulta {
         this.validate();
     }
 
-    public Consulta(LocalDateTime dataHorario, Animal animal,
-        Veterinario veterinario, ConsultaStatus status) throws DomainInvalidException {
+    public Consulta(LocalDateTime dataHorario, Animal animal, Veterinario veterinario,
+            ConsultaStatus status) throws DomainInvalidException {
         this.dataHorario = dataHorario;
         this.animal = animal;
         this.veterinario = veterinario;
@@ -36,11 +37,11 @@ public class Consulta {
         this.validate();
     }
 
-      public void validate() throws DomainInvalidException {
+    public void validate() throws DomainInvalidException {
         if (dataHorario == null) {
             throw new DomainInvalidException("A data e horário da consulta não podem ser nulos.");
         }
-   
+
         if (animal == null) {
             throw new DomainInvalidException("O animal da consulta não pode ser nulo.");
         }
@@ -59,7 +60,7 @@ public class Consulta {
             throw new DomainInvalidException("O status da consulta não pode ser nulo.");
         }
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -114,5 +115,6 @@ public class Consulta {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }    
+    }
+
 }

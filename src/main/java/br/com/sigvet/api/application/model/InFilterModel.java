@@ -7,12 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor 
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter 
+@Getter
 @Setter
 public class InFilterModel {
-    
     private String column;
     private List<String> values;
     private boolean isIn;

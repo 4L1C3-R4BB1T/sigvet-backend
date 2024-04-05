@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Animal {
+
     private Long id;
     private String nome;
     private String raca;
@@ -17,9 +18,8 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(Long id, String nome, String raca,
-        LocalDate dataNascimento, LocalDateTime createdAt,
-        LocalDateTime updatedAt, Cliente cliente) throws DomainInvalidException {
+    public Animal(Long id, String nome, String raca, LocalDate dataNascimento, LocalDateTime createdAt,
+            LocalDateTime updatedAt, Cliente cliente) throws DomainInvalidException {
         this.id = id;
         this.nome = nome;
         this.raca = raca;
@@ -107,4 +107,5 @@ public class Animal {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
 }

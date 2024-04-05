@@ -36,4 +36,5 @@ public class VacinacaoEntity extends BaseEntity {
     @JoinColumn(name = "animal_id", nullable = false)
     @ManyToOne
     private AnimalEntity animal;
+
 }

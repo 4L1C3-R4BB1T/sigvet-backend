@@ -4,6 +4,7 @@ import static br.com.sigvet.api.application.utils.Utilities.logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -73,7 +74,8 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public Cliente update(Long id, Cliente source) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+    public Cliente update(Long id, Cliente source)
+            throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
 
         var clienteEntity = buscarClientePorId(id);
@@ -81,7 +83,7 @@ public class ClienteGateway implements IClienteGateway {
         if (!source.getEmail().equalsIgnoreCase(clienteEntity.getEmail())) {
             validarEmailExistente(source.getEmail());
         }
-        
+
         if (!source.getCpf().getValor().equalsIgnoreCase(clienteEntity.getCpf())) {
             validarCpfExistente(source.getCpf().getValor());
         }
@@ -96,7 +98,7 @@ public class ClienteGateway implements IClienteGateway {
         clienteEntity.setCpf(source.getCpf().getValor());
         clienteEntity.setUsuario(source.getUsuario());
         clienteEntity.setSenha(source.getSenha());
-        //TODO alterar senha e criptografar
+        // TODO alterar senha e criptografar
 
         clienteJpaRepository.save(clienteEntity);
 
@@ -132,24 +134,33 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     public ClienteEntity buscarClientePorId(Long id) throws ClienteNaoEncontradoException {
-        return clienteJpaRepository.findById(id).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+        return Optional.ofNullable(clienteJpaRepository.findClienteByIdAndNotDeleted(id))
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
     }
-    
 
     private void validarEmailExistente(String email) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("email"), email))) {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.and(
+                cb.equal(root.get("email"), email),
+                cb.equal(root.get("deleted"), false)
+            ))) {
             throw new UsuarioExistenteException("Email já em uso");
         }
     }
-    
+
     private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("usuario"), usuario))) {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.and(
+                cb.equal(root.get("usuario"), usuario),
+                cb.equal(root.get("deleted"), false)
+            ))) {
             throw new UsuarioExistenteException("Usuário já em uso");
         }
     }
-    
+
     private void validarCpfExistente(String cpf) throws UsuarioExistenteException {
-        if (clienteJpaRepository.exists((root, query, cb) -> cb.equal(root.get("cpf"), cpf))) {
+        if (clienteJpaRepository.exists((root, query, cb) -> cb.and(
+                cb.equal(root.get("cpf"), cpf),
+                cb.equal(root.get("deleted"), false)
+            ))) {
             throw new UsuarioExistenteException("CPF já em uso");
         }
     }

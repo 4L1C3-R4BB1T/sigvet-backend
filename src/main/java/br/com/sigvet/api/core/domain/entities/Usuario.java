@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Usuario {
+
     protected Long id;
     protected String usuario;
     protected String senha;
@@ -15,9 +16,12 @@ public class Usuario {
     protected Endereco endereco;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
-    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-            Endereco endereco) throws DomainInvalidException {
+
+    public Usuario() {
+    }
+
+    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, Endereco endereco) throws DomainInvalidException {
         this.id = id;
         this.usuario = usuario;
         this.senha = senha;
@@ -29,8 +33,8 @@ public class Usuario {
         this.validate();
     }
 
-
-    public Usuario(String usuario, String senha, String email, String nome, Documento cpf, String telefone, Endereco endereco) throws DomainInvalidException {
+    public Usuario(String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, Endereco endereco) throws DomainInvalidException {
         this.usuario = usuario;
         this.senha = senha;
         this.email = email;
@@ -41,7 +45,8 @@ public class Usuario {
         this.validate();
     }
 
-    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
+    public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
         this.id = id;
         this.usuario = usuario;
         this.senha = senha;
@@ -53,11 +58,6 @@ public class Usuario {
         this.updatedAt = updatedAt;
         this.validate();
     }
-
-    public Usuario() {
-    }
-
-   
 
     public void validate() throws DomainInvalidException {
         if (usuario == null || usuario.trim().isEmpty()) {
@@ -75,7 +75,8 @@ public class Usuario {
             throw new DomainInvalidException("A senha deve ter no máximo 100 caracteres.");
         }
 
-        if (email == null || !email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+        if (email == null
+                || !email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
             throw new DomainInvalidException("O email deve ser um e-mail válido.");
         }
 
@@ -90,7 +91,6 @@ public class Usuario {
             throw new DomainInvalidException("O telefone deve ter no máximo 18 caracteres.");
         }
     }
-
 
     public Long getId() {
         return id;
@@ -172,12 +172,12 @@ public class Usuario {
         this.updatedAt = updatedAt;
     }
 
-    // public List<T> listarTotalFaturado(LocalDate dataInicio, 
-    //    LocalDate dataFim) {
-    // busca todas as consultas e aplicações de vacina que estejam 
+    // public List<T> listarTotalFaturado(LocalDate dataInicio,
+    // LocalDate dataFim) {
+    // busca todas as consultas e aplicações de vacina que estejam
     // dentro da dataInicio e dataFim informada
 
-    // caso não seja informada data, será usado como parâmetro 
+    // caso não seja informada data, será usado como parâmetro
     // os últimos 30 dias
 
     // calcula o somatorio dos valores das consultas e aplicações
@@ -185,17 +185,18 @@ public class Usuario {
     // retorna os valores ordenados por ano e mês em ordem decrescente
     // }
 
-    // public List<T> listarQuantidadeDeConsultas(LocalDate dataInicio, 
-    //    LocalDate dataFim) {
-    // busca todas as consultas que estejam dentro da dataInicio 
+    // public List<T> listarQuantidadeDeConsultas(LocalDate dataInicio,
+    // LocalDate dataFim) {
+    // busca todas as consultas que estejam dentro da dataInicio
     // e dataFim informada
 
-    // caso não seja informada data, será usado como parâmetro 
+    // caso não seja informada data, será usado como parâmetro
     // os últimos 30 dias
 
-    // calcula-se o total de consultas realizadas ordenadas 
+    // calcula-se o total de consultas realizadas ordenadas
     // por cada veterinário
 
     // retorna os valores ordenados por ano e mês em ordem decrescente
     // }
+
 }

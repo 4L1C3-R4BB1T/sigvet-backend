@@ -10,24 +10,23 @@ public class Cliente extends Usuario {
 
     private List<Animal> animais = new ArrayList<>();
 
-    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-            Endereco endereco) throws DomainInvalidException {
+    public Cliente() {
+    }
+
+    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, Endereco endereco) throws DomainInvalidException {
         super(id, usuario, senha, email, nome, cpf, telefone, endereco);
     }
 
-
-    public Cliente(String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-            Endereco endereco) throws DomainInvalidException {
+    public Cliente(String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, Endereco endereco) throws DomainInvalidException {
         super(usuario, senha, email, nome, cpf, telefone, endereco);
     }
-    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
+
+    public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
         super(id, usuario, senha, email, nome, cpf, telefone, createdAt, updatedAt);
     }
-
-
-
-    public Cliente() {}
-
 
     public List<Animal> getAnimais() {
         return animais;
@@ -36,7 +35,5 @@ public class Cliente extends Usuario {
     public void setAnimais(List<Animal> animais) {
         this.animais = animais;
     }
-
-
 
 }

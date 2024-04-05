@@ -13,11 +13,12 @@ public class SwaggerConfig {
     @Bean
     OpenAPI openAPI() {
         return new OpenAPI()
-            .info(new Info()
-                .title("SIGVET BACKEND")
-                .description("Uma API de gerencimaneto para uma clínica veterinária")
-                .contact(new Contact()
-                    .email("sigvet@gmail.com")
-                    .url("https://github.com/4L1C3-R4BB1T/sigvet-backend")));
+                .info(new Info()
+                        .title("SIGVET BACKEND")
+                        .description("Uma API de gerencimaneto para uma clínica veterinária")
+                        .contact(new Contact()
+                                .email("sigvet@gmail.com")
+                                .url("https://github.com/4L1C3-R4BB1T/sigvet-backend")));
     }
+    
 }

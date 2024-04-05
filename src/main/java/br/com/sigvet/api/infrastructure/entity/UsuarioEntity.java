@@ -51,4 +51,5 @@ public class UsuarioEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private EnderecoEntity endereco;
+
 }

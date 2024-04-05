@@ -16,6 +16,7 @@ public final class FilterConstants {
 
     public static final String DOT = ".";
 
-    private FilterConstants() {}
+    private FilterConstants() {
+    }
 
 }

@@ -1,9 +1,9 @@
 package br.com.sigvet.api.core.domain.entities;
 
-
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Cidade {
+
     private Long id;
     private String nome;
     private UF uf;
@@ -60,4 +60,5 @@ public class Cidade {
     public void setUf(UF uf) {
         this.uf = uf;
     }
+
 }

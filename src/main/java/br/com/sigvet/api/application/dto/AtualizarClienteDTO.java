@@ -28,6 +28,4 @@ public record AtualizarClienteDTO(
 
     @Size(max = 18, message = "cliente.telefone não pode ser maior que 18 caracteres")
     String telefone
-) {
-    
-}
+) {}

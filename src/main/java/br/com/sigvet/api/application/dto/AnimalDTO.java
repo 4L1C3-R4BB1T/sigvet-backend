@@ -10,6 +10,7 @@ public record AnimalDTO(
     Long id,
     String nome,
     String raca,
+    
     @JsonFormat(pattern = "dd/MM/yyyy")
     LocalDate dataNascimento
 ) {}

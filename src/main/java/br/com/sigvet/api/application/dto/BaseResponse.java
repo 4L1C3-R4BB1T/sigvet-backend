@@ -15,18 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseResponse<T> {
-    
     private boolean success;
-
     private int status;
-
     private String message;
-
     private T result;
-
     private ErrorResponse error;
-
     public record ErrorResponse(Long status, String message, List<ValidationError> validations) {}
-
     public record ValidationError(String field, String message) {}
 }

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import br.com.sigvet.api.infrastructure.entity.UsuarioEntity;
 
-public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long>, JpaSpecificationExecutor<UsuarioEntity> {}
+public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long>, JpaSpecificationExecutor<UsuarioEntity> {
+}

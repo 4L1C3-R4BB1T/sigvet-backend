@@ -47,5 +47,4 @@ public class EnderecoEntity extends BaseEntity {
     @OneToOne
     private UsuarioEntity usuario;
 
-    
 }

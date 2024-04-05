@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Endereco {
+
     private Long id;
     private String rua;
     private String bairro;
@@ -14,10 +15,12 @@ public class Endereco {
     private Usuario usuario;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
 
-    public Endereco(Long id, String rua, String bairro, String cep, Integer numero, Cidade cidade, Usuario usuario,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Endereco() {
+    }
+
+    public Endereco(Long id, String rua, String bairro, String cep, Integer numero, Cidade cidade,
+            Usuario usuario, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.rua = rua;
         this.bairro = bairro;
@@ -46,12 +49,6 @@ public class Endereco {
         this.cidade = cidade;
     }
 
-
-    public Endereco() {
-    }
-
-
-
     public void validate() throws DomainInvalidException {
         if (rua == null || rua.isEmpty()) {
             throw new DomainInvalidException("A rua não pode ser nula ou vazia.");
@@ -64,7 +61,7 @@ public class Endereco {
         if (cep == null || cep.isEmpty()) {
             throw new DomainInvalidException("O CEP não pode ser nulo ou vazio.");
         }
-        
+
         if (!cep.matches("^\\d{5}-?\\d{3}$")) {
             throw new DomainInvalidException("Formato de CEP inválido.");
         }
@@ -77,7 +74,7 @@ public class Endereco {
             throw new DomainInvalidException("A cidade não pode ser nula.");
         }
 
-        cidade.validate(); 
+        cidade.validate();
     }
 
     public Usuario getUsuario() {
@@ -87,7 +84,6 @@ public class Endereco {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -152,4 +148,5 @@ public class Endereco {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
+
 }

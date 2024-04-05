@@ -52,17 +52,11 @@ import lombok.RequiredArgsConstructor;
 public class ClienteController {
 
     private final IListarClientesUseCase listarClientesUseCase;
-
     private final ClienteDTOMapper clienteDTOMapper;
-
     private final ClienteMapper clienteMapper;
-
     private final ICadastrarClienteUseCase cadastrarClienteUseCase;
-
     private final IObterClientePorIdUseCase obterClientePorIdUseCase;
-
     private final IAtualizarClienteUseCase atualizarClienteUseCase;
-
     private final IDeletarClienteUseCase deletarClienteUseCase;
 
     @Operation(summary = "Operação de criar um novo cliente", responses = {
@@ -151,4 +145,5 @@ public class ClienteController {
                 .build();
         return ResponseEntity.ok(baseResponse);
     }
+    
 }

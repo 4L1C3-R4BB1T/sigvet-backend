@@ -31,13 +31,14 @@ public class EntitySpecification {
             var pathBuilder = new PathBuilder<>(clazz);
 
             var path = pathBuilder.get(root, eq.getColumn());
-    
-            if (Objects.isNull(path)) 
+
+            if (Objects.isNull(path))
                 return cb.and();
-            
+
             Predicate predicate = eq.isEqual() ? cb.equal(path, eq.getValue()) : cb.notEqual(path, eq.getValue());
 
             return predicate;
         };
-    } 
+    }
+    
 }

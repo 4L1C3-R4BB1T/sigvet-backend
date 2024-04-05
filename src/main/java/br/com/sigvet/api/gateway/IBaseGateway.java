@@ -13,5 +13,4 @@ public interface IBaseGateway<T> {
     Page<T> findAll(FilterModel filter) throws DomainInvalidException;
     T update(Long id, T source) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException;
     boolean delete(Long id) throws UsuarioExistenteException;
-    
 }
