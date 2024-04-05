@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.mapper;
+package br.com.sigvet.api.application.mapper.cliente;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import br.com.sigvet.api.application.dto.ClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.ClienteDTO;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 
 @Mapper

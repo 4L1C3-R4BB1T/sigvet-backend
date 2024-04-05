@@ -1,6 +1,6 @@
 package br.com.sigvet.api.application.usecaseImpl.cliente;
 
-import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
@@ -15,7 +15,7 @@ public class ObterClientePorIdUseCase implements IObterClientePorIdUseCase {
     }
 
     @Override
-    public Cliente executar(Long id) throws DomainInvalidException, ClienteNaoEncontradoException {
+    public Cliente executar(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
         return clienteGateway.findById(id);
     }
     

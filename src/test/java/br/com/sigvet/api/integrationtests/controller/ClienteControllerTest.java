@@ -18,8 +18,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 import br.com.sigvet.api.application.dto.BaseResponse;
-import br.com.sigvet.api.application.dto.ClienteDTO;
-import br.com.sigvet.api.application.dto.CriarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.ClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ClienteControllerTest {

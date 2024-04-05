@@ -1,6 +1,6 @@
 package br.com.sigvet.api.application.usecaseImpl.cliente;
 
-import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
@@ -15,7 +15,7 @@ public class DeletarClienteUseCase implements IDeletarClienteUseCase {
     }
 
     @Override
-    public boolean executar(Long id) throws UsuarioExistenteException, DomainInvalidException, ClienteNaoEncontradoException {
+    public boolean executar(Long id) throws UsuarioExistenteException, DomainInvalidException, UsuarioNaoEncontradoException {
         clienteGateway.findById(id);
         return clienteGateway.delete(id);
     }

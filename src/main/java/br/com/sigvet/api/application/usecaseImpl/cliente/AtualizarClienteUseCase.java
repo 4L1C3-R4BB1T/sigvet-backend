@@ -1,6 +1,6 @@
 package br.com.sigvet.api.application.usecaseImpl.cliente;
 
-import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -16,7 +16,7 @@ public class AtualizarClienteUseCase implements IAtualizarClienteUseCase {
     }
 
     @Override
-    public Cliente executar(Long id, Cliente cliente) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+    public Cliente executar(Long id, Cliente cliente) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         return clienteGateway.update(id, cliente);
     }
     

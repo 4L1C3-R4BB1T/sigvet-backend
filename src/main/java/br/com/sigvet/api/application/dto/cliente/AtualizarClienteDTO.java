@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.dto;
+package br.com.sigvet.api.application.dto.cliente;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

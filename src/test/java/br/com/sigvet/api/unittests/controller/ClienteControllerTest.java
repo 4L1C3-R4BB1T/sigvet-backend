@@ -20,9 +20,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.sigvet.api.application.dto.CriarClienteDTO;
-import br.com.sigvet.api.application.mapper.ClienteDTOMapper;
-import br.com.sigvet.api.application.mapper.ClienteMapper;
+import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
+import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
+import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
 import br.com.sigvet.api.application.usecaseImpl.cliente.AtualizarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.CadastrarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.DeletarClienteUseCase;

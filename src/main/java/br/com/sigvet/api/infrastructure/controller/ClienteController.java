@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.AtualizarClienteDTO;
 import br.com.sigvet.api.application.dto.BaseResponse;
-import br.com.sigvet.api.application.dto.ClienteDTO;
-import br.com.sigvet.api.application.dto.CriarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.AtualizarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.ClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
-import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
+import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.mapper.ClienteDTOMapper;
-import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -91,7 +91,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = AtualizarClienteDTO.class)))
     })
     @PutMapping("/update/{id}")
-    public ResponseEntity<BaseResponse<ClienteDTO>> put(@PathVariable Long id, @RequestBody AtualizarClienteDTO record) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+    public ResponseEntity<BaseResponse<ClienteDTO>> put(@PathVariable Long id, @RequestBody AtualizarClienteDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         ClienteDTO clienteDTO = clienteDTOMapper
                 .toClienteDTO(atualizarClienteUseCase.executar(id, clienteMapper.toCliente(record)));
 
@@ -109,7 +109,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = BaseResponse.class)))
     })
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistenteException, DomainInvalidException, ClienteNaoEncontradoException {
+    public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistenteException, DomainInvalidException, UsuarioNaoEncontradoException {
         var result = deletarClienteUseCase.executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar cliente", result, null);
         return ResponseEntity.ok(baseResponse);
@@ -135,7 +135,7 @@ public class ClienteController {
     })
     @GetMapping("/get/{id}")
     public ResponseEntity<BaseResponse<ClienteDTO>> get(@PathVariable Long id)
-            throws DomainInvalidException, ClienteNaoEncontradoException {
+            throws DomainInvalidException, UsuarioNaoEncontradoException {
         var clienteDTO = clienteDTOMapper.toClienteDTO(obterClientePorIdUseCase.executar(id));
         var baseResponse = BaseResponse.<ClienteDTO>builder()
                 .message("Cliente retornado")

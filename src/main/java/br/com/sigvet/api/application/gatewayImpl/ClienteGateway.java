@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
-import br.com.sigvet.api.application.exception.ClienteNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.mapper.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -57,7 +57,7 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public Cliente findById(Long id) throws DomainInvalidException, ClienteNaoEncontradoException {
+    public Cliente findById(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
         // Verifica se o ID fornecido não é nulo
         Assert.notNull(id, "O id não pode ser nulo");
         
@@ -103,7 +103,7 @@ public class ClienteGateway implements IClienteGateway {
 
     @Override
     public Cliente update(Long id, Cliente source)
-            throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+            throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
@@ -171,10 +171,10 @@ public class ClienteGateway implements IClienteGateway {
         return spec;
     }
 
-    public ClienteEntity buscarClientePorId(Long id) throws ClienteNaoEncontradoException {
+    public ClienteEntity buscarClientePorId(Long id) throws UsuarioNaoEncontradoException {
         logger.info("Entrando no método ClienteGateway::buscarClientePorId com id " + id);
         return Optional.ofNullable(clienteJpaRepository.findClienteByIdAndNotDeleted(id))
-                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Cliente não encontrado"));
     }
 
     private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {

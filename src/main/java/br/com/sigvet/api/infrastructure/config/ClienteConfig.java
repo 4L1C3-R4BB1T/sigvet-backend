@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.sigvet.api.application.gatewayImpl.ClienteGateway;
-import br.com.sigvet.api.application.mapper.ClienteDTOMapper;
+import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
 import br.com.sigvet.api.application.usecaseImpl.cliente.AtualizarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.CadastrarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.DeletarClienteUseCase;

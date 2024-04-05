@@ -1,13 +1,16 @@
-package br.com.sigvet.api.application.mapper;
+package br.com.sigvet.api.application.mapper.cliente;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.AtualizarClienteDTO;
-import br.com.sigvet.api.application.dto.CriarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.AtualizarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
+import br.com.sigvet.api.application.mapper.AnimalMapper;
+import br.com.sigvet.api.application.mapper.CidadeMapper;
+import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Documento;
@@ -19,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ClienteMapper {
+public final class ClienteMapper {
 
     private final AnimalMapper animalMapper;
 
@@ -40,7 +43,7 @@ public class ClienteMapper {
             .senha(source.getSenha())
             .telefone(source.getTelefone())
             .usuario(source.getUsuario())
-            .deleted(false)
+            .deleted(false) //TODO validar isso no futuro, talvez altere o valor já setado no banco
             .build();
 
         clienteEntity.setEndereco(enderecoMapper.toEntity(source.getEndereco(), clienteEntity, cidadeMapper.toEntity(source.getEndereco().getCidade())));
