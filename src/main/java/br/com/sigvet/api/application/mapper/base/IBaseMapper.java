@@ -12,5 +12,5 @@ public interface IBaseMapper<TDomain, TEntity extends BaseEntity, TCriarModel, T
 
     TDomain fromCriarModelToDomain(TCriarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
 
-    TDomain fromAtualizarModelToDomain(TAtualizarModel source) throws DomainInvalidException;
+    TDomain fromAtualizarModelToDomain(TAtualizarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
 }

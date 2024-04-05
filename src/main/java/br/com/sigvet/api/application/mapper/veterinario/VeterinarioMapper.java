@@ -69,7 +69,7 @@ public final class VeterinarioMapper implements IVeterinarioMapper {
 
      public Veterinario fromCriarModelToDomain(CriarVeterinarioDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
-        var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
+        var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
         if (cidadeEntity.isEmpty()) {
             throw new CidadeNaoExistenteException("Cidade não encontrada");
@@ -92,6 +92,15 @@ public final class VeterinarioMapper implements IVeterinarioMapper {
     }
 
      public Veterinario fromAtualizarModelToDomain(AtualizarVeterinarioDTO source) throws DomainInvalidException {
+
+        var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
+
+        if (cidadeEntity.isEmpty()) {
+            throw new CidadeNaoExistenteException("Cidade não encontrada");
+        }
+
+        var cidade = cidadeMapper.toCidade(cidadeEntity.get());
+
         return new Veterinario(
             source.usuario(),
             source.senha(),
@@ -99,10 +108,10 @@ public final class VeterinarioMapper implements IVeterinarioMapper {
             source.nome(),
             new Documento(source.cpf()),
             source.telefone(),
+            new Endereco(source.rua(), source.bairro(), source.cep(), source.numero(), cidade),
             source.especialidade(),
             source.crmv(),
             source.crmvUf()
         );
-
     }
 }

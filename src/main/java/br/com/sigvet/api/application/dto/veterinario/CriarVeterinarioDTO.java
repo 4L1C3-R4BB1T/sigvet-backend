@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Tag(name = "CriarVeterinarioDTO", description = "Operação de criar um veterinario")
-@Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidadeId\":1}")
+@Tag(name = "CriarVeterinarioDTO", description = "Payload para ser criar uma veterinario")
+@Schema(example = "{\"usuario\":\"usuario\",\"nome\":\"nome\",\"senha\":\"senha\",\"email\":\"email@example.com\",\"cpf\":\"123.456.789-00\",\"crmv\":\"ABC123\",\"crmvUf\":\"SP\",\"especialidade\":\"especialidade\",\"telefone\":\"123456789\",\"rua\":\"rua\",\"bairro\":\"bairro\",\"cep\":\"12345-678\",\"numero\":10,\"cidade\":\"cidade\",\"uf\":\"SP\"}")
 public record CriarVeterinarioDTO(
 
     @NotBlank(message = "veterinario.usuario  é obrigatório")
@@ -53,9 +53,14 @@ public record CriarVeterinarioDTO(
     @Pattern(regexp = "^\\d{5}-\\d{3}$", message = "veterinario.cep não precisa estar no formato ddddd-dd")
     String cep,
 
-    @Min(value = 0, message = "veterinario.numero  é obrigatório")
+    @Min(value = 0, message = "veterinario.numero não pode ser meno que 0")
+    @NotNull(message = "veterinario.numero não é obrigatório")
     Integer numero,
 
-    @NotNull(message = "cliente.cidadeId é obrigatório")
-    Long cidadeId
+    @NotBlank(message = "veterinario.cidade n é obrigatório")
+    String cidade,
+
+    @NotBlank(message = "veterinario.uf é obrigatório")
+    @Pattern(regexp = "(^[A-Z]{2})", message = "veterinario.uf precisa ser ter 2 duas letras maiusculas EX: ES")
+    String uf
 ) {}

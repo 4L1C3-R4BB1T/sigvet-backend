@@ -14,14 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
+import br.com.sigvet.api.application.exception.CrmvUFNaoEncontradoException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.veterinario.VeterinarioMapper;
 import br.com.sigvet.api.application.model.FilterModel;
+import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarioGateway;
+import br.com.sigvet.api.infrastructure.entity.EnderecoEntity;
 import br.com.sigvet.api.infrastructure.entity.VeterinarioEntity;
+import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
+import br.com.sigvet.api.infrastructure.repository.EnderecoJpaRepository;
+import br.com.sigvet.api.infrastructure.repository.UFJpaRepository;
 import br.com.sigvet.api.infrastructure.repository.UsuarioJpaRepository;
 import br.com.sigvet.api.infrastructure.repository.VeterinarioJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,21 +39,31 @@ public class VeterinarioGateway implements IVeterinarioGateway {
 
     private final VeterinarioJpaRepository veterinarioJpaRepository;
     private final UsuarioJpaRepository usuarioJpaRepository;
+    private final EnderecoJpaRepository enderecoJpaRepository;
+    private final CidadeJpaRepository cidadeJpaRepository;
+    private final UFJpaRepository ufJpaRepository;
     private final VeterinarioMapper veterinarioMapper;
+    private final EnderecoMapper enderecoMapper;
 
     @Transactional
     @Override
-    public Veterinario save(Veterinario record) throws DomainInvalidException, UsuarioExistenteException {
+    public Veterinario save(Veterinario record) throws DomainInvalidException, UsuarioExistenteException, CrmvUFNaoEncontradoException {
         logger.info("Entrando no método VeterinarioGateway::save", record);
         
         // Verifica se o veterinario fornecido não é nulo
         Assert.notNull(record, "O veterinario fornecido não pode ser nulo");
+
+        if (ufJpaRepository.findById(record.getCrmvUf().toUpperCase()).isEmpty()) {
+            throw new CrmvUFNaoEncontradoException("UF do crmv não encontrada");
+        }
         
         // Validações de dados do veterinario
+        validarCrmvUnico(record.getCrmv(), record.getCrmvUf());
         validarEmailExistente(record.getEmail());
         validarCpfUnico(record.getCpf().getValor());
         validarUsuarioExistente(record.getUsuario());
-        validarCrmvUnico(record.getCrmv());
+
+    
         
         // Converte o veterinario em uma entidade e salva no repositório
         VeterinarioEntity veterinarioEntity = veterinarioJpaRepository.save(veterinarioMapper.fromDomainToEntity(record));
@@ -102,6 +119,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         return new PageImpl<>(veterinarios, pageVeterinarioEntity.getPageable(), pageVeterinarioEntity.getTotalElements());
     }
 
+    @Transactional
     @Override
     public Veterinario update(Long id, Veterinario source)
             throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
@@ -128,8 +146,14 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         }
 
         if (!Objects.equals(source.getCrmv(), veterinarioEntity.getCrmv())) {
-            validarCrmvUnico(source.getCrmv());
+            validarCrmvUnico(source.getCrmv(), source.getCrmvUf());
+
             veterinarioEntity.setCrmv(source.getCrmv());
+
+            if (ufJpaRepository.findById(source.getCrmvUf().toUpperCase()).isEmpty()) {
+                throw new CrmvUFNaoEncontradoException("UF do crmv não encontrada");
+            }
+
             veterinarioEntity.setCrmvUf(source.getCrmvUf());
         }
 
@@ -139,8 +163,23 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         veterinarioEntity.setSenha(source.getSenha()); // TODO: Implementar lógica para atualizar a senha de forma segura
         veterinarioEntity.setEspecialidade(source.getEspecialidade());
 
+        Endereco endereco = source.getEndereco();
+        EnderecoEntity enderecoEntity = veterinarioEntity.getEndereco();
+
+        if (enderecoEntity != null) {
+            var cidadeEntity = cidadeJpaRepository.findById(endereco.getCidade().getId()).get();
+            enderecoJpaRepository.deleteEnderecoByIdUsuario(veterinarioEntity.getId());
+            veterinarioEntity.setEndereco(enderecoMapper.toEntity(endereco, veterinarioEntity, cidadeEntity));
+            logger.info("Saindo da atualização de endereço ClienteGateway::Update");
+        } else if (enderecoEntity == null) {
+            logger.info("Entrando na criação de endereço ClienteGateway::Update");
+            var cidadeEntity = cidadeJpaRepository.findById(endereco.getCidade().getId()).get();
+            veterinarioEntity.setEndereco(enderecoMapper.toEntity(endereco, veterinarioEntity, cidadeEntity));
+        }
+
+
         // Salva as alterações no repositório
-        veterinarioJpaRepository.save(veterinarioEntity);
+        veterinarioJpaRepository.saveAndFlush(veterinarioEntity);
 
         return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
     }
@@ -180,9 +219,9 @@ public class VeterinarioGateway implements IVeterinarioGateway {
     }
 
     public VeterinarioEntity buscarVeterinarioPorId(Long id) throws UsuarioNaoEncontradoException {
-        logger.info("Entrando no método ClienteGateway::buscarClientePorId com id " + id);
+        logger.info("Entrando no método VeterinarioGateway::buscarVeterionarioPorId com id " + id);
         return Optional.ofNullable(veterinarioJpaRepository.findVeterinarioByIdAndNotDeleted(id))
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Cliente não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Veterinário não encontrado"));
     }
 
     private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {
@@ -203,8 +242,10 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         validarExistencia("cpf", cpf.replaceAll("\\D", ""), "CPF já em uso");
     }
 
-    private void validarCrmvUnico(String cmrv) throws UsuarioExistenteException {
-        validarExistencia("cmrv", cmrv.replaceAll("\\D", ""), "Crmv já em uso");
+    private void validarCrmvUnico(String cmrv, String crmvUf) throws UsuarioExistenteException {
+        if (veterinarioJpaRepository.findByCrmvAndCrmvUf(cmrv, crmvUf).isPresent()) {
+            throw new UsuarioExistenteException("Crmv já em uso");
+        }
     }
     
 }

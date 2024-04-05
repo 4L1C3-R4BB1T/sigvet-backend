@@ -81,7 +81,7 @@ public final class ClienteMapper implements IClienteMapper {
     
     public Cliente fromCriarModelToDomain(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
-        var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
+        var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
         if (cidadeEntity.isEmpty()) {
             throw new CidadeNaoExistenteException("Cidade não encontrada");
@@ -101,6 +101,15 @@ public final class ClienteMapper implements IClienteMapper {
     }
 
     public Cliente fromAtualizarModelToDomain(AtualizarClienteDTO source) throws DomainInvalidException {
+
+        var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
+
+        if (cidadeEntity.isEmpty()) {
+            throw new CidadeNaoExistenteException("Cidade não encontrada");
+        }
+
+        var cidade = cidadeMapper.toCidade(cidadeEntity.get());
+        
         return new Cliente(
             source.usuario(),
             source.senha(),
@@ -108,7 +117,7 @@ public final class ClienteMapper implements IClienteMapper {
             source.nome(),
             new Documento(source.cpf()),
             source.telefone(),
-            null
+            new Endereco(source.rua(), source.bairro(), source.cep(), source.numero(), cidade)
         );
     }
 

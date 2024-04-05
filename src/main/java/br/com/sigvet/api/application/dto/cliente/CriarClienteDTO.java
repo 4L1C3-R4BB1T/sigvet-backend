@@ -4,11 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidadeId\":1}")
+@Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidade\":\"Vitória\", \"uf\":\"ES\"}")
 public record CriarClienteDTO(
 
     @NotBlank(message = "cliente.usuario  é obrigatório")
@@ -42,6 +41,10 @@ public record CriarClienteDTO(
     @Min(value = 0, message = "cliente.numero  é obrigatório")
     Integer numero,
 
-    @NotNull(message = "cliente.cidadeId é obrigatório")
-    Long cidadeId
+    @NotBlank(message = "cliente.cidade n é obrigatório")
+    String cidade,
+
+    @NotBlank(message = "cliente.uf é obrigatório")
+    @Pattern(regexp = "(^[A-Z]{2})", message = "cliente.uf precisa ser ter 2 duas letras maiusculas EX: ES")
+    String uf
 ) {}

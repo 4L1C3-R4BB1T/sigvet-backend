@@ -16,13 +16,18 @@ import org.springframework.util.Assert;
 import br.com.sigvet.api.application.builder.EntitySpecification;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
+import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
+import br.com.sigvet.api.infrastructure.entity.EnderecoEntity;
+import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
 import br.com.sigvet.api.infrastructure.repository.ClienteJpaRepository;
+import br.com.sigvet.api.infrastructure.repository.EnderecoJpaRepository;
 import br.com.sigvet.api.infrastructure.repository.UsuarioJpaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +37,10 @@ public class ClienteGateway implements IClienteGateway {
 
     private final ClienteJpaRepository clienteJpaRepository;
     private final UsuarioJpaRepository usuarioJpaRepository;
+    private final EnderecoJpaRepository enderecoJpaRepository;
+    private final CidadeJpaRepository cidadeJpaRepository;
     private final ClienteMapper clienteMapper;
+    private final EnderecoMapper enderecoMapper;
 
     @Transactional
     @Override
@@ -101,6 +109,7 @@ public class ClienteGateway implements IClienteGateway {
         return new PageImpl<>(clientes, pageClienteEntity.getPageable(), pageClienteEntity.getTotalElements());
     }
 
+    @Transactional
     @Override
     public Cliente update(Long id, Cliente source)
             throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
@@ -131,8 +140,22 @@ public class ClienteGateway implements IClienteGateway {
         clienteEntity.setTelefone(source.getTelefone());
         clienteEntity.setSenha(source.getSenha()); // TODO: Implementar lógica para atualizar a senha de forma segura
 
+        Endereco endereco = source.getEndereco();
+        EnderecoEntity enderecoEntity = clienteEntity.getEndereco();
+
+        if (enderecoEntity != null) {
+            var cidadeEntity = cidadeJpaRepository.findById(endereco.getCidade().getId()).get();
+            enderecoJpaRepository.deleteEnderecoByIdUsuario(clienteEntity.getId());
+            clienteEntity.setEndereco(enderecoMapper.toEntity(endereco, clienteEntity, cidadeEntity));
+            logger.info("Saindo da atualização de endereço ClienteGateway::Update");
+        } else if (enderecoEntity == null) {
+            logger.info("Entrando na criação de endereço ClienteGateway::Update");
+            var cidadeEntity = cidadeJpaRepository.findById(endereco.getCidade().getId()).get();
+            clienteEntity.setEndereco(enderecoMapper.toEntity(endereco, clienteEntity, cidadeEntity));
+        }
+
         // Salva as alterações no repositório
-        clienteJpaRepository.save(clienteEntity);
+        clienteJpaRepository.saveAndFlush(clienteEntity);
 
         return clienteMapper.fromEntityToDomain(clienteEntity);
     }

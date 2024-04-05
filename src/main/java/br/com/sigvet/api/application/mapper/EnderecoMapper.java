@@ -26,6 +26,7 @@ public class EnderecoMapper {
             .numero(source.getNumero())
             .rua(source.getRua())
             .usuario(usuarioEntity)
+            .deleted(false)
             .build();
     }
 

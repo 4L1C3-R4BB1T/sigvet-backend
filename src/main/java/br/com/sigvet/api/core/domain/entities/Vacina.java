@@ -54,7 +54,7 @@ public class Vacina {
         if (lote == null || lote.isEmpty()) {
             throw new DomainInvalidException("O lote da vacina não pode ser vazio.");
         }
-        if (precoUnitario.compareTo(BigDecimal.ZERO) <= 0) {
+        if (precoUnitario.compareTo(BigDecimal.ZERO) < 0) {
             throw new DomainInvalidException("O preço unitário da vacina deve ser maior que zero.");
         }
         if (estoque <= 0) {

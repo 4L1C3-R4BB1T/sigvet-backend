@@ -26,5 +26,4 @@ public class CidadeEntity extends BaseEntity {
     @JoinColumn(name = "uf_sigla", nullable = false, referencedColumnName = "sigla", columnDefinition = "CHAR(2)")
     @ManyToOne
     private UFEntity uf;
-
 }

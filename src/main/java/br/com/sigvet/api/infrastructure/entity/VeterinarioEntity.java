@@ -1,5 +1,7 @@
 package br.com.sigvet.api.infrastructure.entity;
 
+import org.hibernate.annotations.SQLDelete;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -18,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @PrimaryKeyJoinColumn(name = "id")
+@SQLDelete(sql = "UPDATE usuarios SET deleted = true WHERE id = ?")
 public class VeterinarioEntity extends UsuarioEntity {
 
     @Column(length = 255, nullable = false)

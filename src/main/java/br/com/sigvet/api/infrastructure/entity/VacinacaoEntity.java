@@ -2,6 +2,8 @@ package br.com.sigvet.api.infrastructure.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLDelete;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@SQLDelete(sql = "UPDATE vacinacoes SET deleted = true WHERE id = ?")
 public class VacinacaoEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
