@@ -40,7 +40,6 @@ public class Usuario {
         this.cpf = cpf;
         this.telefone = telefone;
         this.endereco = endereco;
-        this.validate();
     }
 
     public Usuario(String usuario, String senha, String email, String nome, Documento cpf,
@@ -52,7 +51,6 @@ public class Usuario {
         this.cpf = cpf;
         this.telefone = telefone;
         this.endereco = endereco;
-        this.validate();
     }
 
     public Usuario(Long id, String usuario, String senha, String email, String nome, Documento cpf,
@@ -66,7 +64,6 @@ public class Usuario {
         this.telefone = telefone;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.validate();
     }
 
     public void validate() throws DomainInvalidException {

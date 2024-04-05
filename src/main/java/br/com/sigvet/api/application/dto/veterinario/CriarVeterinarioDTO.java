@@ -30,9 +30,12 @@ public record CriarVeterinarioDTO(
     String cpf,
 
     @NotBlank(message = "veterinario.crmv é obrigatório")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "O veterinario.crmv deve conter apenas letras e números sem acentuação")
+    @Size(max = 45, message = "O  veterinario.crmv deve ter 45 caracteres no total")
     String crmv,
 
     @NotBlank(message = "veterinario.crmvUf é obrigatório")
+    @Size(min = 2, max = 2, message = "O  veterinario.crmvUf deve ter 2 caracteres no total")
     String crmvUf,
 
     @NotBlank(message = "veterinario.especialidade é obrigatório")

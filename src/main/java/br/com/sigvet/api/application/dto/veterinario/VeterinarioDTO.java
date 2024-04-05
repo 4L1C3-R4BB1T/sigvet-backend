@@ -12,7 +12,6 @@ public record VeterinarioDTO(
         String nome,
         String cpf,
         String crmv,
-        String crmvUf,
         String telefone,
         EnderecoDTO endereco
 ) {}

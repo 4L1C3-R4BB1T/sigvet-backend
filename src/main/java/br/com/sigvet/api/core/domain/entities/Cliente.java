@@ -16,16 +16,19 @@ public class Cliente extends Usuario {
     public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf,
             String telefone, Endereco endereco) throws DomainInvalidException {
         super(id, usuario, senha, email, nome, cpf, telefone, endereco);
+        validate();
     }
 
     public Cliente(String usuario, String senha, String email, String nome, Documento cpf,
             String telefone, Endereco endereco) throws DomainInvalidException {
         super(usuario, senha, email, nome, cpf, telefone, endereco);
+        validate();
     }
 
     public Cliente(Long id, String usuario, String senha, String email, String nome, Documento cpf,
             String telefone, LocalDateTime createdAt, LocalDateTime updatedAt) throws DomainInvalidException {
         super(id, usuario, senha, email, nome, cpf, telefone, createdAt, updatedAt);
+        validate();
     }
 
     public List<Animal> getAnimais() {

@@ -12,11 +12,12 @@ public class Veterinario extends Usuario {
     }
 
     public Veterinario(String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-    String especialidade, String crmv, String crmvUf) {
+    String especialidade, String crmv, String crmvUf) throws DomainInvalidException {
         super(usuario, senha, email, nome, cpf, telefone);
         this.especialidade = especialidade;
         this.crmv = crmv;
         this.crmvUf = crmvUf;
+        this.validate();
     }
 
 
@@ -53,8 +54,25 @@ public class Veterinario extends Usuario {
     @Override
     public void validate() throws DomainInvalidException {
         super.validate();
-        if (crmv == null || !crmv.matches("^[A-Z]{2}/\\d{4}$")) {
-            throw new DomainInvalidException("O crmv não está no formato UF/XXXX");
+
+        if (crmv == null) {
+            throw new DomainInvalidException("O CRMV não pode ser nulo");
+        }
+        
+        if (!crmv.matches("^[a-zA-Z0-9]*$")) {
+            throw new DomainInvalidException("O CRMV '" + crmv + "' contém caracteres especiais, apenas letras e números são permitidos");
+        }
+        
+        if (crmv.length() > 45) {
+            throw new DomainInvalidException("O CRMV '" + crmv + "' não pode ter mais que " + 45 + " caracteres");
+        }
+        
+        if (crmvUf == null) {
+            throw new DomainInvalidException("O CRMV UF não pode ser nulo");
+        }
+        
+        if (!crmvUf.matches("[a-zA-Z]{2}")) {
+            throw new DomainInvalidException("O CRMV UF '" + crmvUf + "' deve ter exatamente 2 letras");
         }
     }
 

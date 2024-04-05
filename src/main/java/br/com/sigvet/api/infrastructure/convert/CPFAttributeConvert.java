@@ -6,7 +6,7 @@ public class CPFAttributeConvert implements AttributeConverter<String, String> {
 
     @Override
     public String convertToDatabaseColumn(String attribute) {
-        return attribute.replaceAll("\\D", "");
+        return attribute.replaceAll("\\D", "").trim();
     }
 
     @Override

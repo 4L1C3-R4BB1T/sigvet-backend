@@ -16,11 +16,15 @@ public interface VeterinarioDTOMapper {
 
      @Mappings({
         @Mapping(target = "cpf", source="cpf.valor"),
-        @Mapping(target = "endereco.cidade.estado", source = "endereco.cidade.uf.sigla")
+        @Mapping(target = "endereco.cidade.estado", source = "endereco.cidade.uf.sigla"),
+        @Mapping(target = "crmv", expression = "java(mapToCrmvFull(source.getCrmvUf(), source.getCrmv()))")
         
     })
     VeterinarioDTO toVeterinarioDTO(Veterinario source);
 
     List<VeterinarioDTO> toVeterinarioDTO(List<Veterinario> source);
-    
+
+    default String mapToCrmvFull(String uf, String valor) {
+        return "%s-%s".formatted(uf, valor);
+    }
 }
