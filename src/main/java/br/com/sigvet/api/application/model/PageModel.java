@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class PageModel<T> {
+
     private Long totalElements;
     private Integer currentPage;
     private Integer totalPages;
@@ -37,4 +38,5 @@ public class PageModel<T> {
         pageSize = page.getSize();
         currentPage = page.getNumber();
     }
+
 }

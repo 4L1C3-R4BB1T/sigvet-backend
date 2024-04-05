@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Diagnostico {
+
     private Long id;
     private String diagnostico;
     private String observacoes;
@@ -15,9 +16,8 @@ public class Diagnostico {
     public Diagnostico() {
     }
 
-    public Diagnostico(Long id, String diagnostico,
-        String observacoes, Consulta consulta,
-        LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Diagnostico(Long id, String diagnostico, String observacoes, Consulta consulta,
+            LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.diagnostico = diagnostico;
         this.observacoes = observacoes;
@@ -26,8 +26,7 @@ public class Diagnostico {
         this.updatedAt = updatedAt;
     }
 
-    public Diagnostico(String diagnostico,
-        String observacoes, Consulta consulta) {
+    public Diagnostico(String diagnostico, String observacoes, Consulta consulta) {
         this.diagnostico = diagnostico;
         this.observacoes = observacoes;
         this.consulta = consulta;
@@ -48,7 +47,6 @@ public class Diagnostico {
         if (consulta.getId() == null) {
             throw new DomainInvalidException("O a consulta precisa ter um id já associado");
         }
-
     }
 
     public Long getId() {
@@ -98,4 +96,5 @@ public class Diagnostico {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

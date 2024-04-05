@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @SQLDelete(sql = "UPDATE animais SET deleted = true WHERE id = ?")
 public class AnimalEntity extends BaseEntity {
-    
+
     @Column(length = 255, nullable = false)
     private String nome;
 
@@ -37,4 +37,5 @@ public class AnimalEntity extends BaseEntity {
     @JoinColumn(name = "cliente_id", nullable = false)
     @ManyToOne
     private ClienteEntity cliente;
+    
 }

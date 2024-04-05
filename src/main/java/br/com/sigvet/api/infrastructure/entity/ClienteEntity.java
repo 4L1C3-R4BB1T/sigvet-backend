@@ -24,8 +24,9 @@ import lombok.experimental.SuperBuilder;
 @PrimaryKeyJoinColumn(name = "id")
 @SQLDelete(sql = "UPDATE usuarios SET deleted = true WHERE id = ?")
 public class ClienteEntity extends UsuarioEntity {
-    
+
     @SQLRestriction("deleted is false")
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<AnimalEntity> animais;
+
 }

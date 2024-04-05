@@ -36,7 +36,6 @@ public class PathBuilder<T> {
             var field2 = fields[1].trim();
 
             if (containsField(superClass, field1)) { 
-
                 var clazz = superClass.getSuperclass();
 
                 if (Objects.nonNull(clazz)) {
@@ -44,7 +43,6 @@ public class PathBuilder<T> {
                     if (containsField(subClass, field2)) {
                         return root.get(field1).get(field2);
                     }
-
                 }
 
                 Class<?> subClass = getAssociationClass(superClass, field1); 
@@ -64,7 +62,6 @@ public class PathBuilder<T> {
             return null;
         }
     }
-
 
     private boolean containsField(Class<?> anyClass, String field) {
         if (Objects.isNull(anyClass)) 

@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @PrimaryKeyJoinColumn(name = "id")
 public class VeterinarioEntity extends UsuarioEntity {
-    
+
     @Column(length = 255, nullable = false)
     private String especialidade;
 
@@ -28,4 +28,5 @@ public class VeterinarioEntity extends UsuarioEntity {
 
     @Column(length = 2, nullable = false)
     private String crmvUf;
+
 }

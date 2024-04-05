@@ -55,13 +55,12 @@ public class ClienteMapper {
             source.getUsuario(), 
             source.getSenha(), 
             source.getEmail(),
-             source.getNome(), 
-             new Documento(source.getCpf()),
-             source.getTelefone(),
-             source.getCreatedAt(),
-             source.getUpdatedAt()
+            source.getNome(), 
+            new Documento(source.getCpf()),
+            source.getTelefone(),
+            source.getCreatedAt(),
+            source.getUpdatedAt()
         );
-
 
         cliente.setEndereco(enderecoMapper.toEndereco(source.getEndereco(), cliente, cidadeMapper.toCidade(source.getEndereco().getCidade())));
 
@@ -71,9 +70,9 @@ public class ClienteMapper {
             animais.add(animalMapper.toAnimal(animalEntity, cliente));
         }
 
-       cliente.setAnimais(animais);
+        cliente.setAnimais(animais);
 
-       return cliente;
+        return cliente;
     }
     
     public Cliente toCliente(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {

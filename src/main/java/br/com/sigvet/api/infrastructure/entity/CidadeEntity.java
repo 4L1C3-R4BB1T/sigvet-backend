@@ -19,11 +19,12 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class CidadeEntity extends BaseEntity {
-    
+
     @Column(length = 255, nullable = false)
     private String nome;
 
     @JoinColumn(name = "uf_sigla", nullable = false, referencedColumnName = "sigla", columnDefinition = "CHAR(2)")
     @ManyToOne
-    private UFEntity uf;    
+    private UFEntity uf;
+
 }

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Vacina {
+
     private Long id;
     private String nome;
     private String fabricante;
@@ -20,8 +21,8 @@ public class Vacina {
     public Vacina() {
     }
 
-    public Vacina(Long id, String nome, String fabricante, String lote,
-        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
+    public Vacina(Long id, String nome, String fabricante, String lote, BigDecimal precoUnitario,
+            Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
         this.id = id;
         this.nome = nome;
         this.fabricante = fabricante;
@@ -32,8 +33,8 @@ public class Vacina {
         this.validate();
     }
 
-    public Vacina(String nome, String fabricante, String lote,
-        BigDecimal precoUnitario, Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
+    public Vacina(String nome, String fabricante, String lote, BigDecimal precoUnitario,
+            Integer estoque, LocalDate dataValidade) throws DomainInvalidException {
         this.nome = nome;
         this.fabricante = fabricante;
         this.lote = lote;
@@ -135,4 +136,5 @@ public class Vacina {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

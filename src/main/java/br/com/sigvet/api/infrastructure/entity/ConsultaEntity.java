@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class ConsultaEntity extends BaseEntity {
-    
+
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataHorario;
 
@@ -38,4 +38,5 @@ public class ConsultaEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ConsultaStatus status;
+
 }

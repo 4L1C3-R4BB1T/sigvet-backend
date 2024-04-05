@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class VacinaEntity extends BaseEntity {
-    
+
     @Column(length = 255, nullable = false)
     private String nome;
 
@@ -38,4 +38,5 @@ public class VacinaEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate dataValidade;
+
 }

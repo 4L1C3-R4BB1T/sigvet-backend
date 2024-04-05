@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor 
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 public class EqualityFilterModel {
-    
     private String column;
     private String value;
     private boolean isEqual;

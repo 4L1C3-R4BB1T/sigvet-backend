@@ -46,23 +46,17 @@ import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Clientes")
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/customers")
 @RequiredArgsConstructor
 @Validated
 public class ClienteController {
 
     private final IListarClientesUseCase listarClientesUseCase;
-
     private final ClienteDTOMapper clienteDTOMapper;
-
     private final ClienteMapper clienteMapper;
-
     private final ICadastrarClienteUseCase cadastrarClienteUseCase;
-
     private final IObterClientePorIdUseCase obterClientePorIdUseCase;
-
     private final IAtualizarClienteUseCase atualizarClienteUseCase;
-
     private final IDeletarClienteUseCase deletarClienteUseCase;
 
     @Operation(summary = "Operação de criar um novo cliente", responses = {
@@ -70,7 +64,7 @@ public class ClienteController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class))
             }),
     })
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<BaseResponse<ClienteDTO>> create(@RequestBody @Valid CriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
         var clienteToSave = clienteMapper.toCliente(record);
@@ -96,7 +90,7 @@ public class ClienteController {
     @Operation(summary = "Operação de atualizar um cliente", responses = {
             @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = AtualizarClienteDTO.class)))
     })
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<BaseResponse<ClienteDTO>> put(@PathVariable Long id, @RequestBody AtualizarClienteDTO record) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         ClienteDTO clienteDTO = clienteDTOMapper
                 .toClienteDTO(atualizarClienteUseCase.executar(id, clienteMapper.toCliente(record)));
@@ -114,7 +108,7 @@ public class ClienteController {
     @Operation(summary = "Operação de deletar um cliente", responses = {
         @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = BaseResponse.class)))
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistenteException, DomainInvalidException, ClienteNaoEncontradoException {
         var result = deletarClienteUseCase.executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar cliente", result, null);
@@ -126,7 +120,7 @@ public class ClienteController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = PageModel.class))
             }),
     })
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<PageModel<ClienteDTO>> list(@Parameter(description = "Filters for search", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros) throws DomainInvalidException {
         var filter = new FilterModel(parametros);
         var page = listarClientesUseCase.executar(filter);
@@ -139,7 +133,7 @@ public class ClienteController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = BaseResponse.class))
             }),
     })
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<BaseResponse<ClienteDTO>> get(@PathVariable Long id)
             throws DomainInvalidException, ClienteNaoEncontradoException {
         var clienteDTO = clienteDTOMapper.toClienteDTO(obterClientePorIdUseCase.executar(id));
@@ -151,4 +145,5 @@ public class ClienteController {
                 .build();
         return ResponseEntity.ok(baseResponse);
     }
+    
 }

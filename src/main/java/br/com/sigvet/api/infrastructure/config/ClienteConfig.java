@@ -48,4 +48,5 @@ public class ClienteConfig {
     IAtualizarClienteUseCase atualizarClienteUseCase(ClienteGateway clienteGateway) {
         return new AtualizarClienteUseCase(clienteGateway);
     }
+    
 }

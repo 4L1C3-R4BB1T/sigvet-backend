@@ -3,13 +3,17 @@ package br.com.sigvet.api.core.domain.entities;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class Veterinario extends Usuario {
+
     public String especialidade;
     public String crmv;
     public String crmvUf;
 
+    public Veterinario() {
+    }
 
-    public Veterinario(Long id, String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-            Endereco endereco, String especialidade, String crmv, String crmvUf) throws DomainInvalidException {
+    public Veterinario(Long id, String usuario, String senha, String email, String nome,
+            Documento cpf, String telefone, Endereco endereco, String especialidade, String crmv,
+            String crmvUf) throws DomainInvalidException {
         super(id, usuario, senha, email, nome, cpf, telefone, endereco);
         this.especialidade = especialidade;
         this.crmv = crmv;
@@ -17,20 +21,15 @@ public class Veterinario extends Usuario {
         this.validate();
     }
 
-
-    public Veterinario(String usuario, String senha, String email, String nome, Documento cpf, String telefone,
-            Endereco endereco, String especialidade, String crmv, String crmvUf) throws DomainInvalidException {
+    public Veterinario(String usuario, String senha, String email, String nome, Documento cpf,
+            String telefone, Endereco endereco, String especialidade, String crmv, String crmvUf)
+            throws DomainInvalidException {
         super(usuario, senha, email, nome, cpf, telefone, endereco);
         this.especialidade = especialidade;
         this.crmv = crmv;
         this.crmvUf = crmvUf;
         this.validate();
     }
-
-
-    public Veterinario() {
-    }
-
 
     @Override
     public void validate() throws DomainInvalidException {
@@ -63,4 +62,5 @@ public class Veterinario extends Usuario {
     public void setCrmvUf(String crmvUf) {
         this.crmvUf = crmvUf;
     }
+
 }

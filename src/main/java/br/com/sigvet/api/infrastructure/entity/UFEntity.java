@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class UFEntity {
-    
+
     @Id
     @Column(columnDefinition = "CHAR(2)")
     private String sigla;

@@ -3,6 +3,7 @@ package br.com.sigvet.api.core.domain.entities;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 
 public class UF {
+
     private String sigla;
     private String nome;
 
@@ -23,7 +24,7 @@ public class UF {
         if (sigla.length() != 2) {
             throw new DomainInvalidException("A sigla da UF deve conter exatamente 2 caracteres.");
         }
-        
+
         if (nome == null || nome.isEmpty()) {
             throw new DomainInvalidException("O nome da UF não pode ser nulo ou vazio.");
         }
@@ -32,7 +33,7 @@ public class UF {
             throw new DomainInvalidException("O nome da UF não pode exceder 255 caracteres.");
         }
     }
-    
+
     public String getSigla() {
         return sigla;
     }
@@ -48,4 +49,5 @@ public class UF {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 }

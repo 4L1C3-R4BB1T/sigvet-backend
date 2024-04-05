@@ -4,6 +4,7 @@ import static br.com.sigvet.api.application.utils.Utilities.logger;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -101,7 +102,8 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public Cliente update(Long id, Cliente source) throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+    public Cliente update(Long id, Cliente source)
+            throws ClienteNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
@@ -170,9 +172,10 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     public ClienteEntity buscarClientePorId(Long id) throws ClienteNaoEncontradoException {
-        return clienteJpaRepository.findById(id).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+        logger.info("Entrando no método ClienteGateway::buscarClientePorId com id " + id);
+        return Optional.ofNullable(clienteJpaRepository.findClienteByIdAndNotDeleted(id))
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
     }
-    
 
     private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {
         if (clienteJpaRepository.exists((root, query, cb) -> cb.and(cb.equal(cb.lower(root.get(atributo)), valor.trim().toLowerCase()), cb.equal(root.get("deleted"), false)))) {
@@ -185,7 +188,6 @@ public class ClienteGateway implements IClienteGateway {
     }
     
     private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
-        System.out.println(usuario);
         validarExistencia("usuario", usuario, "Usuário já em uso");
     }
     

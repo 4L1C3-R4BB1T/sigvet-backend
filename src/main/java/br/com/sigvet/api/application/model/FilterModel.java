@@ -19,6 +19,7 @@ import lombok.Setter;
 
 @Setter
 public class FilterModel {
+    
     private Integer limit;
     private Integer page;
     private String sort;
