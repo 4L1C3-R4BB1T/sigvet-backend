@@ -5,9 +5,9 @@ import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
-import br.com.sigvet.api.usecase.cliente.IAtualizarClienteUseCase;
+import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
 
-public class AtualizarClienteUseCase implements IAtualizarClienteUseCase {
+public class AtualizarClienteUseCase implements IAtualizarUseCase<Cliente> {
 
     private final IClienteGateway clienteGateway;
 

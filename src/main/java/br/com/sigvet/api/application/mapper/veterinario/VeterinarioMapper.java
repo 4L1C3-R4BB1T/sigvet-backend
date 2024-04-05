@@ -7,6 +7,7 @@ import br.com.sigvet.api.application.dto.veterinario.CriarVeterinarioDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.mapper.CidadeMapper;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
+import br.com.sigvet.api.application.mapper.base.IVeterinarioMapper;
 import br.com.sigvet.api.core.domain.entities.Documento;
 import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public final class VeterinarioMapper {
+public final class VeterinarioMapper implements IVeterinarioMapper {
 
     private final EnderecoMapper enderecoMapper;
 
@@ -25,7 +26,7 @@ public final class VeterinarioMapper {
     
     private final CidadeJpaRepository cidadeJpaRepository;
 
-    public VeterinarioEntity toEntity(Veterinario source) {
+    public VeterinarioEntity fromDomainToEntity(Veterinario source) {
         VeterinarioEntity veterinarioEntity = VeterinarioEntity.builder()
                 .cpf(source.getCpf().getValor())
                 .createdAt(source.getCreatedAt())
@@ -48,7 +49,7 @@ public final class VeterinarioMapper {
         return veterinarioEntity; 
     }
 
-    public Veterinario toVeterinario(VeterinarioEntity source) throws DomainInvalidException {
+    public Veterinario fromEntityToDomain(VeterinarioEntity source) throws DomainInvalidException {
         var veterinario = new Veterinario(
             source.getId(), 
             source.getUsuario(), 
@@ -66,7 +67,7 @@ public final class VeterinarioMapper {
         return veterinario;
     }
 
-     public Veterinario toVeterinario(CriarVeterinarioDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+     public Veterinario fromCriarModelToDomain(CriarVeterinarioDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
         var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
 
@@ -90,7 +91,7 @@ public final class VeterinarioMapper {
         );
     }
 
-     public Veterinario toVeterinario(AtualizarVeterinarioDTO source) throws DomainInvalidException {
+     public Veterinario fromAtualizarModelToDomain(AtualizarVeterinarioDTO source) throws DomainInvalidException {
         return new Veterinario(
             source.usuario(),
             source.senha(),

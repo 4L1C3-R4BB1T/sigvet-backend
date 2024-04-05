@@ -10,11 +10,13 @@ import br.com.sigvet.api.application.usecaseImpl.veterinario.CadastrarVeterinari
 import br.com.sigvet.api.application.usecaseImpl.veterinario.DeletarVeterinarioUseCase;
 import br.com.sigvet.api.application.usecaseImpl.veterinario.ListarVeterinariosUseCase;
 import br.com.sigvet.api.application.usecaseImpl.veterinario.ObterVeterinarioPorIdUseCase;
-import br.com.sigvet.api.usecase.veterinario.IAtualizarVeterinarioUseCase;
-import br.com.sigvet.api.usecase.veterinario.ICadastrarVeterinarioUseCase;
-import br.com.sigvet.api.usecase.veterinario.IDeletarVeterinarioUseCase;
-import br.com.sigvet.api.usecase.veterinario.IListarVeterinariosUseCase;
-import br.com.sigvet.api.usecase.veterinario.IObterVeterinarioPorIdUseCase;
+import br.com.sigvet.api.core.domain.entities.Veterinario;
+import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
+import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
+import br.com.sigvet.api.usecase.base.IDeletarUseCase;
+import br.com.sigvet.api.usecase.base.IListarUseCase;
+import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
+
 
 @Configuration
 public class VeterinarioConfig {
@@ -25,27 +27,27 @@ public class VeterinarioConfig {
     }
     
     @Bean
-    IListarVeterinariosUseCase listarVeterinariosUseCase(VeterinarioGateway veterinarioGateway) {
-        return new ListarVeterinariosUseCase(veterinarioGateway);
+    IListarUseCase<Veterinario> listarVeterinariosUseCase(VeterinarioGateway clienteGateway) {
+        return new ListarVeterinariosUseCase(clienteGateway);
     }
 
     @Bean
-    ICadastrarVeterinarioUseCase cadastrarVeterinarioUseCase(VeterinarioGateway veterinarioGateway) {
-        return new CadastrarVeterinarioUseCase(veterinarioGateway);
+    ICadastrarUseCase<Veterinario> cadastrarVeterinarioUseCase(VeterinarioGateway clienteGateway) {
+        return new CadastrarVeterinarioUseCase(clienteGateway);
     }
 
     @Bean
-    IObterVeterinarioPorIdUseCase obterVeterinarioPorIdUseCase(VeterinarioGateway veterinarioGateway) {
-        return new ObterVeterinarioPorIdUseCase(veterinarioGateway);
+    IObterPorIdUseCase<Veterinario> obterVeterinarioPorIdUseCase(VeterinarioGateway clienteGateway) {
+        return new ObterVeterinarioPorIdUseCase(clienteGateway);
     }
 
     @Bean 
-    IDeletarVeterinarioUseCase deletarVeterinarioUseCase(VeterinarioGateway veterinarioGateway) {
-        return new DeletarVeterinarioUseCase(veterinarioGateway);
+    IDeletarUseCase<Veterinario> deletarVeterinarioUseCase(VeterinarioGateway clienteGateway) {
+        return new DeletarVeterinarioUseCase(clienteGateway);
     }
 
     @Bean
-    IAtualizarVeterinarioUseCase atualizarVeterinarioUseCase(VeterinarioGateway veterinarioGateway) {
-        return new AtualizarVeterinarioUseCase(veterinarioGateway);
+    IAtualizarUseCase<Veterinario> atualizarVeterinarioUseCase(VeterinarioGateway clienteGateway) {
+        return new AtualizarVeterinarioUseCase(clienteGateway);
     }
 }

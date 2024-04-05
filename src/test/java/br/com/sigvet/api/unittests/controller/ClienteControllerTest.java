@@ -100,7 +100,7 @@ public class ClienteControllerTest {
   @Test
   public void testeCriarClienteComRequisicaoPostRetornaCliente() throws JsonProcessingException, Exception {
     when(cadastrarClienteUseCase.executar(any(Cliente.class))).then(answer -> answer.getArgument(0));
-    when(clienteMapper.toCliente(any(CriarClienteDTO.class))).thenReturn(cliente);
+    when(clienteMapper.fromCriarModelToDomain(any(CriarClienteDTO.class))).thenReturn(cliente);
     mockMvc.perform(
         MockMvcRequestBuilders.post("/api/clientes")
             .content(objectMapper.writeValueAsString(criarClienteDTO))

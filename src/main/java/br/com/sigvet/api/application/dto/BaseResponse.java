@@ -20,6 +20,14 @@ public class BaseResponse<T> {
     private String message;
     private T result;
     private ErrorResponse error;
+
+    public BaseResponse(boolean success, int status, String message, T result) {
+        this.success = success;
+        this.status = status;
+        this.message = message;
+        this.result = result;
+    }
+    
     public record ErrorResponse(Long status, String message, List<ValidationError> validations) {}
     public record ValidationError(String field, String message) {}
 }

@@ -6,9 +6,9 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarioGateway;
-import br.com.sigvet.api.usecase.veterinario.IListarVeterinariosUseCase;
+import br.com.sigvet.api.usecase.base.IListarUseCase;
 
-public class ListarVeterinariosUseCase implements IListarVeterinariosUseCase {
+public class ListarVeterinariosUseCase implements IListarUseCase<Veterinario> {
 
     private final IVeterinarioGateway veterinarioGateway;
 

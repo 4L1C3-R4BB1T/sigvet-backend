@@ -2,11 +2,12 @@ package br.com.sigvet.api.application.usecaseImpl.cliente;
 
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
+import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
-import br.com.sigvet.api.usecase.cliente.IDeletarClienteUseCase;
+import br.com.sigvet.api.usecase.base.IDeletarUseCase;
 
-public class DeletarClienteUseCase implements IDeletarClienteUseCase {
+public class DeletarClienteUseCase implements IDeletarUseCase<Cliente> {
 
     private final IClienteGateway clienteGateway;
 

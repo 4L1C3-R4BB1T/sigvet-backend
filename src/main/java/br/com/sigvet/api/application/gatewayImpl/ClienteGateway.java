@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
+import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -48,12 +48,12 @@ public class ClienteGateway implements IClienteGateway {
         validarUsuarioExistente(record.getUsuario());
         
         // Converte o cliente em uma entidade e salva no repositório
-        ClienteEntity clienteEntity = clienteJpaRepository.save(clienteMapper.toEntity(record));
+        ClienteEntity clienteEntity = clienteJpaRepository.save(clienteMapper.fromDomainToEntity(record));
         
         logger.info("Saíndo do método ClienteGateway::save");
         
         // Converte a entidade salva de volta para um objeto Cliente e retorna
-        return clienteMapper.toCliente(clienteEntity);
+        return clienteMapper.fromEntityToDomain(clienteEntity);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ClienteGateway implements IClienteGateway {
         
         logger.info("Cliente encontrado pelo id " + id + " no método ClienteGateway::findById");
         
-        return clienteMapper.toCliente(clienteEntity);
+        return clienteMapper.fromEntityToDomain(clienteEntity);
     }
     
 
@@ -85,7 +85,7 @@ public class ClienteGateway implements IClienteGateway {
         List<Cliente> clientes = pageClienteEntity.getContent().stream()
                 .map(clienteEntity -> {
                     try {
-                        return clienteMapper.toCliente(clienteEntity);
+                        return clienteMapper.fromEntityToDomain(clienteEntity);
                     } catch (Exception ex) {
                         // Log a exceção e retorne null ou um objeto Cliente de fallback
                         logger.error("Erro ao converter clienteEntity para Cliente", ex);
@@ -134,7 +134,7 @@ public class ClienteGateway implements IClienteGateway {
         // Salva as alterações no repositório
         clienteJpaRepository.save(clienteEntity);
 
-        return clienteMapper.toCliente(clienteEntity);
+        return clienteMapper.fromEntityToDomain(clienteEntity);
     }
 
     @Transactional

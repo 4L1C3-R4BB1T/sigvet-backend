@@ -11,6 +11,7 @@ import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.mapper.AnimalMapper;
 import br.com.sigvet.api.application.mapper.CidadeMapper;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
+import br.com.sigvet.api.application.mapper.base.IClienteMapper;
 import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Documento;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public final class ClienteMapper {
+public final class ClienteMapper implements IClienteMapper {
 
     private final AnimalMapper animalMapper;
 
@@ -32,7 +33,7 @@ public final class ClienteMapper {
 
     private final CidadeJpaRepository cidadeJpaRepository;
 
-    public ClienteEntity toEntity(Cliente source) {
+    public ClienteEntity fromDomainToEntity(Cliente source) {
         var clienteEntity =  ClienteEntity.builder()
             .cpf(source.getCpf().getValor())
             .createdAt(source.getCreatedAt())
@@ -52,7 +53,7 @@ public final class ClienteMapper {
         return clienteEntity;
     }
 
-    public Cliente toCliente(ClienteEntity source) throws DomainInvalidException {
+    public Cliente fromEntityToDomain(ClienteEntity source) throws DomainInvalidException {
         var cliente = new Cliente(
             source.getId(), 
             source.getUsuario(), 
@@ -78,7 +79,7 @@ public final class ClienteMapper {
         return cliente;
     }
     
-    public Cliente toCliente(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Cliente fromCriarModelToDomain(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
         var cidadeEntity = cidadeJpaRepository.findById(source.cidadeId());
 
@@ -99,7 +100,7 @@ public final class ClienteMapper {
         );
     }
 
-    public Cliente toCliente(AtualizarClienteDTO source) throws DomainInvalidException {
+    public Cliente fromAtualizarModelToDomain(AtualizarClienteDTO source) throws DomainInvalidException {
         return new Cliente(
             source.usuario(),
             source.senha(),
@@ -109,7 +110,6 @@ public final class ClienteMapper {
             source.telefone(),
             null
         );
-
     }
 
 

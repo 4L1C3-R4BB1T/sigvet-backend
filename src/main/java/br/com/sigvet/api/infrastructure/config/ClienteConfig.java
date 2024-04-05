@@ -10,12 +10,12 @@ import br.com.sigvet.api.application.usecaseImpl.cliente.CadastrarClienteUseCase
 import br.com.sigvet.api.application.usecaseImpl.cliente.DeletarClienteUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.ListarClientesUseCase;
 import br.com.sigvet.api.application.usecaseImpl.cliente.ObterClientePorIdUseCase;
-import br.com.sigvet.api.usecase.cliente.IAtualizarClienteUseCase;
-import br.com.sigvet.api.usecase.cliente.ICadastrarClienteUseCase;
-import br.com.sigvet.api.usecase.cliente.IDeletarClienteUseCase;
-import br.com.sigvet.api.usecase.cliente.IListarClientesUseCase;
-import br.com.sigvet.api.usecase.cliente.IObterClientePorIdUseCase;
-
+import br.com.sigvet.api.core.domain.entities.Cliente;
+import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
+import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
+import br.com.sigvet.api.usecase.base.IDeletarUseCase;
+import br.com.sigvet.api.usecase.base.IListarUseCase;
+import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 @Configuration
 public class ClienteConfig {
 
@@ -25,27 +25,27 @@ public class ClienteConfig {
     }
     
     @Bean
-    IListarClientesUseCase listarClientesUseCase(ClienteGateway clienteGateway) {
+    IListarUseCase<Cliente> listarClientesUseCase(ClienteGateway clienteGateway) {
         return new ListarClientesUseCase(clienteGateway);
     }
 
     @Bean
-    ICadastrarClienteUseCase cadastrarClienteUseCase(ClienteGateway clienteGateway) {
+    ICadastrarUseCase<Cliente> cadastrarClienteUseCase(ClienteGateway clienteGateway) {
         return new CadastrarClienteUseCase(clienteGateway);
     }
 
     @Bean
-    IObterClientePorIdUseCase obterClientePorIdUseCase(ClienteGateway clienteGateway) {
+    IObterPorIdUseCase<Cliente> obterClientePorIdUseCase(ClienteGateway clienteGateway) {
         return new ObterClientePorIdUseCase(clienteGateway);
     }
 
     @Bean 
-    IDeletarClienteUseCase deletarClienteUseCase(ClienteGateway clienteGateway) {
+    IDeletarUseCase<Cliente> deletarClienteUseCase(ClienteGateway clienteGateway) {
         return new DeletarClienteUseCase(clienteGateway);
     }
 
     @Bean
-    IAtualizarClienteUseCase atualizarClienteUseCase(ClienteGateway clienteGateway) {
+    IAtualizarUseCase<Cliente> atualizarClienteUseCase(ClienteGateway clienteGateway) {
         return new AtualizarClienteUseCase(clienteGateway);
     }
     

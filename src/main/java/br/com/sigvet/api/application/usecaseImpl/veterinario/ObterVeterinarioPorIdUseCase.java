@@ -4,9 +4,9 @@ import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarioGateway;
-import br.com.sigvet.api.usecase.veterinario.IObterVeterinarioPorIdUseCase;
+import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
-public class ObterVeterinarioPorIdUseCase implements IObterVeterinarioPorIdUseCase {
+public class ObterVeterinarioPorIdUseCase implements IObterPorIdUseCase<Veterinario> {
 
     private final IVeterinarioGateway veterinarioGateway;
 

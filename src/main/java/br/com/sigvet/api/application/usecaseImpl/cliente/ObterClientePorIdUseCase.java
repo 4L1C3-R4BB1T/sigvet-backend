@@ -4,9 +4,9 @@ import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClienteGateway;
-import br.com.sigvet.api.usecase.cliente.IObterClientePorIdUseCase;
+import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
-public class ObterClientePorIdUseCase implements IObterClientePorIdUseCase {
+public class ObterClientePorIdUseCase implements IObterPorIdUseCase<Cliente> {
 
     private final IClienteGateway clienteGateway;
 

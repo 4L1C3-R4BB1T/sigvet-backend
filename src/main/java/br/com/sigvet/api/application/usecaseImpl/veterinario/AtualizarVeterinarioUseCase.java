@@ -5,9 +5,9 @@ import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarioGateway;
-import br.com.sigvet.api.usecase.veterinario.IAtualizarVeterinarioUseCase;
+import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
 
-public class AtualizarVeterinarioUseCase implements IAtualizarVeterinarioUseCase {
+public class AtualizarVeterinarioUseCase implements IAtualizarUseCase<Veterinario> {
 
     private final IVeterinarioGateway veterinarioGateway;
 

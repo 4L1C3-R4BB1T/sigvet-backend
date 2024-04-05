@@ -4,11 +4,11 @@ import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.gatewayImpl.ClienteGateway;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.usecase.cliente.ICadastrarClienteUseCase;
+import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class CadastrarClienteUseCase implements ICadastrarClienteUseCase {
+public class CadastrarClienteUseCase implements ICadastrarUseCase<Cliente> {
 
     private final ClienteGateway clienteGateway;
 

@@ -49,12 +49,12 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         validarCrmvUnico(record.getCrmv());
         
         // Converte o veterinario em uma entidade e salva no repositório
-        VeterinarioEntity veterinarioEntity = veterinarioJpaRepository.save(veterinarioMapper.toEntity(record));
+        VeterinarioEntity veterinarioEntity = veterinarioJpaRepository.save(veterinarioMapper.fromDomainToEntity(record));
         
         logger.info("Saíndo do método VeterinarioGateway::save");
         
         // Converte a entidade salva de volta para um objeto Veterinario e retorna
-        return veterinarioMapper.toVeterinario(veterinarioEntity);
+        return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         
         logger.info("Veterinario encontrado pelo id " + id + " no método VeterinarioGateway::findById");
         
-        return veterinarioMapper.toVeterinario(veterinarioEntity);
+        return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
     }
     
 
@@ -86,7 +86,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         List<Veterinario> veterinarios = pageVeterinarioEntity.getContent().stream()
                 .map(veterinarioEntity -> {
                     try {
-                        return veterinarioMapper.toVeterinario(veterinarioEntity);
+                        return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
                     } catch (Exception ex) {
                         // Log a exceção e retorne null ou um objeto Veterinario de fallback
                         logger.error("Erro ao converter veterionarioEntity para Veterinario", ex);
@@ -142,7 +142,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         // Salva as alterações no repositório
         veterinarioJpaRepository.save(veterinarioEntity);
 
-        return veterinarioMapper.toVeterinario(veterinarioEntity);
+        return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
     }
 
     @Transactional
