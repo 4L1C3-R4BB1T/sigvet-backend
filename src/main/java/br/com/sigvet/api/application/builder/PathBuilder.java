@@ -17,35 +17,35 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter 
+@Getter
 @Setter
 public class PathBuilder<T> {
-    
+
     private Class<T> superClass;
 
     public Path<T> get(Root<T> root, String field) {
         if (!field.contains(FilterConstants.DOT) && containsField(superClass, field)) {
             return root.get(field);
-        }
-        else if (field.contains(FilterConstants.DOT)) {
-            var fields = field.split(Pattern.quote(FilterConstants.DOT)); 
-            if  (fields.length != 2) 
+        } else if (field.contains(FilterConstants.DOT)) {
+            var fields = field.split(Pattern.quote(FilterConstants.DOT));
+
+            if (fields.length != 2)
                 return null;
-            
+
             var field1 = fields[0].trim();
             var field2 = fields[1].trim();
 
-            if (containsField(superClass, field1)) { 
+            if (containsField(superClass, field1)) {
                 var clazz = superClass.getSuperclass();
 
                 if (Objects.nonNull(clazz)) {
-                    Class<?> subClass = getAssociationClass(clazz, field1); 
+                    Class<?> subClass = getAssociationClass(clazz, field1);
                     if (containsField(subClass, field2)) {
                         return root.get(field1).get(field2);
                     }
                 }
 
-                Class<?> subClass = getAssociationClass(superClass, field1); 
+                Class<?> subClass = getAssociationClass(superClass, field1);
 
                 if (containsField(subClass, field2)) {
                     return root.get(field1).get(field2);
@@ -64,7 +64,7 @@ public class PathBuilder<T> {
     }
 
     private boolean containsField(Class<?> anyClass, String field) {
-        if (Objects.isNull(anyClass)) 
+        if (Objects.isNull(anyClass))
             return false;
 
         List<Field> fields = new ArrayList<>();
