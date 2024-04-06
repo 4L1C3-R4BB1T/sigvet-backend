@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import br.com.sigvet.api.application.constant.FilterConstants;
+import br.com.sigvet.api.application.model.FilterConstants;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;

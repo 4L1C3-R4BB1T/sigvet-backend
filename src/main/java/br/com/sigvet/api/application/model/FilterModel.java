@@ -1,6 +1,6 @@
 package br.com.sigvet.api.application.model;
 
-import static br.com.sigvet.api.application.constant.FilterConstants.*;
+import static br.com.sigvet.api.application.model.FilterConstants.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
