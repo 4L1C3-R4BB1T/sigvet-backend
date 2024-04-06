@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.cliente.AtualizarClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.RequestAtualizarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.RequestCriarClienteDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
-import br.com.sigvet.api.application.mapper.AnimalMapper;
 import br.com.sigvet.api.application.mapper.CidadeMapper;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.base.IClienteMapper;
@@ -17,6 +16,7 @@ import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Documento;
 import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
+import br.com.sigvet.api.infrastructure.entity.AnimalEntity;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,6 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public final class ClienteMapper implements IClienteMapper {
-
-    private final AnimalMapper animalMapper;
 
     private final EnderecoMapper enderecoMapper;
 
@@ -48,7 +46,7 @@ public final class ClienteMapper implements IClienteMapper {
             .build();
 
         clienteEntity.setEndereco(enderecoMapper.toEntity(source.getEndereco(), clienteEntity, cidadeMapper.toEntity(source.getEndereco().getCidade())));
-        clienteEntity.setAnimais(source.getAnimais().stream().map(animal -> animalMapper.toEntity(animal, clienteEntity)).toList());
+        clienteEntity.setAnimais(source.getAnimais().stream().map(animal -> toEntity(animal, clienteEntity)).toList());
 
         return clienteEntity;
     }
@@ -71,7 +69,7 @@ public final class ClienteMapper implements IClienteMapper {
         List<Animal> animais = new ArrayList<>();
 
         for (var animalEntity: source.getAnimais()) {
-            animais.add(animalMapper.toAnimal(animalEntity, cliente));
+            animais.add(toAnimal(animalEntity, cliente));
         }
 
         cliente.setAnimais(animais);
@@ -79,7 +77,7 @@ public final class ClienteMapper implements IClienteMapper {
         return cliente;
     }
     
-    public Cliente fromCriarModelToDomain(CriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Cliente fromCriarModelToDomain(RequestCriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
@@ -100,7 +98,7 @@ public final class ClienteMapper implements IClienteMapper {
         );
     }
 
-    public Cliente fromAtualizarModelToDomain(AtualizarClienteDTO source) throws DomainInvalidException {
+    public Cliente fromAtualizarModelToDomain(RequestAtualizarClienteDTO source) throws DomainInvalidException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
@@ -118,6 +116,31 @@ public final class ClienteMapper implements IClienteMapper {
             new Documento(source.cpf()),
             source.telefone(),
             new Endereco(source.rua(), source.bairro(), source.cep(), source.numero(), cidade)
+        );
+    }
+
+
+    public AnimalEntity toEntity(Animal source, ClienteEntity cliente) {
+        return AnimalEntity.builder()   
+        .id(source.getId())
+        .cliente(cliente)
+        .dataNascimento(source.getDataNascimento())
+        .nome(source.getNome())
+        .raca(source.getRaca())
+        .updatedAt(source.getUpdatedAt())
+        .createdAt(source.getCreatedAt())
+        .build();
+    }
+
+    public Animal toAnimal(AnimalEntity source, Cliente cliente) throws DomainInvalidException {
+        return new Animal(
+            source.getId(),
+            source.getNome(),
+            source.getRaca(),
+            source.getDataNascimento(),
+            source.getCreatedAt(),
+            source.getUpdatedAt(),
+            cliente
         );
     }
 

@@ -9,10 +9,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Tag(name = "CriarVeterinarioDTO", description = "Payload para ser criar uma veterinario")
+@Tag(name = "AtualizarVeterinarioDTO", description = "Operação de atualizar o veterinario")
 @Schema(example = "{\"usuario\":\"usuario\",\"nome\":\"nome\",\"senha\":\"senha\",\"email\":\"email@example.com\",\"cpf\":\"123.456.789-00\",\"crmv\":\"ABC123\",\"crmvUf\":\"SP\",\"especialidade\":\"especialidade\",\"telefone\":\"123456789\",\"rua\":\"rua\",\"bairro\":\"bairro\",\"cep\":\"12345-678\",\"numero\":10,\"cidade\":\"cidade\",\"uf\":\"SP\"}")
-public record CriarVeterinarioDTO(
-
+public record RequestAtualizarVeterinarioDTO(
     @NotBlank(message = "veterinario.usuario  é obrigatório")
     String usuario,
 

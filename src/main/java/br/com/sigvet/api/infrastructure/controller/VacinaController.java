@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.sigvet.api.application.dto.BaseResponse;
-import br.com.sigvet.api.application.dto.vacina.AtualizarVacinaDTO;
-import br.com.sigvet.api.application.dto.vacina.VacinaDTO;
-import br.com.sigvet.api.application.dto.vacina.CriarVacinaDTO;
+import br.com.sigvet.api.application.dto.vacina.RequestAtualizarVacinaDTO;
+import br.com.sigvet.api.application.dto.vacina.ResponseVacinaDTO;
+import br.com.sigvet.api.application.dto.vacina.RequestCriarVacinaDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
@@ -44,31 +44,31 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/vaccine")
 @Validated
-public class VacinaController extends CrudUseCaseController<Vacina, VacinaEntity, CriarVacinaDTO, AtualizarVacinaDTO, IVacinaMapper, VacinaDTOMapper> {
+public class VacinaController extends CrudUseCaseController<Vacina, VacinaEntity, RequestCriarVacinaDTO, RequestAtualizarVacinaDTO, IVacinaMapper, VacinaDTOMapper> {
 
         @Operation(summary = "Operação de criar um novo vacina", responses = {
                 @ApiResponse(description = "Retorna o objeto vacina criado", responseCode = "201", content = { 
-                        @Content(mediaType = "application/json", schema = @Schema(implementation = VacinaDTO.class))
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseVacinaDTO.class))
                 }),
         })
         @PostMapping("/add")
         @ResponseStatus(code = HttpStatus.CREATED)
-        public ResponseEntity<BaseResponse<VacinaDTO>> create(@RequestBody @Valid CriarVacinaDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
+        public ResponseEntity<BaseResponse<ResponseVacinaDTO>> create(@RequestBody @Valid RequestCriarVacinaDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
                 var vacinaToSave = mapper.fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(vacinaToSave.getId());  
                 var vacinaDTO = DTOMapper.toVacinaDTO(cadastrarUseCase.executar(vacinaToSave));
-                var baseResponse = new BaseResponse<VacinaDTO>(true,  HttpStatus.CREATED.value(), "Vacina retornado", vacinaDTO);
+                var baseResponse = new BaseResponse<ResponseVacinaDTO>(true,  HttpStatus.CREATED.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
 
 
         @Operation(summary = "Operação de atualizar um vacina", responses = {
-                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = AtualizarVacinaDTO.class)))
+                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = RequestAtualizarVacinaDTO.class)))
         })
         @PutMapping("/update/{id}")
-        public ResponseEntity<BaseResponse<VacinaDTO>> put(@PathVariable Long id, @RequestBody AtualizarVacinaDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
-                VacinaDTO vacinaDTO = DTOMapper.toVacinaDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
-                var baseResponse = new BaseResponse<VacinaDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
+        public ResponseEntity<BaseResponse<ResponseVacinaDTO>> put(@PathVariable Long id, @RequestBody RequestAtualizarVacinaDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+                ResponseVacinaDTO vacinaDTO = DTOMapper.toVacinaDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                var baseResponse = new BaseResponse<ResponseVacinaDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -88,8 +88,8 @@ public class VacinaController extends CrudUseCaseController<Vacina, VacinaEntity
                         @Content(mediaType = "application/json", schema = @Schema(implementation = PageModel.class))
                 }),
         })
-        @GetMapping("/get")
-        public ResponseEntity<PageModel<VacinaDTO>> list(
+        @GetMapping("/getAll")
+        public ResponseEntity<PageModel<ResponseVacinaDTO>> list(
                         @Parameter(description = "Filtros de pesquisas", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros)
                         throws DomainInvalidException {
                 var filter = new FilterModel(parametros);
@@ -104,7 +104,7 @@ public class VacinaController extends CrudUseCaseController<Vacina, VacinaEntity
                 }),
         })
         @GetMapping("/get/{id}")
-        public ResponseEntity<BaseResponse<VacinaDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+        public ResponseEntity<BaseResponse<ResponseVacinaDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
                 var vacinaDTO = DTOMapper.toVacinaDTO(obterPorIdUseCase.executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.ok(baseResponse);

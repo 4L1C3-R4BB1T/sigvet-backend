@@ -2,8 +2,8 @@ package br.com.sigvet.api.application.mapper.vacina;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.vacina.AtualizarVacinaDTO;
-import br.com.sigvet.api.application.dto.vacina.CriarVacinaDTO;
+import br.com.sigvet.api.application.dto.vacina.RequestAtualizarVacinaDTO;
+import br.com.sigvet.api.application.dto.vacina.RequestCriarVacinaDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.core.domain.entities.Vacina;
@@ -35,12 +35,12 @@ public class VacinaMapper implements IVacinaMapper {
     }
 
     @Override
-    public Vacina fromCriarModelToDomain(CriarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Vacina fromCriarModelToDomain(RequestCriarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
         return new Vacina(source.nome(), source.fabricante(), source.precoUnitario(), source.estoque(), source.dataValidade());
     }
 
     @Override
-    public Vacina fromAtualizarModelToDomain(AtualizarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Vacina fromAtualizarModelToDomain(RequestAtualizarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
         return new Vacina(source.nome(), source.fabricante(), source.precoUnitario(), source.estoque(), source.dataValidade());
     }
     

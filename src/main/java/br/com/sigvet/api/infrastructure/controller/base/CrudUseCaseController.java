@@ -10,34 +10,26 @@ import br.com.sigvet.api.usecase.base.IDeletarUseCase;
 import br.com.sigvet.api.usecase.base.IListarUseCase;
 import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
-/**
- * @param <T> Classe de domínio
- * @param <E> Classe de entidade
- * @param <C> Classe de parâmetro para o método post
- * @param <A> Classe de parâmetro para o método put
- * @param <K> Classe para o Mapper
- * @param <J> Classe para mapear DTO
- */
-public class CrudUseCaseController<T, E extends BaseEntity, C, A, K extends IBaseMapper<T, E, C, A>, J> {
+public class CrudUseCaseController<D, E extends BaseEntity, TCriarModel, TAtualizarModel, TMapper1 extends IBaseMapper<D, E, TCriarModel, TAtualizarModel>, TMapper2> {
     
     @Autowired 
-    protected ICadastrarUseCase<T> cadastrarUseCase;
+    protected ICadastrarUseCase<D> cadastrarUseCase;
 
     @Autowired
-    protected IListarUseCase<T> listarUseCase;
+    protected IListarUseCase<D> listarUseCase;
 
     @Autowired
-    protected IObterPorIdUseCase<T> obterPorIdUseCase;
+    protected IObterPorIdUseCase<D> obterPorIdUseCase;
 
     @Autowired
-    protected IAtualizarUseCase<T> atualizarUseCase;
+    protected IAtualizarUseCase<D> atualizarUseCase;
 
     @Autowired
-    protected IDeletarUseCase<T> deletarUseCase;
+    protected IDeletarUseCase<D> deletarUseCase;
 
     @Autowired
-    protected K mapper;
+    protected TMapper1 mapper;
 
     @Autowired
-    protected J DTOMapper;
+    protected TMapper2 DTOMapper;
 }

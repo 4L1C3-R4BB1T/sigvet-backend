@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import br.com.sigvet.api.application.dto.AnimalDTO;
-import br.com.sigvet.api.application.dto.EnderecoDTO;
+import br.com.sigvet.api.application.dto.ResponseEnderecoDTO;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ClienteDTO(
+public record ResponseClienteDTO(
         Long id,
         String usuario,
         String email,
         String nome,
         String cpf,
         String telefone,
-        EnderecoDTO endereco,
-        List<AnimalDTO> animais
+        ResponseEnderecoDTO endereco,
+        List<ResponseAnimalClienteDTO> animais
 ) {}

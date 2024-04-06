@@ -4,13 +4,13 @@ import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.infrastructure.entity.BaseEntity;
 
-public interface IBaseMapper<TDomain, TEntity extends BaseEntity, TCriarModel, TAtualizarModel> {
+public interface IBaseMapper<D, E extends BaseEntity, TCriarModel, TAtualizarModel> {
     
-    TEntity fromDomainToEntity(TDomain source);
+    E fromDomainToEntity(D source);
 
-    TDomain fromEntityToDomain(TEntity source) throws DomainInvalidException;
+    D fromEntityToDomain(E source) throws DomainInvalidException;
 
-    TDomain fromCriarModelToDomain(TCriarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
+    D fromCriarModelToDomain(TCriarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
 
-    TDomain fromAtualizarModelToDomain(TAtualizarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
+    D fromAtualizarModelToDomain(TAtualizarModel source) throws DomainInvalidException, CidadeNaoExistenteException;
 }

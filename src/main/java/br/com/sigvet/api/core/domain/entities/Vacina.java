@@ -17,8 +17,10 @@ public class Vacina {
     private LocalDate dataValidade;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean venceu;
 
     public Vacina() {
+        calcularVencimento();
     }
 
     public Vacina(Long id, String nome, String fabricante, String lote, BigDecimal precoUnitario,
@@ -31,6 +33,7 @@ public class Vacina {
         this.estoque = estoque;
         this.dataValidade = dataValidade;
         this.validate();
+        calcularVencimento();
     }
 
     public Vacina(String nome, String fabricante, BigDecimal precoUnitario,
@@ -41,6 +44,12 @@ public class Vacina {
         this.estoque = estoque;
         this.dataValidade = dataValidade;
         this.validate();
+        calcularVencimento();
+    }
+
+    private void calcularVencimento() {
+        var currentDate = LocalDate.now();
+        this.venceu = !dataValidade.isAfter(currentDate) &&  !dataValidade.equals(currentDate);
     }
 
     public void validate() throws DomainInvalidException {
@@ -57,8 +66,9 @@ public class Vacina {
         if (estoque <= 0) {
             throw new DomainInvalidException("O estoque da vacina deve ser um número inteiro positivo.");
         }
-        if (dataValidade.isBefore(LocalDate.now())) {
-            throw new DomainInvalidException("A data de validade da vacina deve ser no futuro.");
+
+        if (dataValidade == null) {
+            throw new DomainInvalidException("A data de validade da vacina não pode ser nula.");
         }
     }
 
@@ -134,4 +144,7 @@ public class Vacina {
         this.updatedAt = updatedAt;
     }
 
+    public Boolean getVenceu() {
+        return venceu;
+    }
 }

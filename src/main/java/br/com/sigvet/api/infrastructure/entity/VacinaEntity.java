@@ -3,6 +3,8 @@ package br.com.sigvet.api.infrastructure.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.hibernate.annotations.SQLDelete;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -19,6 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@SQLDelete(sql = "UPDATE vacinas SET deleted = true WHERE id = ?")
 public class VacinaEntity extends BaseEntity {
 
     @Column(length = 255, nullable = false)
@@ -38,5 +41,4 @@ public class VacinaEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate dataValidade;
-
 }

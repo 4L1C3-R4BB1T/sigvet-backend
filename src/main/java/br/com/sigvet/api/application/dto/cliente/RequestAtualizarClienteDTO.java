@@ -8,12 +8,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Schema(example = "{\"usuario\":\"john_doe\",\"nome\":\"John Doe\",\"senha\":\"senha123\",\"email\":\"john@example.com\",\"cpf\":\"123.456.789-00\",\"telefone\":\"11987654321\",\"rua\":\"Rua Principal\",\"bairro\":\"Centro\",\"cep\":\"12345-678\",\"numero\":123,\"cidade\":\"Vitória\", \"uf\":\"ES\"}")
-public record CriarClienteDTO(
-
+public record RequestAtualizarClienteDTO(
     @NotBlank(message = "cliente.usuario  é obrigatório")
+    @Size(max = 100, message = "cliente.usuario deve ter no máximo 100 caracteres")
     String usuario,
 
     @NotBlank(message = "cliente.nome  é obrigatório")
+    @Size(max = 100, message = "cliente.nome deve ter no máximo 100 caracteres")
     String nome,
     
     @NotBlank(message = "cliente.senha não pode ser nula ou vazia")
@@ -21,9 +22,11 @@ public record CriarClienteDTO(
     String senha,
 
     @Email(message = "O cliente.email precisa ter um valor válido")
+    @Size(max = 100, message = "cliente.email deve ter no máximo 100 caracteres")
     String email,
 
     @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "cliente.cpf precisa estar no formato ddd.ddd.ddd-dd")
+    @NotBlank(message = "cliente.cpf é obrigatório")
     String cpf,
 
     @Size(max = 18, message = "cliente.telefone não pode ser maior que 18 caracteres")

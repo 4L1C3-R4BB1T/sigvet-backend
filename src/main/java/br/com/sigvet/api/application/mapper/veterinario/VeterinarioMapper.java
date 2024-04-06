@@ -2,8 +2,8 @@ package br.com.sigvet.api.application.mapper.veterinario;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.veterinario.AtualizarVeterinarioDTO;
-import br.com.sigvet.api.application.dto.veterinario.CriarVeterinarioDTO;
+import br.com.sigvet.api.application.dto.veterinario.RequestAtualizarVeterinarioDTO;
+import br.com.sigvet.api.application.dto.veterinario.RequestCriarVeterinarioDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.mapper.CidadeMapper;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
@@ -67,7 +67,7 @@ public final class VeterinarioMapper implements IVeterinarioMapper {
         return veterinario;
     }
 
-     public Veterinario fromCriarModelToDomain(CriarVeterinarioDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+     public Veterinario fromCriarModelToDomain(RequestCriarVeterinarioDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
@@ -91,7 +91,7 @@ public final class VeterinarioMapper implements IVeterinarioMapper {
         );
     }
 
-     public Veterinario fromAtualizarModelToDomain(AtualizarVeterinarioDTO source) throws DomainInvalidException {
+     public Veterinario fromAtualizarModelToDomain(RequestAtualizarVeterinarioDTO source) throws DomainInvalidException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 

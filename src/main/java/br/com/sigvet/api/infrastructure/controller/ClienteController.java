@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.sigvet.api.application.dto.BaseResponse;
-import br.com.sigvet.api.application.dto.cliente.AtualizarClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.ClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.CriarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.RequestAtualizarClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.ResponseClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.RequestCriarClienteDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
@@ -45,31 +45,31 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/customer")
 @Validated
-public class ClienteController extends CrudUseCaseController<Cliente, ClienteEntity, CriarClienteDTO, AtualizarClienteDTO, IClienteMapper, ClienteDTOMapper> {
+public class ClienteController extends CrudUseCaseController<Cliente, ClienteEntity, RequestCriarClienteDTO, RequestAtualizarClienteDTO, IClienteMapper, ClienteDTOMapper> {
 
         @Operation(summary = "Operação de criar um novo cliente", responses = {
                 @ApiResponse(description = "Retorna o objeto cliente criado", responseCode = "201", content = { 
-                        @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class))
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseClienteDTO.class))
                 }),
         })
         @PostMapping("/add")
         @ResponseStatus(code = HttpStatus.CREATED)
-        public ResponseEntity<BaseResponse<ClienteDTO>> create(@RequestBody @Valid CriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
+        public ResponseEntity<BaseResponse<ResponseClienteDTO>> create(@RequestBody @Valid RequestCriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
                 var clienteToSave = mapper.fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
                 var clienteDTO = DTOMapper.toClienteDTO(cadastrarUseCase.executar(clienteToSave));
-                var baseResponse = new BaseResponse<ClienteDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
+                var baseResponse = new BaseResponse<ResponseClienteDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
 
 
         @Operation(summary = "Operação de atualizar um cliente", responses = {
-                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = AtualizarClienteDTO.class)))
+                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = RequestAtualizarClienteDTO.class)))
         })
         @PutMapping("/update/{id}")
-        public ResponseEntity<BaseResponse<ClienteDTO>> put(@PathVariable Long id, @RequestBody AtualizarClienteDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
-                ClienteDTO clienteDTO = DTOMapper.toClienteDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
-                var baseResponse = new BaseResponse<ClienteDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
+        public ResponseEntity<BaseResponse<ResponseClienteDTO>> put(@PathVariable Long id, @RequestBody RequestAtualizarClienteDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+                ResponseClienteDTO clienteDTO = DTOMapper.toClienteDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                var baseResponse = new BaseResponse<ResponseClienteDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -89,8 +89,8 @@ public class ClienteController extends CrudUseCaseController<Cliente, ClienteEnt
                         @Content(mediaType = "application/json", schema = @Schema(implementation = PageModel.class))
                 }),
         })
-        @GetMapping("/get")
-        public ResponseEntity<PageModel<ClienteDTO>> list(
+        @GetMapping("/getAll")
+        public ResponseEntity<PageModel<ResponseClienteDTO>> list(
                         @Parameter(description = "Filtros de pesquisas", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros)
                         throws DomainInvalidException {
                 var filter = new FilterModel(parametros);
@@ -105,7 +105,7 @@ public class ClienteController extends CrudUseCaseController<Cliente, ClienteEnt
                 }),
         })
         @GetMapping("/get/{id}")
-        public ResponseEntity<BaseResponse<ClienteDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+        public ResponseEntity<BaseResponse<ResponseClienteDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
                 var clienteDTO = DTOMapper.toClienteDTO(obterPorIdUseCase.executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);

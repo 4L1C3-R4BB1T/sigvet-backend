@@ -30,6 +30,21 @@ public class Animal {
         this.validate();
     }
 
+    public Animal(String nome, String raca, LocalDate dataNascimento, Cliente cliente) throws DomainInvalidException {
+        this.nome = nome;
+        this.raca = raca;
+        this.dataNascimento = dataNascimento;
+        this.cliente = cliente;
+        this.validate();
+    }
+
+    public Animal(String nome, String raca, LocalDate dataNascimento) throws DomainInvalidException {
+        this.nome = nome;
+        this.raca = raca;
+        this.dataNascimento = dataNascimento;
+        this.validate();
+    }
+
     public void validate() throws DomainInvalidException {
         if (nome == null || nome.trim().isEmpty()) {
             throw new DomainInvalidException("O nome do animal não pode estar vazio.");
@@ -45,10 +60,6 @@ public class Animal {
 
         if (dataNascimento != null && dataNascimento.isAfter(LocalDate.now())) {
             throw new DomainInvalidException("A data de nascimento do animal não pode ser no futuro.");
-        }
-
-        if (cliente == null || cliente.getId() == null) {
-            throw new DomainInvalidException("O animal deve estar associado a um cliente.");
         }
     }
 
