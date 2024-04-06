@@ -30,7 +30,7 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.controller.base.CrudUseCaseController;
+import br.com.sigvet.api.infrastructure.controller.extension.CrudUseCase;
 import br.com.sigvet.api.infrastructure.entity.VacinaEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,7 +44,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/vaccine")
 @Validated
-public class VacinaController extends CrudUseCaseController<Vacina, VacinaEntity, RequestCriarVacinaDTO, RequestAtualizarVacinaDTO, IVacinaMapper, VacinaDTOMapper> {
+public class VacinaController extends CrudUseCase<Vacina, VacinaEntity, RequestCriarVacinaDTO, RequestAtualizarVacinaDTO, IVacinaMapper, VacinaDTOMapper> {
 
         @Operation(summary = "Operação de criar um novo vacina", responses = {
                 @ApiResponse(description = "Retorna o objeto vacina criado", responseCode = "201", content = { 

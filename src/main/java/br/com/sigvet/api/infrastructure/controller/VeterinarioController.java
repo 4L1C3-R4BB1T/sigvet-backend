@@ -30,7 +30,7 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.controller.base.CrudUseCaseController;
+import br.com.sigvet.api.infrastructure.controller.extension.CrudUseCase;
 import br.com.sigvet.api.infrastructure.entity.VeterinarioEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,7 +44,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/veterinarian")
 @Validated
-public class VeterinarioController extends CrudUseCaseController<Veterinario, VeterinarioEntity, RequestCriarVeterinarioDTO, RequestAtualizarVeterinarioDTO, IVeterinarioMapper, VeterinarioDTOMapper> {
+public class VeterinarioController extends CrudUseCase<Veterinario, VeterinarioEntity, RequestCriarVeterinarioDTO, RequestAtualizarVeterinarioDTO, IVeterinarioMapper, VeterinarioDTOMapper> {
 
     @Operation(summary = "Operação de criar um novo veterinario", responses = {
             @ApiResponse(description = "Retorna o objeto veterinario criado", responseCode = "201", content = {

@@ -31,7 +31,7 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.controller.base.CrudUseCaseController;
+import br.com.sigvet.api.infrastructure.controller.extension.CrudUseCase;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,7 +45,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/customer")
 @Validated
-public class ClienteController extends CrudUseCaseController<Cliente, ClienteEntity, RequestCriarClienteDTO, RequestAtualizarClienteDTO, IClienteMapper, ClienteDTOMapper> {
+public class ClienteController extends CrudUseCase<Cliente, ClienteEntity, RequestCriarClienteDTO, RequestAtualizarClienteDTO, IClienteMapper, ClienteDTOMapper> {
 
         @Operation(summary = "Operação de criar um novo cliente", responses = {
                 @ApiResponse(description = "Retorna o objeto cliente criado", responseCode = "201", content = { 
