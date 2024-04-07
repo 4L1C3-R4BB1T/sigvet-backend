@@ -1,4 +1,4 @@
-package br.com.sigvet.api.application.dto;
+package br.com.sigvet.api.application.model;
 
 import java.util.List;
 

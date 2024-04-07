@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.BaseResponse;
 import br.com.sigvet.api.application.dto.vacina.RequestAtualizarVacinaDTO;
 import br.com.sigvet.api.application.dto.vacina.ResponseVacinaDTO;
 import br.com.sigvet.api.application.dto.vacina.RequestCriarVacinaDTO;
@@ -29,6 +28,7 @@ import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.application.mapper.vacina.VacinaDTOMapper;
+import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Vacina;

@@ -25,8 +25,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.BaseResponse;
 import br.com.sigvet.api.application.dto.animal.ResponseAnimalDTO;
+import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.PageModel;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
