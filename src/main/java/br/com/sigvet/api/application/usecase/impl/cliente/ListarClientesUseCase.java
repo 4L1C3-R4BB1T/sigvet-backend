@@ -5,14 +5,14 @@ import org.springframework.data.domain.Page;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IClienteGateway;
+import br.com.sigvet.api.gateway.IClientGateway;
 import br.com.sigvet.api.usecase.base.IListarUseCase;
 
 public class ListarClientesUseCase implements IListarUseCase<Cliente> {
 
-    private final IClienteGateway clienteGateway;
+    private final IClientGateway clienteGateway;
 
-    public ListarClientesUseCase(IClienteGateway clienteGateway) {
+    public ListarClientesUseCase(IClientGateway clienteGateway) {
         this.clienteGateway = clienteGateway;
     }
 

@@ -1,6 +1,6 @@
 package br.com.sigvet.api.application.usecase.impl.animal;
 
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IAnimalGateway;
@@ -15,7 +15,7 @@ public class ObterAnimalPorIdUseCase implements IObterPorIdUseCase<Animal> {
     }
 
     @Override
-    public Animal executar(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+    public Animal executar(Long id) throws DomainInvalidException, UsuarioNotFoundException {
        return animalGateway.findById(id);
     }
 }

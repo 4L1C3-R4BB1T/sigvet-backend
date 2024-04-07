@@ -1,7 +1,7 @@
 package br.com.sigvet.api.application.usecase.impl.animal;
 
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IAnimalGateway;
@@ -17,7 +17,7 @@ public class AtualizarAnimalUseCase implements IAtualizarUseCase<Animal> {
 
     @Override
     public Animal executar(Long id, Animal type)
-            throws UsuarioExistenteException, DomainInvalidException, UsuarioNaoEncontradoException {
+            throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
        return animalGateway.update(id, type);
     }
 

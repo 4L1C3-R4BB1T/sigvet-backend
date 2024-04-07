@@ -2,9 +2,9 @@ package br.com.sigvet.api.application.mapper.vacina;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.vacina.RequestAtualizarVacinaDTO;
-import br.com.sigvet.api.application.dto.vacina.RequestCriarVacinaDTO;
-import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
+import br.com.sigvet.api.application.dto.vacina.UpdateVaccineRequestDTO;
+import br.com.sigvet.api.application.dto.vacina.CreateVaccineRequestDTO;
+import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -35,12 +35,12 @@ public class VacinaMapper implements IVacinaMapper {
     }
 
     @Override
-    public Vacina fromCriarModelToDomain(RequestCriarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Vacina fromCriarModelToDomain(CreateVaccineRequestDTO source) throws DomainInvalidException, CidadeNotFoundException {
         return new Vacina(source.nome(), source.fabricante(), source.precoUnitario(), source.estoque(), source.dataValidade());
     }
 
     @Override
-    public Vacina fromAtualizarModelToDomain(RequestAtualizarVacinaDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Vacina fromAtualizarModelToDomain(UpdateVaccineRequestDTO source) throws DomainInvalidException, CidadeNotFoundException {
         return new Vacina(source.nome(), source.fabricante(), source.precoUnitario(), source.estoque(), source.dataValidade());
     }
     

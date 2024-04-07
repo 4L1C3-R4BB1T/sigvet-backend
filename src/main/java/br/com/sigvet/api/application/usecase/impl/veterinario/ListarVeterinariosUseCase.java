@@ -6,14 +6,14 @@ import org.springframework.data.domain.Page;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IVeterinarioGateway;
+import br.com.sigvet.api.gateway.IVeterinarianGateway;
 import br.com.sigvet.api.usecase.base.IListarUseCase;
 
 public class ListarVeterinariosUseCase implements IListarUseCase<Veterinario> {
 
-    private final IVeterinarioGateway veterinarioGateway;
+    private final IVeterinarianGateway veterinarioGateway;
 
-    public ListarVeterinariosUseCase(IVeterinarioGateway veterinarioGateway) {
+    public ListarVeterinariosUseCase(IVeterinarianGateway veterinarioGateway) {
         this.veterinarioGateway = veterinarioGateway;
     }
 

@@ -1,20 +1,20 @@
 package br.com.sigvet.api.application.usecase.impl.vacina;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IVacinaGateway;
+import br.com.sigvet.api.gateway.IVaccineGateway;
 import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
 public class ObterVacinaPorIdUseCase implements IObterPorIdUseCase<Vacina> {
 
-    private final IVacinaGateway vacinaGateway;
+    private final IVaccineGateway vacinaGateway;
 
-    public ObterVacinaPorIdUseCase(IVacinaGateway vacinaGateway) {
+    public ObterVacinaPorIdUseCase(IVaccineGateway vacinaGateway) {
         this.vacinaGateway = vacinaGateway;
     }
 
     @Override
-    public Vacina executar(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+    public Vacina executar(Long id) throws DomainInvalidException, UsuarioNotFoundException {
         return vacinaGateway.findById(id);
     }
 

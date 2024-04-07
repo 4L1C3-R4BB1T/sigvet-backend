@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.cliente.ClienteMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IClienteGateway;
+import br.com.sigvet.api.gateway.IClientGateway;
 import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import br.com.sigvet.api.infrastructure.entity.EnderecoEntity;
 import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ClienteGateway implements IClienteGateway {
+public class ClienteGateway implements IClientGateway {
 
     private final ClienteJpaRepository clienteJpaRepository;
     private final UsuarioJpaRepository usuarioJpaRepository;
@@ -44,7 +44,7 @@ public class ClienteGateway implements IClienteGateway {
 
     @Transactional
     @Override
-    public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistenteException {
+    public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistsException {
         logger.info("Entrando no método ClienteGateway::save", record);
         
         // Verifica se o cliente fornecido não é nulo
@@ -65,7 +65,7 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public Cliente findById(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+    public Cliente findById(Long id) throws DomainInvalidException, UsuarioNotFoundException {
         // Verifica se o ID fornecido não é nulo
         Assert.notNull(id, "O id não pode ser nulo");
         
@@ -112,7 +112,7 @@ public class ClienteGateway implements IClienteGateway {
     @Transactional
     @Override
     public Cliente update(Long id, Cliente source)
-            throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+            throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
@@ -189,27 +189,27 @@ public class ClienteGateway implements IClienteGateway {
         return spec;
     }
 
-    public ClienteEntity buscarClientePorId(Long id) throws UsuarioNaoEncontradoException {
+    public ClienteEntity buscarClientePorId(Long id) throws UsuarioNotFoundException {
         logger.info("Entrando no método ClienteGateway::buscarClientePorId com id " + id);
         return Optional.ofNullable(clienteJpaRepository.findClienteByIdAndNotDeleted(id))
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Cliente não encontrado"));
+                .orElseThrow(() -> new UsuarioNotFoundException("Cliente não encontrado"));
     }
 
-    private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {
+    private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistsException {
         if (clienteJpaRepository.exists((root, query, cb) -> cb.and(cb.equal(cb.lower(root.get(atributo)), valor.trim().toLowerCase()), cb.equal(root.get("deleted"), false)))) {
-            throw new UsuarioExistenteException(mensagemErro);
+            throw new UsuarioExistsException(mensagemErro);
         }
     }
     
-    private void validarEmailExistente(String email) throws UsuarioExistenteException {
+    private void validarEmailExistente(String email) throws UsuarioExistsException {
         validarExistencia("email", email, "Email já em uso");
     }
     
-    private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
+    private void validarUsuarioExistente(String usuario) throws UsuarioExistsException {
         validarExistencia("usuario", usuario, "Usuário já em uso");
     }
     
-    private void validarCpfUnico(String cpf) throws UsuarioExistenteException {
+    private void validarCpfUnico(String cpf) throws UsuarioExistsException {
         validarExistencia("cpf", cpf.replaceAll("\\D", ""), "CPF já em uso");
     }
     

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.animal.RequestAtualizarAnimalDTO;
-import br.com.sigvet.api.application.dto.animal.RequestCriarAnimalDTO;
-import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.dto.animal.UpdateAnimalRequestDTO;
+import br.com.sigvet.api.application.dto.animal.CreateAnimalRequestDTO;
+import br.com.sigvet.api.application.exception.CidadeNotFoundException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IAnimalMapper;
 import br.com.sigvet.api.application.mapper.base.IClienteMapper;
 import br.com.sigvet.api.core.domain.entities.Animal;
@@ -43,21 +43,21 @@ public class AnimalMapper implements IAnimalMapper {
     }
 
     @Override
-    public Animal fromCriarModelToDomain(RequestCriarAnimalDTO source)
-            throws DomainInvalidException, CidadeNaoExistenteException {
+    public Animal fromCriarModelToDomain(CreateAnimalRequestDTO source)
+            throws DomainInvalidException, CidadeNotFoundException {
         
         var clienteEntity = clienteJpaRepository.findClienteByIdAndNotDeleted(source.clienteId());
 
         if (Objects.isNull(clienteEntity)) {
-            throw new UsuarioNaoEncontradoException("Cliente não encontrado");
+            throw new UsuarioNotFoundException("Cliente não encontrado");
         }
 
         return new Animal(source.nome(), source.raca(), source.dataNascimento(), clienteMapper.fromEntityToDomain(clienteEntity));
     }
 
     @Override
-    public Animal fromAtualizarModelToDomain(RequestAtualizarAnimalDTO source)
-            throws DomainInvalidException, CidadeNaoExistenteException {
+    public Animal fromAtualizarModelToDomain(UpdateAnimalRequestDTO source)
+            throws DomainInvalidException, CidadeNotFoundException {
         return new Animal(source.nome(), source.raca(), source.dataNascimento());
     }
 

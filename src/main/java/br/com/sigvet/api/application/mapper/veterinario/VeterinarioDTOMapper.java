@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import br.com.sigvet.api.application.dto.veterinario.ResponseVeterinarioDTO;
+import br.com.sigvet.api.application.dto.veterinario.VeterinarianResponseDTO;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 @Mapper
 public interface VeterinarioDTOMapper {
@@ -22,9 +22,9 @@ public interface VeterinarioDTOMapper {
         @Mapping(target = "crmv", expression = "java(mapToCrmvFull(source.getCrmvUf(), source.getCrmv()))")
         
     })
-    ResponseVeterinarioDTO toVeterinarioDTO(Veterinario source);
+    VeterinarianResponseDTO toVeterinarioDTO(Veterinario source);
 
-    List<ResponseVeterinarioDTO> toVeterinarioDTO(List<Veterinario> source);
+    List<VeterinarianResponseDTO> toVeterinarioDTO(List<Veterinario> source);
 
     default String mapToCrmvFull(String uf, String valor) {
         return "%s-%s".formatted(uf, valor);

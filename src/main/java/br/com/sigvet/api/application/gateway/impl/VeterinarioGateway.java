@@ -14,16 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
-import br.com.sigvet.api.application.exception.CrmvUFNaoEncontradoException;
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
+import br.com.sigvet.api.application.exception.CrmvUFNotFoundException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.veterinario.VeterinarioMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Endereco;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IVeterinarioGateway;
+import br.com.sigvet.api.gateway.IVeterinarianGateway;
 import br.com.sigvet.api.infrastructure.entity.EnderecoEntity;
 import br.com.sigvet.api.infrastructure.entity.VeterinarioEntity;
 import br.com.sigvet.api.infrastructure.repository.CidadeJpaRepository;
@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class VeterinarioGateway implements IVeterinarioGateway {
+public class VeterinarioGateway implements IVeterinarianGateway {
 
     private final VeterinarioJpaRepository veterinarioJpaRepository;
     private final UsuarioJpaRepository usuarioJpaRepository;
@@ -47,14 +47,14 @@ public class VeterinarioGateway implements IVeterinarioGateway {
 
     @Transactional
     @Override
-    public Veterinario save(Veterinario record) throws DomainInvalidException, UsuarioExistenteException, CrmvUFNaoEncontradoException {
+    public Veterinario save(Veterinario record) throws DomainInvalidException, UsuarioExistsException, CrmvUFNotFoundException {
         logger.info("Entrando no método VeterinarioGateway::save", record);
         
         // Verifica se o veterinario fornecido não é nulo
         Assert.notNull(record, "O veterinario fornecido não pode ser nulo");
 
         if (ufJpaRepository.findById(record.getCrmvUf().toUpperCase()).isEmpty()) {
-            throw new CrmvUFNaoEncontradoException("UF do crmv não encontrada");
+            throw new CrmvUFNotFoundException("UF do crmv não encontrada");
         }
         
         // Validações de dados do veterinario
@@ -75,7 +75,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
     }
 
     @Override
-    public Veterinario findById(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+    public Veterinario findById(Long id) throws DomainInvalidException, UsuarioNotFoundException {
         // Verifica se o ID fornecido não é nulo
         Assert.notNull(id, "O id não pode ser nulo");
         
@@ -122,7 +122,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
     @Transactional
     @Override
     public Veterinario update(Long id, Veterinario source)
-            throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+            throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
@@ -151,7 +151,7 @@ public class VeterinarioGateway implements IVeterinarioGateway {
             veterinarioEntity.setCrmv(source.getCrmv());
 
             if (ufJpaRepository.findById(source.getCrmvUf().toUpperCase()).isEmpty()) {
-                throw new CrmvUFNaoEncontradoException("UF do crmv não encontrada");
+                throw new CrmvUFNotFoundException("UF do crmv não encontrada");
             }
 
             veterinarioEntity.setCrmvUf(source.getCrmvUf());
@@ -213,33 +213,33 @@ public class VeterinarioGateway implements IVeterinarioGateway {
         return spec;
     }
 
-    public VeterinarioEntity buscarVeterinarioPorId(Long id) throws UsuarioNaoEncontradoException {
+    public VeterinarioEntity buscarVeterinarioPorId(Long id) throws UsuarioNotFoundException {
         logger.info("Entrando no método VeterinarioGateway::buscarVeterionarioPorId com id " + id);
         return Optional.ofNullable(veterinarioJpaRepository.findVeterinarioByIdAndNotDeleted(id))
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Veterinário não encontrado"));
+                .orElseThrow(() -> new UsuarioNotFoundException("Veterinário não encontrado"));
     }
 
-    private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistenteException {
+    private void validarExistencia(String atributo, String valor, String mensagemErro) throws UsuarioExistsException {
         if (veterinarioJpaRepository.exists((root, query, cb) -> cb.and(cb.equal(cb.lower(root.get(atributo)), valor.trim().toLowerCase()), cb.equal(root.get("deleted"), false)))) {
-            throw new UsuarioExistenteException(mensagemErro);
+            throw new UsuarioExistsException(mensagemErro);
         }
     }
     
-    private void validarEmailExistente(String email) throws UsuarioExistenteException {
+    private void validarEmailExistente(String email) throws UsuarioExistsException {
         validarExistencia("email", email, "Email já em uso");
     }
     
-    private void validarUsuarioExistente(String usuario) throws UsuarioExistenteException {
+    private void validarUsuarioExistente(String usuario) throws UsuarioExistsException {
         validarExistencia("usuario", usuario, "Usuário já em uso");
     }
     
-    private void validarCpfUnico(String cpf) throws UsuarioExistenteException {
+    private void validarCpfUnico(String cpf) throws UsuarioExistsException {
         validarExistencia("cpf", cpf.replaceAll("\\D", ""), "CPF já em uso");
     }
 
-    private void validarCrmvUnico(String cmrv, String crmvUf) throws UsuarioExistenteException {
+    private void validarCrmvUnico(String cmrv, String crmvUf) throws UsuarioExistsException {
         if (veterinarioJpaRepository.findByCrmvAndCrmvUf(cmrv, crmvUf).isPresent()) {
-            throw new UsuarioExistenteException("Crmv já em uso");
+            throw new UsuarioExistsException("Crmv já em uso");
         }
     }
     

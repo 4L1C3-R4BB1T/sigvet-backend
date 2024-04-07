@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
-import br.com.sigvet.api.application.exception.AnimalNaoEncontradoException;
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
-import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
-import br.com.sigvet.api.application.exception.VacinaNaoEncontradaException;
+import br.com.sigvet.api.application.exception.AnimalNotFoundException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.animal.AnimalMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.core.domain.entities.Animal;
@@ -37,16 +37,16 @@ public class AnimalGateway implements IAnimalGateway {
 
     @Transactional
     @Override
-    public Animal save(Animal record) throws DomainInvalidException, UsuarioExistenteException {
+    public Animal save(Animal record) throws DomainInvalidException, UsuarioExistsException {
 
         var cliente = record.getCliente();
 
         if (Objects.isNull(cliente)) {
-            throw new UsuarioExistenteException("O cliente não pode ser nulo");
+            throw new UsuarioExistsException("O cliente não pode ser nulo");
         }
 
         if (clienteJpaRepository.findClienteByIdAndNotDeleted(cliente.getId()) == null) {
-            throw new UsuarioExistenteException("Cliente com %d não encontrado".formatted(cliente.getId()));
+            throw new UsuarioExistsException("Cliente com %d não encontrado".formatted(cliente.getId()));
         }
 
         var animalEntity = animalMapper.fromDomainToEntity(record);
@@ -55,7 +55,7 @@ public class AnimalGateway implements IAnimalGateway {
     }
 
     @Override
-    public Animal findById(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException, VacinaNaoEncontradaException {
+    public Animal findById(Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         return animalMapper.fromEntityToDomain(buscarAnimalPorId(id));
     }
 
@@ -91,9 +91,9 @@ public class AnimalGateway implements IAnimalGateway {
     @Transactional
     @Override
     public Animal update(Long id, Animal source)
-            throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+            throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
         var animalEntity = buscarAnimalPorId(id);
-        clienteJpaRepository.findByAnimal(id).orElseThrow(() -> new UsuarioExistenteException("O cliente associado ao animal não foi encontrado"));
+        clienteJpaRepository.findByAnimal(id).orElseThrow(() -> new UsuarioExistsException("O cliente associado ao animal não foi encontrado"));
         animalEntity.setDataNascimento(source.getDataNascimento());
         animalEntity.setNome(source.getNome());
         animalEntity.setRaca(source.getRaca());
@@ -103,7 +103,7 @@ public class AnimalGateway implements IAnimalGateway {
 
     @Transactional
     @Override
-    public boolean delete(Long id) throws UsuarioExistenteException {
+    public boolean delete(Long id) throws UsuarioExistsException {
         logger.info("Entrando no método AnimalGateway::delete com id " + id);
         try {
             buscarAnimalPorId(id);
@@ -129,10 +129,10 @@ public class AnimalGateway implements IAnimalGateway {
         return spec;
     }
 
-    public AnimalEntity buscarAnimalPorId(Long id) throws UsuarioNaoEncontradoException {
+    public AnimalEntity buscarAnimalPorId(Long id) throws UsuarioNotFoundException {
         logger.info("Entrando no método AnimalGateway::buscarAnimalPorId com id " + id);
         return Optional.ofNullable(animalJpaRepository.findAnimalByIdAndNotDeleted(id))
-                .orElseThrow(() -> new AnimalNaoEncontradoException("Animal não encontrado"));
+                .orElseThrow(() -> new AnimalNotFoundException("Animal não encontrado"));
     }
     
 }

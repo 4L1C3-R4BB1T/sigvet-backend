@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import br.com.sigvet.api.application.dto.cliente.ResponseClienteDTO;
+import br.com.sigvet.api.application.dto.cliente.ClientResponseDTO;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 
 @Mapper
@@ -21,7 +21,7 @@ public interface ClienteDTOMapper {
        @Mapping(target = "endereco.estado", source = "endereco.cidade.uf.sigla"),
         
     })
-    ResponseClienteDTO toClienteDTO(Cliente source);
+    ClientResponseDTO toClienteDTO(Cliente source);
 
-    List<ResponseClienteDTO> toClienteDTO(List<Cliente> source);
+    List<ClientResponseDTO> toClienteDTO(List<Cliente> source);
 }

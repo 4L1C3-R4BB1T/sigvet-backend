@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.sigvet.api.application.dto.cliente.RequestAtualizarClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.RequestCriarClienteDTO;
-import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
+import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
+import br.com.sigvet.api.application.dto.cliente.CreateClientRequestDTO;
+import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.mapper.CidadeMapper;
 import br.com.sigvet.api.application.mapper.EnderecoMapper;
 import br.com.sigvet.api.application.mapper.base.IClienteMapper;
@@ -77,12 +77,12 @@ public final class ClienteMapper implements IClienteMapper {
         return cliente;
     }
     
-    public Cliente fromCriarModelToDomain(RequestCriarClienteDTO source) throws DomainInvalidException, CidadeNaoExistenteException {
+    public Cliente fromCriarModelToDomain(CreateClientRequestDTO source) throws DomainInvalidException, CidadeNotFoundException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
         if (cidadeEntity.isEmpty()) {
-            throw new CidadeNaoExistenteException("Cidade não encontrada");
+            throw new CidadeNotFoundException("Cidade não encontrada");
         }
 
         var cidade = cidadeMapper.toCidade(cidadeEntity.get());
@@ -98,12 +98,12 @@ public final class ClienteMapper implements IClienteMapper {
         );
     }
 
-    public Cliente fromAtualizarModelToDomain(RequestAtualizarClienteDTO source) throws DomainInvalidException {
+    public Cliente fromAtualizarModelToDomain(UpdateClientRequestDTO source) throws DomainInvalidException {
 
         var cidadeEntity = cidadeJpaRepository.findByNomeAndSiglaUf(source.cidade(), source.uf());
 
         if (cidadeEntity.isEmpty()) {
-            throw new CidadeNaoExistenteException("Cidade não encontrada");
+            throw new CidadeNotFoundException("Cidade não encontrada");
         }
 
         var cidade = cidadeMapper.toCidade(cidadeEntity.get());

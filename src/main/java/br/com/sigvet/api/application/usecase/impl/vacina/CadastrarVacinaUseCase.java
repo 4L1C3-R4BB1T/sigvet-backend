@@ -1,20 +1,20 @@
 package br.com.sigvet.api.application.usecase.impl.vacina;
-import br.com.sigvet.api.application.exception.UsuarioExistenteException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.gateway.IVacinaGateway;
+import br.com.sigvet.api.gateway.IVaccineGateway;
 import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
 
 public class CadastrarVacinaUseCase implements ICadastrarUseCase<Vacina> {
 
-    private final IVacinaGateway vacinaGateway;
+    private final IVaccineGateway vacinaGateway;
 
-    public CadastrarVacinaUseCase(IVacinaGateway vacinaGateway) {
+    public CadastrarVacinaUseCase(IVaccineGateway vacinaGateway) {
         this.vacinaGateway = vacinaGateway;
     }
 
     @Override
-    public Vacina executar(Vacina type) throws DomainInvalidException, UsuarioExistenteException {
+    public Vacina executar(Vacina type) throws DomainInvalidException, UsuarioExistsException {
         return vacinaGateway.save(type);
     }
 

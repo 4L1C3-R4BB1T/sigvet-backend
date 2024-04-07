@@ -25,7 +25,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.animal.ResponseAnimalDTO;
+import br.com.sigvet.api.application.dto.animal.AnimalResponseDTO;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.PageModel;
 
@@ -51,11 +51,11 @@ public class AnimalControllerTest {
                 "clienteId": 1
             }
         """;
-        URI uri = UriComponentsBuilder.fromUriString("http://localhost:{port}/api/animal/add").buildAndExpand(port).toUri();
+        URI uri = UriComponentsBuilder.fromUriString("http://localhost:{port}/api/animal/create").buildAndExpand(port).toUri();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         RequestEntity<String> request = new RequestEntity<>(json, headers, HttpMethod.POST, uri);
-        ResponseEntity<BaseResponse<ResponseAnimalDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<BaseResponse<ResponseAnimalDTO>>() {});
+        ResponseEntity<BaseResponse<AnimalResponseDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<BaseResponse<AnimalResponseDTO>>() {});
         assertNotNull(response.getBody(), () -> "A resposta de requisição não deve ser nula");
         assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode(), () -> "O status code deve ser o 201");
     }
@@ -73,8 +73,8 @@ public class AnimalControllerTest {
             .toUri();
 
         RequestEntity<Void> request = new RequestEntity<>(HttpMethod.GET, uri);
-        ResponseEntity<PageModel<ResponseAnimalDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<>(){});
-        PageModel<ResponseAnimalDTO> pageModel = response.getBody();
+        ResponseEntity<PageModel<AnimalResponseDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<>(){});
+        PageModel<AnimalResponseDTO> pageModel = response.getBody();
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertTrue(pageModel.getElements().size() == 1, () -> "O total de elementos tem que ser 1");
     }
@@ -96,9 +96,9 @@ public class AnimalControllerTest {
                                             .contentType(MediaType.APPLICATION_JSON)
                                             .body(json);
 
-        ResponseEntity<BaseResponse<ResponseAnimalDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
-        BaseResponse<ResponseAnimalDTO> baseResponse = response.getBody();
-        ResponseAnimalDTO responseAnimalDTO = baseResponse.getResult();
+        ResponseEntity<BaseResponse<AnimalResponseDTO>> response = restTemplate.exchange(request, new ParameterizedTypeReference<>() {});
+        BaseResponse<AnimalResponseDTO> baseResponse = response.getBody();
+        AnimalResponseDTO responseAnimalDTO = baseResponse.getResult();
         assertEquals(HttpStatus.OK.value(), baseResponse.getStatus(), () -> "O status code deve ser o 200");
         assertEquals("Doguinho 2", responseAnimalDTO.nome(), () -> "O nome deve ser doguinho 2");
         assertEquals("Macaco Prego", responseAnimalDTO.raca(), () -> "A raca deve ser Macaco prego");
