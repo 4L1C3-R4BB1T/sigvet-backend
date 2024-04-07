@@ -42,8 +42,7 @@ public class VacinaGateway implements IVacinaGateway {
 
     @Override
     public Vacina findById(Long id) throws DomainInvalidException, UsuarioNaoEncontradoException, VacinaNaoEncontradaException {
-       var vacinaSaved = buscarVacinaPorId(id);
-       return vacinaMapper.fromEntityToDomain(vacinaSaved);
+       return vacinaMapper.fromEntityToDomain(buscarVacinaPorId(id));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package br.com.sigvet.api.infrastructure.controller;
 
+import static br.com.sigvet.api.infrastructure.utils.Utilities.logger;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -21,19 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.sigvet.api.application.dto.BaseResponse;
-import br.com.sigvet.api.application.dto.cliente.RequestAtualizarClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.RequestCriarClienteDTO;
-import br.com.sigvet.api.application.dto.cliente.ResponseClienteDTO;
+import br.com.sigvet.api.application.dto.animal.RequestAtualizarAnimalDTO;
+import br.com.sigvet.api.application.dto.animal.RequestCriarAnimalDTO;
+import br.com.sigvet.api.application.dto.animal.ResponseAnimalDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
-import br.com.sigvet.api.application.mapper.base.IClienteMapper;
-import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
+import br.com.sigvet.api.application.mapper.animal.AnimalDTOMapper;
+import br.com.sigvet.api.application.mapper.base.IAnimalMapper;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
-import br.com.sigvet.api.core.domain.entities.Cliente;
+import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
+import br.com.sigvet.api.infrastructure.entity.AnimalEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,35 +44,35 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "Clientes")
+@Tag(name = "Animais")
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/animal")
 @Validated
-public class ClienteController extends CrudUseCase<Cliente, ClienteEntity, RequestCriarClienteDTO, RequestAtualizarClienteDTO, IClienteMapper, ClienteDTOMapper> {
+public class AnimalController extends CrudUseCase<Animal, AnimalEntity, RequestCriarAnimalDTO, RequestAtualizarAnimalDTO, IAnimalMapper, AnimalDTOMapper> {
 
         @Operation(summary = "Operação de criar um novo cliente", responses = {
                 @ApiResponse(description = "Retorna o objeto cliente criado", responseCode = "201", content = { 
-                        @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseClienteDTO.class))
+                        @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseAnimalDTO.class))
                 }),
         })
         @PostMapping("/add")
         @ResponseStatus(code = HttpStatus.CREATED)
-        public ResponseEntity<BaseResponse<ResponseClienteDTO>> create(@RequestBody @Valid RequestCriarClienteDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
+        public ResponseEntity<BaseResponse<ResponseAnimalDTO>> create(@RequestBody @Valid RequestCriarAnimalDTO record) throws DomainInvalidException, CidadeNaoExistenteException, UsuarioExistenteException {
                 var clienteToSave = mapper.fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
-                var clienteDTO = DTOMapper.toClienteDTO(cadastrarUseCase.executar(clienteToSave));
-                var baseResponse = new BaseResponse<ResponseClienteDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
+                var clienteDTO = DTOMapper.toAnimalDTO(cadastrarUseCase.executar(clienteToSave));
+                var baseResponse = new BaseResponse<ResponseAnimalDTO>(true,  HttpStatus.CREATED.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
 
 
         @Operation(summary = "Operação de atualizar um cliente", responses = {
-                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = RequestAtualizarClienteDTO.class)))
+                        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = RequestAtualizarAnimalDTO.class)))
         })
         @PutMapping("/update/{id}")
-        public ResponseEntity<BaseResponse<ResponseClienteDTO>> put(@PathVariable Long id, @RequestBody RequestAtualizarClienteDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
-                ResponseClienteDTO clienteDTO = DTOMapper.toClienteDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
-                var baseResponse = new BaseResponse<ResponseClienteDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
+        public ResponseEntity<BaseResponse<ResponseAnimalDTO>> put(@PathVariable Long id, @RequestBody RequestAtualizarAnimalDTO record) throws UsuarioNaoEncontradoException, UsuarioExistenteException, DomainInvalidException {
+                ResponseAnimalDTO clienteDTO = DTOMapper.toAnimalDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                var baseResponse = new BaseResponse<ResponseAnimalDTO>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -91,14 +93,16 @@ public class ClienteController extends CrudUseCase<Cliente, ClienteEntity, Reque
                 }),
         })
         @GetMapping("/getAll")
-        public ResponseEntity<PageModel<ResponseClienteDTO>> list(
+        public ResponseEntity<PageModel<ResponseAnimalDTO>> list(
                         @Parameter(description = "Filtros de pesquisas", example = "{\"equal_filters\": \"nome:=Gabriel;cpf:!=17364509720\", \"page\": 1, \"limit\": 10, \"sort\": \"-nome\", \"in_filters\": \"id:1,2,3,4;~nome:José,Carlos,Pedro\"}") @RequestParam Map<String, String> parametros)
                         throws DomainInvalidException {
+                logger.info("Entrando no método AnimalController::list");
                 var filter = new FilterModel(parametros);
                 var page = listarUseCase.executar(filter);
-                var clientesDTO = DTOMapper.toClienteDTO(page.getContent());
+                var clientesDTO = DTOMapper.toAnimalDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
+                logger.info("Saíndo do método AnimalController::list");
                 return new ResponseEntity<>(new PageModel<>(clientesDTO, page), headers, HttpStatus.OK);
         }
 
@@ -108,9 +112,9 @@ public class ClienteController extends CrudUseCase<Cliente, ClienteEntity, Reque
                 }),
         })
         @GetMapping("/get/{id}")
-        public ResponseEntity<BaseResponse<ResponseClienteDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
-                var clienteDTO = DTOMapper.toClienteDTO(obterPorIdUseCase.executar(id));
-                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
+        public ResponseEntity<BaseResponse<ResponseAnimalDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNaoEncontradoException {
+                var clienteDTO = DTOMapper.toAnimalDTO(obterPorIdUseCase.executar(id));
+                var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
 

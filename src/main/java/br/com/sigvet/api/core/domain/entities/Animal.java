@@ -20,7 +20,7 @@ public class Animal {
 
     public Animal(Long id, String nome, String raca, LocalDate dataNascimento, LocalDateTime createdAt,
             LocalDateTime updatedAt, Cliente cliente) throws DomainInvalidException {
-        this.id = id;
+        this.id = id; 
         this.nome = nome;
         this.raca = raca;
         this.dataNascimento = dataNascimento;

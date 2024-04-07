@@ -1,7 +1,10 @@
 package br.com.sigvet.api.infrastructure.controller;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +33,6 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.controller.extension.CrudUseCase;
 import br.com.sigvet.api.infrastructure.entity.VacinaEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -95,7 +97,9 @@ public class VacinaController extends CrudUseCase<Vacina, VacinaEntity, RequestC
                 var filter = new FilterModel(parametros);
                 var page = listarUseCase.executar(filter);
                 var vacinasDTO = DTOMapper.toVacinaDTO(page.getContent());
-                return ResponseEntity.ok(new PageModel<>(vacinasDTO, page));
+                HttpHeaders headers = new HttpHeaders();
+                headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
+                return new ResponseEntity<>(new PageModel<>(vacinasDTO, page), headers, HttpStatus.OK);
         }
 
         @Operation(summary = "Operação de buscar um vacina", responses = {

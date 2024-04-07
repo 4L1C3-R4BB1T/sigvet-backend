@@ -1,152 +1,154 @@
+-- Tabela usuarios
 CREATE TABLE usuarios (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    usuario     VARCHAR(100)    NOT NULL UNIQUE,
+    id          BIGINT          AUTO_INCREMENT NOT NULL,
+    usuario     VARCHAR(100)    NOT NULL,
     senha       VARCHAR(100)    NOT NULL,
-    email       VARCHAR(100)    NOT NULL UNIQUE,
+    email       VARCHAR(100)    NOT NULL,
     nome        VARCHAR(100)    NOT NULL,
-    cpf         VARCHAR(14)     NOT NULL UNIQUE,
+    cpf         VARCHAR(14)     NOT NULL,
     telefone    VARCHAR(18),
     created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE
+    deleted     BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id)
 );
 
 CREATE INDEX usuarios_index_usuario ON usuarios (usuario);
 CREATE INDEX usuarios_index_cpf ON usuarios (cpf);
 CREATE INDEX usuarios_index_email ON usuarios (email);
 
+-- Tabela clientes
 CREATE TABLE clientes (
-    id  BIGINT AUTO_INCREMENT PRIMARY KEY,
-    CONSTRAINT fk_cliente_usuario 
-        FOREIGN KEY (id)
-        REFERENCES usuarios (id)
+    id  BIGINT  AUTO_INCREMENT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES usuarios (id)
 );
 
+-- Tabela veterinarios
 CREATE TABLE veterinarios (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id              BIGINT          AUTO_INCREMENT NOT NULL,
     especialidade   VARCHAR(255)    NOT NULL,
     crmv            VARCHAR(45)     NOT NULL,
-    crmv_uf         CHAR(2)         NOT NULL,
-    CONSTRAINT fk_veterinario_usuario 
-        FOREIGN KEY (id)
-        REFERENCES usuarios (id)
+    crmv_uf         VARCHAR(2)      NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES usuarios (id)
 );
 
 CREATE INDEX veterinarios_index_crmv ON veterinarios (crmv);
 
+-- Tabela animais
 CREATE TABLE animais (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    id              BIGINT          AUTO_INCREMENT NOT NULL, 
     nome            VARCHAR(255)    NOT NULL,
     raca            VARCHAR(255),
     data_nascimento DATE,
     cliente_id      BIGINT          NOT NULL,
     created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_animal_cliente 
-        FOREIGN KEY (cliente_id) 
-        REFERENCES clientes (id)
+    deleted         BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (cliente_id) REFERENCES clientes (id)
 );
 
+-- Tabela vacinas
 CREATE TABLE vacinas (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    id              BIGINT          AUTO_INCREMENT NOT NULL, 
     nome            VARCHAR(255)    NOT NULL,
     fabricante      VARCHAR(255)    NOT NULL,
-    lote            VARCHAR(255)    NOT NULL,
+    lote            VARCHAR(255),
     preco_unitario  DECIMAL(10, 2)  NOT NULL DEFAULT 0,
     estoque         INTEGER         NOT NULL DEFAULT 0,
     data_validade   TIMESTAMP       NOT NULL,
-    created_at       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE
+    created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted         BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id)
 );
 
+-- Tabela vacinacoes
 CREATE TABLE vacinacoes (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    id              BIGINT          AUTO_INCREMENT NOT NULL, 
     data_horario    TIMESTAMP       NOT NULL,
     animal_id       BIGINT          NOT NULL,
     veterinario_id  BIGINT          NOT NULL,
     vacina_id       BIGINT          NOT NULL,
     created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_vacinacao_animal 
-        FOREIGN KEY (animal_id) 
-        REFERENCES animais (id),
-    CONSTRAINT fk_vacinacao_veterinario 
-        FOREIGN KEY (veterinario_id) 
-        REFERENCES veterinarios (id),
-    CONSTRAINT fk_vacinacao_vacina 
-        FOREIGN KEY (vacina_id) 
-        REFERENCES vacinas (id)
+    deleted         BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (animal_id) REFERENCES animais (id),
+    FOREIGN KEY (veterinario_id) REFERENCES veterinarios (id),
+    FOREIGN KEY (vacina_id) REFERENCES vacinas (id)
 );
 
+-- Tabela consultas
 CREATE TABLE consultas (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    id              BIGINT          AUTO_INCREMENT NOT NULL, 
     data_horario    TIMESTAMP       NOT NULL,
     animal_id       BIGINT          NOT NULL,
     veterinario_id  BIGINT          NOT NULL,
     status          VARCHAR(50)     NOT NULL,
     created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_consulta_animal 
-        FOREIGN KEY (animal_id) 
-        REFERENCES animais (id),
-    CONSTRAINT fk_consulta_veterinario 
-        FOREIGN KEY (veterinario_id) 
-        REFERENCES veterinarios (id)
+    deleted         BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (animal_id) REFERENCES animais (id),
+    FOREIGN KEY (veterinario_id) REFERENCES veterinarios (id)
 );
 
+-- Tabela diagnosticos
 CREATE TABLE diagnosticos (
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY, 
+    id              BIGINT          AUTO_INCREMENT NOT NULL, 
     diagnostico     VARCHAR(255)    NOT NULL,
     observacoes     TEXT,
     consulta_id     BIGINT          NOT NULL,
     created_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_diagnostico_consulta 
-        FOREIGN KEY (consulta_id)
-        REFERENCES consultas (id)
+    deleted         BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (consulta_id) REFERENCES consultas (id)
 );
 
+-- Tabela ufs
 CREATE TABLE ufs (
-    sigla       CHAR(2)         NOT NULL PRIMARY KEY,
-    nome        VARCHAR(255)    NOT NULL,
-    created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    sigla       VARCHAR(2)       NOT NULL,
+    nome        VARCHAR(255)     NOT NULL,
+    created_at  TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (sigla)
 );
 
+CREATE INDEX ufs_index_nome ON ufs (nome);
+
+-- Tabela cidades
 CREATE TABLE cidades (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nome        VARCHAR(255)    NOT NULL,
-    uf_sigla    CHAR(2)         NOT NULL,
-    created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_cidade_uf 
-        FOREIGN KEY (uf_sigla) 
-        REFERENCES ufs (sigla)
+    id          BIGINT           AUTO_INCREMENT NOT NULL,
+    nome        VARCHAR(255)     NOT NULL,
+    uf_sigla    VARCHAR(2)       NOT NULL,
+    created_at  TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted     BOOLEAN          DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (uf_sigla) REFERENCES ufs (sigla)
 );
 
+CREATE INDEX cidades_index_nome ON cidades (nome);
+
+-- Tabela enderecos
 CREATE TABLE enderecos (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id          BIGINT          AUTO_INCREMENT NOT NULL,
     rua         VARCHAR(255)    NOT NULL,
     bairro      VARCHAR(255)    NOT NULL,
-    cep         CHAR(8)         NOT NULL,
+    cep         VARCHAR(8)      NOT NULL,
     numero      INTEGER,
     cidade_id   BIGINT          NOT NULL,
     usuario_id  BIGINT          NOT NULL,
     created_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_endereco_cidade 
-        FOREIGN KEY (cidade_id) 
-        REFERENCES cidades (id),
-    CONSTRAINT fk_endereco_usuario
-        FOREIGN KEY (usuario_id)
-        REFERENCES usuarios (id)
+    deleted     BOOLEAN         DEFAULT FALSE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (cidade_id) REFERENCES cidades (id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
 );
 
 

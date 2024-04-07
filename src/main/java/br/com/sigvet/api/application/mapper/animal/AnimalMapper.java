@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.api.application.dto.animal.RequestAtualizarAnimalDTO;
-import br.com.sigvet.api.application.dto.animal.ResponseCriarAnimalDTO;
+import br.com.sigvet.api.application.dto.animal.RequestCriarAnimalDTO;
 import br.com.sigvet.api.application.exception.CidadeNaoExistenteException;
 import br.com.sigvet.api.application.exception.UsuarioNaoEncontradoException;
 import br.com.sigvet.api.application.mapper.base.IAnimalMapper;
@@ -43,7 +43,7 @@ public class AnimalMapper implements IAnimalMapper {
     }
 
     @Override
-    public Animal fromCriarModelToDomain(ResponseCriarAnimalDTO source)
+    public Animal fromCriarModelToDomain(RequestCriarAnimalDTO source)
             throws DomainInvalidException, CidadeNaoExistenteException {
         
         var clienteEntity = clienteJpaRepository.findClienteByIdAndNotDeleted(source.clienteId());

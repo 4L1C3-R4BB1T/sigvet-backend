@@ -1,7 +1,10 @@
 package br.com.sigvet.api.infrastructure.controller;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +33,6 @@ import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.controller.extension.CrudUseCase;
 import br.com.sigvet.api.infrastructure.entity.VeterinarioEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -91,7 +93,9 @@ public class VeterinarioController extends CrudUseCase<Veterinario, VeterinarioE
         var filter = new FilterModel(parametros);
         var page = listarUseCase.executar(filter);
         var veterinariosDTO = DTOMapper.toVeterinarioDTO(page.getContent());
-        return ResponseEntity.ok(new PageModel<>(veterinariosDTO, page));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
+        return new ResponseEntity<>(new PageModel<>(veterinariosDTO, page), headers, HttpStatus.OK);
     }
 
     @Operation(summary = "Operação de buscar um veterinario", responses = {

@@ -11,7 +11,7 @@ import br.com.sigvet.api.core.domain.entities.Vacina;
 @Mapper
 public interface VacinaDTOMapper {
     
-    VacinaDTOMapper MAPPER = Mappers.getMapper(VacinaDTOMapper.class);
+    VacinaDTOMapper MAPPER = Mappers.getMapper(VacinaDTOMapper.class );
 
     ResponseVacinaDTO toVacinaDTO(Vacina source);
 

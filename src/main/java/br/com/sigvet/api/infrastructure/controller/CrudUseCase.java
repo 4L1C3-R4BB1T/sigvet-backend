@@ -1,4 +1,4 @@
-package br.com.sigvet.api.infrastructure.controller.extension;
+package br.com.sigvet.api.infrastructure.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +10,7 @@ import br.com.sigvet.api.usecase.base.IDeletarUseCase;
 import br.com.sigvet.api.usecase.base.IListarUseCase;
 import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
-public class CrudUseCase<D, E extends BaseEntity, TCriarModel, TAtualizarModel, TMapper1 extends IBaseMapper<D, E, TCriarModel, TAtualizarModel>, TMapper2> {
+public class CrudUseCase<D, E extends BaseEntity, TRequestCriarDTO, TRquestAtualizarDTO, TMapper1 extends IBaseMapper<D, E, TRequestCriarDTO, TRquestAtualizarDTO>, TMapper2> {
     
     @Autowired 
     protected ICadastrarUseCase<D> cadastrarUseCase;

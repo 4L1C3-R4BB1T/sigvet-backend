@@ -12,7 +12,7 @@ import br.com.sigvet.api.core.domain.entities.Veterinario;
 @Mapper
 public interface VeterinarioDTOMapper {
 
-    VeterinarioDTOMapper MAPPER = Mappers.getMapper(VeterinarioDTOMapper.class);
+    VeterinarioDTOMapper MAPPER = Mappers.getMapper(VeterinarioDTOMapper.class );
 
 
      @Mappings({

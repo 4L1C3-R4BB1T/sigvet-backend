@@ -1,5 +1,22 @@
 package br.com.sigvet.api.application.usecase.impl.animal;
 
-public class CadastrarAnimalUseCase {
+import br.com.sigvet.api.application.exception.UsuarioExistenteException;
+import br.com.sigvet.api.core.domain.entities.Animal;
+import br.com.sigvet.api.core.exception.DomainInvalidException;
+import br.com.sigvet.api.gateway.IAnimalGateway;
+import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
+
+public class CadastrarAnimalUseCase implements ICadastrarUseCase<Animal> {
+
+    private final IAnimalGateway animalGateway;
+
+    public CadastrarAnimalUseCase(IAnimalGateway animalGateway) {
+        this.animalGateway = animalGateway;
+    }
+
+    @Override
+    public Animal executar(Animal type) throws DomainInvalidException, UsuarioExistenteException {
+        return animalGateway.save(type);
+    }
 
 }

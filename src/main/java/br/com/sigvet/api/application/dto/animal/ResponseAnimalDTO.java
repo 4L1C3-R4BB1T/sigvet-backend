@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ResponseAnimalDTO (
+    Long id,
     String nome,
     String raca,
     LocalDate dataNascimento,
