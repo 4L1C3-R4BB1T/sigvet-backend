@@ -64,7 +64,6 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 log.info("Saindo do método ClienteController::list", parametros);
                 return new ResponseEntity<>(new PageModel<>(clientesDTO, page), headers, HttpStatus.OK);
         }
-
       
         @GetMapping("/get/{id}")
         @Override
@@ -98,7 +97,6 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 return ResponseEntity.ok(baseResponse);
         }
 
-
         @DeleteMapping("/delete/{id}")
         @Override
         public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
@@ -116,7 +114,6 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
 
                 // spring.servlet.multipart.max-file-size=20KB
                 // spring.servlet.multipart.max-request-size=20MB
-        
         }
 
 }
