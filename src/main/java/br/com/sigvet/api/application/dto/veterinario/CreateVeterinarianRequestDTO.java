@@ -26,11 +26,11 @@ public record CreateVeterinarianRequestDTO(
     @Email
     String email,
 
-    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$", message = "veterinario.cpf precisa estar no formato ddd.ddd.ddd-dd")
+    @Pattern(regexp = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$")
     String cpf,
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "O veterinario.crmv deve conter apenas letras e números sem acentuação")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$")
     @Size(max = 45)
     String crmv,
 
@@ -38,29 +38,29 @@ public record CreateVeterinarianRequestDTO(
     @Size(min = 2, max = 2)
     String crmvUf,
 
-    @NotBlank(message = "veterinario.especialidade é obrigatório")
+    @NotBlank
     String especialidade,
 
-    @Size(max = 18, message = "veterinario.telefone não pode ser maior que 18 caracteres")
+    @Size(max = 18)
     String telefone,
 
-    @NotBlank(message = "veterinario.rua é obrigatório")
+    @NotBlank
     String rua,
 
-    @NotBlank(message = "veterinario.bairro é obrigatório")
+    @NotBlank
     String bairro,
 
-    @Pattern(regexp = "^\\d{5}-\\d{3}$", message = "veterinario.cep não precisa estar no formato ddddd-dd")
+    @Pattern(regexp = "^\\d{5}-\\d{3}$")
     String cep,
 
-    @Min(value = 0, message = "veterinario.numero não pode ser meno que 0")
-    @NotNull(message = "veterinario.numero não é obrigatório")
+    @Min(value = 0)
+    @NotNull
     Integer numero,
 
-    @NotBlank(message = "veterinario.cidade n é obrigatório")
+    @NotBlank
     String cidade,
 
-    @NotBlank(message = "veterinario.uf é obrigatório")
-    @Pattern(regexp = "(^[A-Z]{2})", message = "veterinario.uf precisa ser ter 2 duas letras maiusculas EX: ES")
+    @NotBlank
+    @Pattern(regexp = "(^[A-Z]{2})")
     String uf
 ) {}
