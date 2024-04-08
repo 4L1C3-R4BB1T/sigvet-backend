@@ -4,12 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.sigvet.api.application.gateway.impl.VacinaGateway;
+import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.application.mapper.vacina.VacinaDTOMapper;
 import br.com.sigvet.api.application.usecase.impl.vacina.AtualizarVacinaUseCase;
 import br.com.sigvet.api.application.usecase.impl.vacina.CadastrarVacinaUseCase;
 import br.com.sigvet.api.application.usecase.impl.vacina.DeletarVacinaUseCase;
 import br.com.sigvet.api.application.usecase.impl.vacina.ListarVacinasUseCase;
 import br.com.sigvet.api.application.usecase.impl.vacina.ObterVacinaPorIdUseCase;
+import br.com.sigvet.api.controller.base.DomainObjectUseCaseManager;
+import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
 import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
@@ -19,6 +22,16 @@ import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 
 @Configuration
 public class VacinaConfig {
+
+    @Bean
+    MapperManager<IVacinaMapper, VacinaDTOMapper> vacinaMapperManager(IVacinaMapper vacinaMapper, VacinaDTOMapper vacinaDTOMapper) {
+        return new MapperManager<>(vacinaMapper, vacinaDTOMapper);
+    }
+
+    @Bean
+    DomainObjectUseCaseManager<Vacina> vacinaDomainObjectUseCaseManager(IListarUseCase<Vacina> listarUseCase, ICadastrarUseCase<Vacina> cadastrarUseCase, IAtualizarUseCase<Vacina> atualizarUseCasem, IObterPorIdUseCase<Vacina> obterPorIdUseCase, IDeletarUseCase<Vacina> deletarUseCase) {
+        return new DomainObjectUseCaseManager<>(cadastrarUseCase, listarUseCase, obterPorIdUseCase, atualizarUseCasem, deletarUseCase);
+    }
     
     @Bean
     VacinaDTOMapper vacinaDTOMapper() {

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.vacina.UpdateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.CreateVaccineRequestDTO;
+import br.com.sigvet.api.application.dto.vacina.UpdateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.VaccineResponseDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
@@ -30,25 +30,29 @@ import br.com.sigvet.api.application.mapper.vacina.VacinaDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
-import br.com.sigvet.api.controller.base.BaseUseCaseController;
+import br.com.sigvet.api.controller.base.BaseCrudController;
+import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.entity.VacinaEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Vacinas")
 @RestController
 @RequestMapping("/api/vaccine")
 @Validated
-public class VacinaController extends BaseUseCaseController<Vacina, VacinaEntity, CreateVaccineRequestDTO, UpdateVaccineRequestDTO, IVacinaMapper, VacinaDTOMapper, VaccineResponseDTO> {
+@RequiredArgsConstructor
+public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRequestDTO, UpdateVaccineRequestDTO, VaccineResponseDTO> {
+
+        private final MapperManager<IVacinaMapper, VacinaDTOMapper> mapperManager;
 
         @GetMapping("/getAll")
         @Override
         public ResponseEntity<PageModel<VaccineResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
                 var filter = new FilterModel(parametros);
-                var page = listarUseCase.executar(filter);
-                var vacinasDTO = DTOMapper.toVacinaDTO(page.getContent());
+                var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
+                var vacinasDTO = mapperManager.getDTOMapper().toVacinaDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
                 return new ResponseEntity<>(new PageModel<>(vacinasDTO, page), headers, HttpStatus.OK);
@@ -58,7 +62,7 @@ public class VacinaController extends BaseUseCaseController<Vacina, VacinaEntity
         @GetMapping("/get/{id}")
         @Override
         public ResponseEntity<BaseResponse<VaccineResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
-                var vacinaDTO = DTOMapper.toVacinaDTO(obterPorIdUseCase.executar(id));
+                var vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.ok(baseResponse);
         }
@@ -66,9 +70,9 @@ public class VacinaController extends BaseUseCaseController<Vacina, VacinaEntity
         @PostMapping("/create")
         @Override
         public ResponseEntity<BaseResponse<VaccineResponseDTO>> create(@RequestBody @Valid CreateVaccineRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
-                var vacinaToSave = mapper.fromCriarModelToDomain(record);
+                var vacinaToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(vacinaToSave.getId());  
-                var vacinaDTO = DTOMapper.toVacinaDTO(cadastrarUseCase.executar(vacinaToSave));
+                var vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(vacinaToSave));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true,  HttpStatus.CREATED.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
@@ -76,7 +80,7 @@ public class VacinaController extends BaseUseCaseController<Vacina, VacinaEntity
         @PutMapping("/update/{id}")
         @Override
         public ResponseEntity<BaseResponse<VaccineResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVaccineRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
-                VaccineResponseDTO vacinaDTO = DTOMapper.toVacinaDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                VaccineResponseDTO vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
                 return ResponseEntity.ok(baseResponse);
         }
@@ -84,9 +88,8 @@ public class VacinaController extends BaseUseCaseController<Vacina, VacinaEntity
 
         @DeleteMapping("/delete/{id}")
         @Override
-        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id)
-                        throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
-                var result = deletarUseCase.executar(id);
+        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+                var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
                 return ResponseEntity.ok(baseResponse);
         }

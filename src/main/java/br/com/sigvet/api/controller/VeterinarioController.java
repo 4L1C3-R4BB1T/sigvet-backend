@@ -30,25 +30,29 @@ import br.com.sigvet.api.application.mapper.veterinario.VeterinarioDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
-import br.com.sigvet.api.controller.base.BaseUseCaseController;
+import br.com.sigvet.api.controller.base.BaseCrudController;
+import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.entity.VeterinarioEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Veterinários")
 @RestController
 @RequestMapping("/api/veterinarian")
 @Validated
-public class VeterinarioController extends BaseUseCaseController<Veterinario, VeterinarioEntity, CreateVeterinarianRequestDTO, UpdateVeterinarianRequestDTO, IVeterinarioMapper, VeterinarioDTOMapper, VeterinarianResponseDTO> {
+@RequiredArgsConstructor
+public class VeterinarioController extends BaseCrudController<Veterinario, CreateVeterinarianRequestDTO, UpdateVeterinarianRequestDTO, VeterinarianResponseDTO> {
+
+    private final MapperManager<IVeterinarioMapper, VeterinarioDTOMapper> mapperManager;
 
     @GetMapping("/getAll")
     @Override
     public ResponseEntity<PageModel<VeterinarianResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
         var filter = new FilterModel(parametros);
-        var page = listarUseCase.executar(filter);
-        var veterinariosDTO = DTOMapper.toVeterinarioDTO(page.getContent());
+        var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
+        var veterinariosDTO = mapperManager.getDTOMapper().toVeterinarioDTO(page.getContent());
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
         return new ResponseEntity<>(new PageModel<>(veterinariosDTO, page), headers, HttpStatus.OK);
@@ -58,7 +62,7 @@ public class VeterinarioController extends BaseUseCaseController<Veterinario, Ve
     @GetMapping("/get/{id}")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
-        var veterinarioDTO = DTOMapper.toVeterinarioDTO(obterPorIdUseCase.executar(id));
+        var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
         return ResponseEntity.ok(baseResponse);
     }
@@ -66,9 +70,9 @@ public class VeterinarioController extends BaseUseCaseController<Veterinario, Ve
     @PostMapping("/create")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> create(@RequestBody @Valid CreateVeterinarianRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
-        var veterinarioToSave = mapper.fromCriarModelToDomain(record);
+        var veterinarioToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
         var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(veterinarioToSave.getId());
-        var veterinarioDTO = DTOMapper.toVeterinarioDTO(cadastrarUseCase.executar(veterinarioToSave));
+        var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(veterinarioToSave));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.CREATED.value(), "Veterinario retornado", veterinarioDTO);
         return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
     }
@@ -76,7 +80,7 @@ public class VeterinarioController extends BaseUseCaseController<Veterinario, Ve
     @PutMapping("/update/{id}")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVeterinarianRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
-        VeterinarianResponseDTO veterinarioDTO = DTOMapper.toVeterinarioDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+        VeterinarianResponseDTO veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
         return ResponseEntity.ok(baseResponse);
     }
@@ -84,7 +88,7 @@ public class VeterinarioController extends BaseUseCaseController<Veterinario, Ve
     @DeleteMapping("/delete/{id}")
     @Override
     public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
-        var result = deletarUseCase.executar(id);
+        var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar veterinario", result, null);
         return ResponseEntity.ok(baseResponse);
     }

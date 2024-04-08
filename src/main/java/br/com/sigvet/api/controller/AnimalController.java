@@ -5,6 +5,7 @@ import static br.com.sigvet.api.infrastructure.utils.Utilities.logger;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.animal.UpdateAnimalRequestDTO;
-import br.com.sigvet.api.application.dto.animal.CreateAnimalRequestDTO;
 import br.com.sigvet.api.application.dto.animal.AnimalResponseDTO;
+import br.com.sigvet.api.application.dto.animal.CreateAnimalRequestDTO;
+import br.com.sigvet.api.application.dto.animal.UpdateAnimalRequestDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
@@ -32,10 +33,10 @@ import br.com.sigvet.api.application.mapper.base.IAnimalMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
-import br.com.sigvet.api.controller.base.BaseUseCaseController;
+import br.com.sigvet.api.controller.base.BaseCrudController;
+import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Animal;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.entity.AnimalEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -43,15 +44,18 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/animal")
 @Validated
-public class AnimalController extends BaseUseCaseController<Animal, AnimalEntity, CreateAnimalRequestDTO, UpdateAnimalRequestDTO, IAnimalMapper, AnimalDTOMapper, AnimalResponseDTO> {
-
+public class AnimalController extends BaseCrudController<Animal, CreateAnimalRequestDTO, UpdateAnimalRequestDTO, AnimalResponseDTO>  {
+        
+        @Autowired
+        private MapperManager<IAnimalMapper, AnimalDTOMapper> mapperManager;
+        
         @GetMapping("/getAll")
         @Override
         public ResponseEntity<PageModel<AnimalResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
-                logger.info("Entrando no método AnimalController::list");
+                logger.info("Entrando no método AnimalController::list", parametros);
                 var filter = new FilterModel(parametros);
-                var page = listarUseCase.executar(filter);
-                var clientesDTO = DTOMapper.toAnimalDTO(page.getContent());
+                var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
+                var clientesDTO = mapperManager.getDTOMapper().toAnimalDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
                 logger.info("Saíndo do método AnimalController::list");
@@ -61,7 +65,7 @@ public class AnimalController extends BaseUseCaseController<Animal, AnimalEntity
         @GetMapping("/get/{id}")
         @Override
         public ResponseEntity<BaseResponse<AnimalResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
-                var clienteDTO = DTOMapper.toAnimalDTO(obterPorIdUseCase.executar(id));
+                var clienteDTO = mapperManager.getDTOMapper().toAnimalDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
@@ -70,9 +74,9 @@ public class AnimalController extends BaseUseCaseController<Animal, AnimalEntity
         @PostMapping("/create")
         @Override
         public ResponseEntity<BaseResponse<AnimalResponseDTO>> create(@RequestBody @Valid CreateAnimalRequestDTO record) throws CidadeNotFoundException, DomainInvalidException  {
-                var clienteToSave = mapper.fromCriarModelToDomain(record);
+                var clienteToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
-                var clienteDTO = DTOMapper.toAnimalDTO(cadastrarUseCase.executar(clienteToSave));
+                var clienteDTO = mapperManager.getDTOMapper().toAnimalDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(clienteToSave));
                 var baseResponse = new BaseResponse<AnimalResponseDTO>(true,  HttpStatus.CREATED.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
@@ -80,7 +84,7 @@ public class AnimalController extends BaseUseCaseController<Animal, AnimalEntity
         @PutMapping("/update/{id}")
         @Override
         public ResponseEntity<BaseResponse<AnimalResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateAnimalRequestDTO record) throws UsuarioExistsException, UsuarioNotFoundException, CidadeNotFoundException, DomainInvalidException {
-                AnimalResponseDTO clienteDTO = DTOMapper.toAnimalDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                AnimalResponseDTO clienteDTO = mapperManager.getDTOMapper().toAnimalDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<AnimalResponseDTO>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }     
@@ -89,7 +93,7 @@ public class AnimalController extends BaseUseCaseController<Animal, AnimalEntity
         @Override
         public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id)
                         throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
-                var result = deletarUseCase.executar(id);
+                var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
                 return ResponseEntity.ok(baseResponse);
         }

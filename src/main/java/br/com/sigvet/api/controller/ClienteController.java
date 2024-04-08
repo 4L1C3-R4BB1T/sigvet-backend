@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
-import br.com.sigvet.api.application.dto.cliente.CreateClientRequestDTO;
 import br.com.sigvet.api.application.dto.cliente.ClientResponseDTO;
+import br.com.sigvet.api.application.dto.cliente.CreateClientRequestDTO;
+import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
@@ -30,25 +30,29 @@ import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
-import br.com.sigvet.api.controller.base.BaseUseCaseController;
+import br.com.sigvet.api.controller.base.BaseCrudController;
+import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
-import br.com.sigvet.api.infrastructure.entity.ClienteEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Clientes")
 @RestController
 @RequestMapping("/api/customer")
 @Validated
-public class ClienteController extends BaseUseCaseController<Cliente, ClienteEntity, CreateClientRequestDTO, UpdateClientRequestDTO, IClienteMapper, ClienteDTOMapper, ClientResponseDTO> {
+@RequiredArgsConstructor
+public class ClienteController extends BaseCrudController<Cliente, CreateClientRequestDTO, UpdateClientRequestDTO, ClientResponseDTO> {
+
+        private final MapperManager<IClienteMapper, ClienteDTOMapper> mapperManager;
 
         @GetMapping("/getAll")
         @Override
         public ResponseEntity<PageModel<ClientResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
                 var filter = new FilterModel(parametros);
-                var page = listarUseCase.executar(filter);
-                var clientesDTO = DTOMapper.toClienteDTO(page.getContent());
+                var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
+                var clientesDTO = mapperManager.getDTOMapper().toClienteDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
                 return new ResponseEntity<>(new PageModel<>(clientesDTO, page), headers, HttpStatus.OK);
@@ -58,7 +62,7 @@ public class ClienteController extends BaseUseCaseController<Cliente, ClienteEnt
         @GetMapping("/get/{id}")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
-                var clienteDTO = DTOMapper.toClienteDTO(obterPorIdUseCase.executar(id));
+                var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
@@ -66,9 +70,9 @@ public class ClienteController extends BaseUseCaseController<Cliente, ClienteEnt
         @PostMapping("/create")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> create(@RequestBody @Valid CreateClientRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
-                var clienteToSave = mapper.fromCriarModelToDomain(record);
+                var clienteToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
-                var clienteDTO = DTOMapper.toClienteDTO(cadastrarUseCase.executar(clienteToSave));
+                var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(clienteToSave));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
@@ -77,7 +81,7 @@ public class ClienteController extends BaseUseCaseController<Cliente, ClienteEnt
         @PutMapping("/update/{id}")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateClientRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
-                ClientResponseDTO clienteDTO = DTOMapper.toClienteDTO(atualizarUseCase.executar(id, mapper.fromAtualizarModelToDomain(record)));
+                ClientResponseDTO clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 return ResponseEntity.ok(baseResponse);
         }
@@ -85,9 +89,8 @@ public class ClienteController extends BaseUseCaseController<Cliente, ClienteEnt
 
         @DeleteMapping("/delete/{id}")
         @Override
-        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id)
-                        throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
-                var result = deletarUseCase.executar(id);
+        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+                var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
                 return ResponseEntity.ok(baseResponse);
         }
