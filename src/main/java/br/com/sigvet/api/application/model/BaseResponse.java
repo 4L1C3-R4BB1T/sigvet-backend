@@ -27,7 +27,14 @@ public class BaseResponse<T> {
         this.message = message;
         this.result = result;
     }
-    
-    public record ErrorResponse(Long status, String message, List<ValidationError> validations) {}
+
+    public BaseResponse(boolean success, int status, String message, ErrorResponse error) {
+        this.success = success;
+        this.status = status;
+        this.message = message;
+        this.error = error;
+    }
+
+    public record ErrorResponse(List<ValidationError> validations) {}
     public record ValidationError(String field, String message) {}
 }

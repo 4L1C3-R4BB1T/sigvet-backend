@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UpdateAnimalRequestDTO (
-    @NotBlank(message = "animal.nome é obrigatório")
-    @Size(max = 255, message = "animal.nome pode ter no máximo 255 caracteres")
+    @NotBlank
+    @Size(max = 255)
     String nome,
 
-    @Size(max = 255, message = "animal.raca pode ter no máximo 255 caracteres")
+    @Size(max = 255)
     String raca,
 
-    @NotNull(message = "animal.dataNascimento é obrigatório")
+    @NotNull
     LocalDate dataNascimento
 ) {
     

@@ -1,11 +1,15 @@
 package br.com.sigvet.api.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.sigvet.api.application.dto.cliente.ClientResponseDTO;
@@ -93,6 +98,16 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
                 return ResponseEntity.ok(baseResponse);
+        }
+
+        @PutMapping(value = "/photo-upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public void update(@PathVariable Long id, @RequestParam MultipartFile multipartFile) {
+                // Se criar uma classe personalizadan ão é necessário colocar o @RequestParam
+                String fileName = "%s_%s".formatted(UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
+
+                // spring.servlet.multipart.max-file-size=20KB
+                // spring.servlet.multipart.max-request-size=20MB
+        
         }
 
 }

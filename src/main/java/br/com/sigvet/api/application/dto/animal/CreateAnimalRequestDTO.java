@@ -10,17 +10,17 @@ import jakarta.validation.constraints.Size;
 @Schema(example = "{\"nome\":\"Nome do animal\",\"raca\":\"Raça do animal\",\"dataNascimento\":\"2022-04-06\",\"clienteId\":1}")
 public record CreateAnimalRequestDTO(
 
-    @NotBlank(message = "animal.nome é obrigatório")
-    @Size(max = 255, message = "animal.nome pode ter no máximo 255 caracteres")
+    @NotBlank
+    @Size(max = 255)
     String nome,
 
-    @Size(max = 255, message = "animal.raca pode ter no máximo 255 caracteres")
+    @Size(max = 255)
     String raca,
 
-    @NotNull(message = "animal.dataNascimento é obrigatório")
+    @NotNull
     LocalDate dataNascimento,
 
-    @NotNull(message = "animal.clienteId é obrigatório")
+    @NotNull
     Long clienteId
 ) {
     
