@@ -58,7 +58,7 @@ public class ClienteGateway implements IClientGateway {
         // Converte o cliente em uma entidade e salva no repositório
         ClienteEntity clienteEntity = clienteJpaRepository.save(clienteMapper.fromDomainToEntity(record));
         
-        logger.info("Saíndo do método ClienteGateway::save");
+        logger.info("Saindo do método ClienteGateway::save");
         
         // Converte a entidade salva de volta para um objeto Cliente e retorna
         return clienteMapper.fromEntityToDomain(clienteEntity);

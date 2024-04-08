@@ -61,6 +61,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 var clientesDTO = mapperManager.getDTOMapper().toClienteDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
+                log.info("Saindo do método ClienteController::list", parametros);
                 return new ResponseEntity<>(new PageModel<>(clientesDTO, page), headers, HttpStatus.OK);
         }
 
@@ -68,27 +69,32 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
         @GetMapping("/get/{id}")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+                log.info("Entrando no método ClienteController::get", id);
                 var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
+                log.info("Saindo do método ClienteController::get", id);
                 return ResponseEntity.ok(baseResponse);
         }
 
         @PostMapping("/create")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> create(@RequestBody @Valid CreateClientRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
+                log.info("Entrando no método ClienteController::create", record);
                 var clienteToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
                 var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(clienteToSave));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
+                log.info("Saindo do método ClienteController::create", record);
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
-
 
         @PutMapping("/update/{id}")
         @Override
         public ResponseEntity<BaseResponse<ClientResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateClientRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+                log.info("Entrando no método ClienteController::put", id, record);
                 ClientResponseDTO clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
+                log.info("Saindo do método ClienteController::put", id, record);
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -96,14 +102,16 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
         @DeleteMapping("/delete/{id}")
         @Override
         public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+                log.info("Entrando no método ClienteController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
+                log.info("Saindo do método ClienteController::delete", id);
                 return ResponseEntity.ok(baseResponse);
         }
 
         @PutMapping(value = "/photo-upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
         public void update(@PathVariable Long id, @RequestParam MultipartFile multipartFile) {
-                // Se criar uma classe personalizadan ão é necessário colocar o @RequestParam
+                // Se criar uma classe personalizada não é necessário colocar o @RequestParam
                 String fileName = "%s_%s".formatted(UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
 
                 // spring.servlet.multipart.max-file-size=20KB
