@@ -1,7 +1,5 @@
 package br.com.sigvet.api.controller;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -42,7 +40,9 @@ import br.com.sigvet.api.core.exception.DomainInvalidException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Clientes")
 @RestController
 @RequestMapping("/api/customer")
@@ -55,6 +55,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
         @GetMapping("/getAll")
         @Override
         public ResponseEntity<PageModel<ClientResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
+                log.info("Entrando no método ClienteController::list", parametros);
                 var filter = new FilterModel(parametros);
                 var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
                 var clientesDTO = mapperManager.getDTOMapper().toClienteDTO(page.getContent());
