@@ -58,7 +58,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
         var veterinariosDTO = mapperManager.getDTOMapper().toVeterinarioDTO(page.getContent());
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
-        log.info("Saindo do método VeterinarioController::list", parametros);
+        log.info("Saindo do método VeterinarioController::list");
         return new ResponseEntity<>(new PageModel<>(veterinariosDTO, page), headers, HttpStatus.OK);
     }
 
@@ -68,7 +68,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
         log.info("Entrando no método VeterinarioController::get", id);
         var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
-        log.info("Saindo do método VeterinarioController::get", id);
+        log.info("Saindo do método VeterinarioController::get");
         return ResponseEntity.ok(baseResponse);
     }
 
@@ -80,7 +80,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
         var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(veterinarioToSave.getId());
         var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(veterinarioToSave));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.CREATED.value(), "Veterinario retornado", veterinarioDTO);
-        log.info("Saindo do método VeterinarioController::create", record);
+        log.info("Saindo do método VeterinarioController::create");
         return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
     }
 
@@ -90,7 +90,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
         log.info("Entrando no método VeterinarioController::put", id, record);
         VeterinarianResponseDTO veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
-        log.info("Saindo do método VeterinarioController::put", id, record);
+        log.info("Saindo do método VeterinarioController::put");
         return ResponseEntity.ok(baseResponse);
     }
 
@@ -100,7 +100,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
         log.info("Entrando no método VeterinarioController::delete", id);
         var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar veterinario", result, null);
-        log.info("Saindo do método VeterinarioController::delete", id);
+        log.info("Saindo do método VeterinarioController::delete");
         return ResponseEntity.ok(baseResponse);
     }
     

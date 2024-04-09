@@ -56,7 +56,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
                 var vacinasDTO = mapperManager.getDTOMapper().toVacinaDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
-                log.info("Saindo do método VacinaController::list", parametros);
+                log.info("Saindo do método VacinaController::list");
                 return new ResponseEntity<>(new PageModel<>(vacinasDTO, page), headers, HttpStatus.OK);
         }
 
@@ -66,7 +66,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
                 log.info("Entrando no método VacinaController::get", id);
                 var vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
-                log.info("Saindo do método VacinaController::get", id);
+                log.info("Saindo do método VacinaController::get");
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -78,7 +78,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(vacinaToSave.getId());  
                 var vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(vacinaToSave));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true,  HttpStatus.CREATED.value(), "Vacina retornado", vacinaDTO);
-                log.info("Saindo do método VacinaController::create", record);
+                log.info("Saindo do método VacinaController::create");
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
 
@@ -88,7 +88,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
                 log.info("Entrando no método VacinaController::put", id, record);
                 VaccineResponseDTO vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
-                log.info("Saindo do método VacinaController::put", id, record);
+                log.info("Saindo do método VacinaController::put");
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -98,7 +98,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
                 log.info("Entrando no método VacinaController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
-                log.info("Saindo do método VacinaController::delete", id);
+                log.info("Saindo do método VacinaController::delete");
                 return ResponseEntity.ok(baseResponse);
         }
 

@@ -61,7 +61,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 var clientesDTO = mapperManager.getDTOMapper().toClienteDTO(page.getContent());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
-                log.info("Saindo do método ClienteController::list", parametros);
+                log.info("Saindo do método ClienteController::list");
                 return new ResponseEntity<>(new PageModel<>(clientesDTO, page), headers, HttpStatus.OK);
         }
       
@@ -71,7 +71,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 log.info("Entrando no método ClienteController::get", id);
                 var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
-                log.info("Saindo do método ClienteController::get", id);
+                log.info("Saindo do método ClienteController::get");
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -83,7 +83,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(clienteToSave.getId());  
                 var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(clienteToSave));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true,  HttpStatus.CREATED.value(), "Cliente retornado", clienteDTO);
-                log.info("Saindo do método ClienteController::create", record);
+                log.info("Saindo do método ClienteController::create");
                 return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
         }
 
@@ -93,7 +93,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 log.info("Entrando no método ClienteController::put", id, record);
                 ClientResponseDTO clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
-                log.info("Saindo do método ClienteController::put", id, record);
+                log.info("Saindo do método ClienteController::put");
                 return ResponseEntity.ok(baseResponse);
         }
 
@@ -103,7 +103,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 log.info("Entrando no método ClienteController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);
-                log.info("Saindo do método ClienteController::delete", id);
+                log.info("Saindo do método ClienteController::delete");
                 return ResponseEntity.ok(baseResponse);
         }
 
