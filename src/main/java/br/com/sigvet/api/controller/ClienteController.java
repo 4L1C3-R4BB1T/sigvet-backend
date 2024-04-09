@@ -109,10 +109,10 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 return ResponseEntity.ok(baseResponse);
         }
 
-        @PostMapping(value = "/upload-photo/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        @PostMapping(value = "/upload-photo/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
         public ResponseEntity<byte[]> update(@PathVariable Long id, @Valid UploadPhotoRequestDTO uploadPhotoRequestDTO) {
                 byte[] bytes = clienteUploadPhotoService.save(id, uploadPhotoRequestDTO);
-                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
+                return ResponseEntity.ok().body(bytes);
         }
 
         @GetMapping(value = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
