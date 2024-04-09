@@ -1,7 +1,6 @@
 package br.com.sigvet.api.application.usecase.impl.vacina;
 
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVaccineGateway;
@@ -16,8 +15,7 @@ public class DeletarVacinaUseCase implements IDeletarUseCase<Vacina> {
     }
 
     @Override
-    public boolean executar(Long id)
-            throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+    public boolean executar(Long id) throws DomainInvalidException, VacinaNotFoundException {
        return vacinaGateway.delete(id);
     }
 

@@ -78,7 +78,6 @@ public class ClienteGateway implements IClientGateway {
         
         return clienteMapper.fromEntityToDomain(clienteEntity);
     }
-    
 
     @Override
     public Page<Cliente> findAll(FilterModel filter) {
@@ -111,8 +110,7 @@ public class ClienteGateway implements IClientGateway {
 
     @Transactional
     @Override
-    public Cliente update(Long id, Cliente source)
-            throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+    public Cliente update(Long id, Cliente source) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
@@ -175,7 +173,6 @@ public class ClienteGateway implements IClientGateway {
         }
     }
     
-
     @Override
     public Specification<ClienteEntity> buildSpecification(FilterModel filterModel) {
         Specification<ClienteEntity> spec = Specification.where((root, query, cb) -> cb.equal(root.get("deleted"), false));

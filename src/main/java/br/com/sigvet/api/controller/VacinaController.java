@@ -22,9 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.sigvet.api.application.dto.vacina.CreateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.UpdateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.VaccineResponseDTO;
-import br.com.sigvet.api.application.exception.CidadeNotFoundException;
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.application.mapper.vacina.VacinaDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
@@ -64,7 +62,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
 
         @GetMapping("/get/{id}")
         @Override
-        public ResponseEntity<BaseResponse<VaccineResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<VaccineResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, VacinaNotFoundException {
                 log.info("Entrando no método VacinaController::get", id);
                 var vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
@@ -74,7 +72,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
 
         @PostMapping("/create")
         @Override
-        public ResponseEntity<BaseResponse<VaccineResponseDTO>> create(@RequestBody @Valid CreateVaccineRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
+        public ResponseEntity<BaseResponse<VaccineResponseDTO>> create(@RequestBody @Valid CreateVaccineRequestDTO record) throws DomainInvalidException {
                 log.info("Entrando no método VacinaController::create", record);
                 var vacinaToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
                 var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(vacinaToSave.getId());  
@@ -86,7 +84,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
 
         @PutMapping("/update/{id}")
         @Override
-        public ResponseEntity<BaseResponse<VaccineResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVaccineRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+        public ResponseEntity<BaseResponse<VaccineResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVaccineRequestDTO record) throws DomainInvalidException {
                 log.info("Entrando no método VacinaController::put", id, record);
                 VaccineResponseDTO vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);
@@ -96,7 +94,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
 
         @DeleteMapping("/delete/{id}")
         @Override
-        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws DomainInvalidException, VacinaNotFoundException {
                 log.info("Entrando no método VacinaController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);

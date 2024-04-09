@@ -37,7 +37,9 @@ import br.com.sigvet.api.core.exception.DomainInvalidException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Veterinários")
 @RestController
 @RequestMapping("/api/veterinarian")
@@ -50,46 +52,55 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
     @GetMapping("/getAll")
     @Override
     public ResponseEntity<PageModel<VeterinarianResponseDTO>> list(@RequestParam Map<String, String> parametros) throws DomainInvalidException {
+        log.info("Entrando no método VeterinarioController::list", parametros);
         var filter = new FilterModel(parametros);
         var page = domainObjectUseCaseManager.getListarUseCase().executar(filter);
         var veterinariosDTO = mapperManager.getDTOMapper().toVeterinarioDTO(page.getContent());
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS));
+        log.info("Saindo do método VeterinarioController::list", parametros);
         return new ResponseEntity<>(new PageModel<>(veterinariosDTO, page), headers, HttpStatus.OK);
     }
-
 
     @GetMapping("/get/{id}")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+        log.info("Entrando no método VeterinarioController::get", id);
         var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
+        log.info("Saindo do método VeterinarioController::get", id);
         return ResponseEntity.ok(baseResponse);
     }
 
     @PostMapping("/create")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> create(@RequestBody @Valid CreateVeterinarianRequestDTO record) throws DomainInvalidException, CidadeNotFoundException, UsuarioExistsException {
+        log.info("Entrando no método VeterinarioController::create", record);
         var veterinarioToSave = mapperManager.getMapper().fromCriarModelToDomain(record);
         var uriBuilder = UriComponentsBuilder.fromUriString("/{id}").buildAndExpand(veterinarioToSave.getId());
         var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getCadastrarUseCase().executar(veterinarioToSave));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.CREATED.value(), "Veterinario retornado", veterinarioDTO);
+        log.info("Saindo do método VeterinarioController::create", record);
         return ResponseEntity.created(uriBuilder.toUri()).body(baseResponse);
     }
 
     @PutMapping("/update/{id}")
     @Override
     public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVeterinarianRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+        log.info("Entrando no método VeterinarioController::put", id, record);
         VeterinarianResponseDTO veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
+        log.info("Saindo do método VeterinarioController::put", id, record);
         return ResponseEntity.ok(baseResponse);
     }
 
     @DeleteMapping("/delete/{id}")
     @Override
     public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+        log.info("Entrando no método VeterinarioController::delete", id);
         var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar veterinario", result, null);
+        log.info("Saindo do método VeterinarioController::delete", id);
         return ResponseEntity.ok(baseResponse);
     }
     

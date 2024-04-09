@@ -5,6 +5,7 @@ import static br.com.sigvet.api.infrastructure.utils.Utilities.logger;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.api.application.builder.EntitySpecification;
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.vacina.VacinaMapper;
 import br.com.sigvet.api.application.model.FilterModel;
@@ -33,7 +32,7 @@ public class VacinaGateway implements IVaccineGateway {
     
     @Transactional
     @Override
-    public Vacina save(Vacina record) throws DomainInvalidException, UsuarioExistsException {
+    public Vacina save(Vacina record) throws DomainInvalidException {
         var vacinaSaved = vacinaJpaRepository.save(vacinaMapper.fromDomainToEntity(record));
         vacinaSaved.setLote("ALOTE" + vacinaSaved.getId());
         vacinaJpaRepository.save(vacinaSaved);
@@ -41,7 +40,7 @@ public class VacinaGateway implements IVaccineGateway {
     }
 
     @Override
-    public Vacina findById(Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
+    public Vacina findById(Long id) throws DomainInvalidException, VacinaNotFoundException {
        return vacinaMapper.fromEntityToDomain(buscarVacinaPorId(id));
     }
 
@@ -76,7 +75,7 @@ public class VacinaGateway implements IVaccineGateway {
 
     @Transactional
     @Override
-    public Vacina update(Long id, Vacina source) throws DomainInvalidException {
+    public Vacina update(Long id, Vacina source) throws DomainInvalidException, VacinaNotFoundException {
         var vacinaSaved = buscarVacinaPorId(id);
 
         vacinaSaved.setEstoque(source.getEstoque());
@@ -92,18 +91,17 @@ public class VacinaGateway implements IVaccineGateway {
 
     @Transactional
     @Override
-    public boolean delete(Long id) throws UsuarioExistsException {
-        logger.info("Entrando no método ClienteGateway::delete com id " + id);
+    public boolean delete(Long id) throws VacinaNotFoundException {
+        logger.info("Entrando no método VacinaGateway::delete com id " + id);
         try {
             buscarVacinaPorId(id);
             vacinaJpaRepository.deleteById(id);
             logger.info("A entidade com id " + id + " foi deletada");
             return true;
         } catch (Exception ex) {
-            logger.error("Erro ao excluir a entidade cliente com o id " + id, ex);
+            logger.error("Erro ao excluir a entidade vacina com o id " + id, ex);
             return false;
         }
-
     }
 
     @Override
@@ -124,4 +122,5 @@ public class VacinaGateway implements IVaccineGateway {
         return Optional.ofNullable(vacinaJpaRepository.findVacinaByIdAndNotDeleted(id))
                 .orElseThrow(() -> new VacinaNotFoundException("Vacina não encontrado"));
     }
+
 }
