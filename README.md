@@ -6,7 +6,7 @@ O SIGVet consiste em um Sistema de Gerenciamento para Clínicas Veterinárias.
 
 ---
 
-## Instalação
+## ⚙️ Como executar o projeto
 
 Clone esse repositório, logo após entre na pasta do projeto e execute o comando abaixo:
 
