@@ -62,13 +62,11 @@ public class VeterinarioGateway implements IVeterinarianGateway {
         validarEmailExistente(record.getEmail());
         validarCpfUnico(record.getCpf().getValor());
         validarUsuarioExistente(record.getUsuario());
-
-    
         
         // Converte o veterinario em uma entidade e salva no repositório
         VeterinarioEntity veterinarioEntity = veterinarioJpaRepository.save(veterinarioMapper.fromDomainToEntity(record));
         
-        logger.info("Saíndo do método VeterinarioGateway::save");
+        logger.info("Saindo do método VeterinarioGateway::save");
         
         // Converte a entidade salva de volta para um objeto Veterinario e retorna
         return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
@@ -88,7 +86,6 @@ public class VeterinarioGateway implements IVeterinarianGateway {
         
         return veterinarioMapper.fromEntityToDomain(veterinarioEntity);
     }
-    
 
     @Override
     public Page<Veterinario> findAll(FilterModel filter) {
@@ -177,7 +174,6 @@ public class VeterinarioGateway implements IVeterinarianGateway {
             veterinarioEntity.setEndereco(enderecoMapper.toEntity(endereco, veterinarioEntity, cidadeEntity));
         }
 
-
         // Salva as alterações no repositório
         veterinarioJpaRepository.saveAndFlush(veterinarioEntity);
 
@@ -198,7 +194,6 @@ public class VeterinarioGateway implements IVeterinarianGateway {
             return false;
         }
     }
-    
 
     @Override
     public Specification<VeterinarioEntity> buildSpecification(FilterModel filterModel) {

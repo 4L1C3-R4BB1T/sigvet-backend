@@ -1,8 +1,6 @@
 package br.com.sigvet.api.application.usecase.impl.vacina;
 
-
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Vacina;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVaccineGateway;
@@ -17,8 +15,7 @@ public class AtualizarVacinaUseCase implements IAtualizarUseCase<Vacina> {
     }
 
     @Override
-    public Vacina executar(Long id, Vacina type)
-            throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+    public Vacina executar(Long id, Vacina type) throws DomainInvalidException, VacinaNotFoundException {
         return vacinaGateway.update(id, type);
     }
 
