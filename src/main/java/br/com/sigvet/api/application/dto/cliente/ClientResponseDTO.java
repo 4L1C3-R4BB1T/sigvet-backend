@@ -12,6 +12,7 @@ public record ClientResponseDTO(
         String usuario,
         String email,
         String nome,
+        String photo,
         String cpf,
         String telefone,
         AddressResponseDTO endereco,

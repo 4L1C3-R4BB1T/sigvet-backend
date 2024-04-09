@@ -12,14 +12,14 @@ import br.com.sigvet.api.core.domain.entities.Cliente;
 
 @Mapper
 public interface ClienteDTOMapper {
+
     
     ClienteDTOMapper MAPPER = Mappers.getMapper(ClienteDTOMapper.class );
     
     @Mappings({
        @Mapping(target = "cpf", source="cpf.valor"),
        @Mapping(target = "endereco.cidade", source = "endereco.cidade.nome"),
-       @Mapping(target = "endereco.estado", source = "endereco.cidade.uf.sigla"),
-        
+       @Mapping(target = "endereco.estado", source = "endereco.cidade.uf.sigla"), 
     })
     ClientResponseDTO toClienteDTO(Cliente source);
 

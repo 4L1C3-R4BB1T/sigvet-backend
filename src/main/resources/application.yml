@@ -1,4 +1,3 @@
-
 spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/sigvet
@@ -13,3 +12,5 @@ spring:
     h2:
         console:
             enabled: false
+    servlet:
+        multipart.max-file-size: 5MB

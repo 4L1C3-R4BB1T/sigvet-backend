@@ -1,7 +1,6 @@
 package br.com.sigvet.api.controller;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.CacheControl;
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.sigvet.api.application.dto.UploadPhotoRequestDTO;
 import br.com.sigvet.api.application.dto.cliente.ClientResponseDTO;
 import br.com.sigvet.api.application.dto.cliente.CreateClientRequestDTO;
 import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
@@ -33,6 +32,7 @@ import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.FilterModel;
 import br.com.sigvet.api.application.model.PageModel;
+import br.com.sigvet.api.application.service.base.IClienteUploadPhotoService;
 import br.com.sigvet.api.controller.base.BaseCrudController;
 import br.com.sigvet.api.controller.base.MapperManager;
 import br.com.sigvet.api.core.domain.entities.Cliente;
@@ -51,6 +51,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ClienteController extends BaseCrudController<Cliente, CreateClientRequestDTO, UpdateClientRequestDTO, ClientResponseDTO> {
 
         private final MapperManager<IClienteMapper, ClienteDTOMapper> mapperManager;
+
+        private final IClienteUploadPhotoService clienteUploadPhotoService;
 
         @GetMapping("/getAll")
         @Override
@@ -101,14 +103,15 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
                 return ResponseEntity.ok(baseResponse);
         }
 
-        @PutMapping(value = "/photo-upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-        public void update(@PathVariable Long id, @RequestParam MultipartFile multipartFile) {
-                // Se criar uma classe personalizadan ão é necessário colocar o @RequestParam
-                String fileName = "%s_%s".formatted(UUID.randomUUID().toString(), multipartFile.getOriginalFilename());
+        @PostMapping(value = "/upload-photo/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ResponseEntity<byte[]> update(@PathVariable Long id, @Valid UploadPhotoRequestDTO uploadPhotoRequestDTO) {
+                byte[] bytes = clienteUploadPhotoService.save(id, uploadPhotoRequestDTO);
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
+        }
 
-                // spring.servlet.multipart.max-file-size=20KB
-                // spring.servlet.multipart.max-request-size=20MB
-        
+        @GetMapping(value = "/{id}/photo", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+        public ResponseEntity<byte[]> update(@PathVariable Long id) {
+                return ResponseEntity.ok(clienteUploadPhotoService.getPhoto(id));
         }
 
 }
