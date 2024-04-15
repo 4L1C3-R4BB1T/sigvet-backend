@@ -11,10 +11,12 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.model.BaseResponse;
 import br.com.sigvet.api.application.model.BaseResponse.ErrorResponse;
 import br.com.sigvet.api.application.model.BaseResponse.ValidationError;
@@ -43,4 +45,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         BaseResponse<Void> baseResponse = new BaseResponse<>(false, HttpStatus.BAD_REQUEST.value(), "Campos inválidos", errorResponse);
 		return ResponseEntity.badRequest().body(baseResponse);
 	}
+
+    @ExceptionHandler({ VacinaNotFoundException.class })
+    public ResponseEntity<BaseResponse<Void>> handleVacinaNotFoundException(VacinaNotFoundException ex) {
+        BaseResponse<Void> baseResponse = new BaseResponse<>(false, HttpStatus.BAD_REQUEST.value(), "Vacina não encontrada", null);
+        return ResponseEntity.badRequest().body(baseResponse);
+    }
 }

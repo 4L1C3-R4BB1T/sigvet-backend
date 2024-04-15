@@ -22,6 +22,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.sigvet.api.application.dto.vacina.CreateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.UpdateVaccineRequestDTO;
 import br.com.sigvet.api.application.dto.vacina.VaccineResponseDTO;
+import br.com.sigvet.api.application.exception.CidadeNotFoundException;
+import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
 import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IVacinaMapper;
 import br.com.sigvet.api.application.mapper.vacina.VacinaDTOMapper;
@@ -84,7 +87,7 @@ public class VacinaController extends BaseCrudController<Vacina, CreateVaccineRe
 
         @PutMapping("/update/{id}")
         @Override
-        public ResponseEntity<BaseResponse<VaccineResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVaccineRequestDTO record) throws DomainInvalidException {
+        public ResponseEntity<BaseResponse<VaccineResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVaccineRequestDTO record) throws DomainInvalidException, UsuarioExistsException, UsuarioNotFoundException, CidadeNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método VacinaController::put", id, record);
                 VaccineResponseDTO vacinaDTO = mapperManager.getDTOMapper().toVacinaDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<VaccineResponseDTO>(true, HttpStatus.OK.value(), "Vacina retornado", vacinaDTO);

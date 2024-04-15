@@ -25,6 +25,7 @@ import br.com.sigvet.api.application.dto.veterinario.VeterinarianResponseDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IVeterinarioMapper;
 import br.com.sigvet.api.application.mapper.veterinario.VeterinarioDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
@@ -64,7 +65,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
 
     @GetMapping("/get/{id}")
     @Override
-    public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+    public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         log.info("Entrando no método VeterinarioController::get", id);
         var veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
@@ -86,7 +87,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
 
     @PutMapping("/update/{id}")
     @Override
-    public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVeterinarianRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+    public ResponseEntity<BaseResponse<VeterinarianResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateVeterinarianRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException, CidadeNotFoundException, VacinaNotFoundException {
         log.info("Entrando no método VeterinarioController::put", id, record);
         VeterinarianResponseDTO veterinarioDTO = mapperManager.getDTOMapper().toVeterinarioDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
         var baseResponse = new BaseResponse<VeterinarianResponseDTO>(true, HttpStatus.OK.value(), "Veterinario retornado", veterinarioDTO);
@@ -96,7 +97,7 @@ public class VeterinarioController extends BaseCrudController<Veterinario, Creat
 
     @DeleteMapping("/delete/{id}")
     @Override
-    public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+    public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         log.info("Entrando no método VeterinarioController::delete", id);
         var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
         var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Operação de deletar veterinario", result, null);

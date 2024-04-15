@@ -1,7 +1,5 @@
 package  br.com.sigvet.api.application.usecase.impl.cliente;
 
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClientGateway;
@@ -16,7 +14,7 @@ public class DeletarClienteUseCase implements IDeletarUseCase<Cliente> {
     }
 
     @Override
-    public boolean executar(Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+    public boolean executar(Long id) throws DomainInvalidException {
         clienteGateway.findById(id);
         return clienteGateway.delete(id);
     }

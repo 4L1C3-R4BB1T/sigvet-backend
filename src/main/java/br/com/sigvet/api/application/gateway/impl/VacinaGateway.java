@@ -4,7 +4,6 @@ import static br.com.sigvet.api.infrastructure.utils.Utilities.logger;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -92,16 +91,11 @@ public class VacinaGateway implements IVaccineGateway {
     @Transactional
     @Override
     public boolean delete(Long id) throws VacinaNotFoundException {
-        logger.info("Entrando no método VacinaGateway::delete com id " + id);
-        try {
-            buscarVacinaPorId(id);
-            vacinaJpaRepository.deleteById(id);
-            logger.info("A entidade com id " + id + " foi deletada");
-            return true;
-        } catch (Exception ex) {
-            logger.error("Erro ao excluir a entidade vacina com o id " + id, ex);
-            return false;
-        }
+        logger.info("Entrando no método VacinaGateway::delete com id %d".formatted(id));
+        buscarVacinaPorId(id);
+        vacinaJpaRepository.deleteById(id);
+        logger.info("A entidade com id " + id + " foi deletada");
+        return true;
     }
 
     @Override
@@ -118,9 +112,8 @@ public class VacinaGateway implements IVaccineGateway {
     }
     
     public VacinaEntity buscarVacinaPorId(Long id) throws VacinaNotFoundException {
-        logger.info("Entrando no método VacinaGateway::buscarVacinaPorId com id " + id);
-        return Optional.ofNullable(vacinaJpaRepository.findVacinaByIdAndNotDeleted(id))
-                .orElseThrow(() -> new VacinaNotFoundException("Vacina não encontrado"));
+        logger.info("Entrando no método VacinaGateway::buscarVacinaPorId com id %d".formatted(id));
+        return vacinaJpaRepository.findVacinaByIdAndNotDeleted(id).orElseThrow(VacinaNotFoundException::new);
     }
 
 }

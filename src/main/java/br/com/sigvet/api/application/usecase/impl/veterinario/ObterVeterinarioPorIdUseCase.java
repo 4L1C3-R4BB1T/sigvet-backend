@@ -2,6 +2,7 @@ package br.com.sigvet.api.application.usecase.impl.veterinario;
 
 
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarianGateway;
@@ -16,7 +17,7 @@ public class ObterVeterinarioPorIdUseCase implements IObterPorIdUseCase<Veterina
     }
 
     @Override
-    public Veterinario executar(Long id) throws DomainInvalidException, UsuarioNotFoundException {
+    public Veterinario executar(Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         return veterinarioGateway.findById(id);
     }
 }

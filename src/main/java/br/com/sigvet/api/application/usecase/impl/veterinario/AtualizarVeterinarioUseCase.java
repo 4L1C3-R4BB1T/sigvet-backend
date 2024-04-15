@@ -1,6 +1,7 @@
 package br.com.sigvet.api.application.usecase.impl.veterinario;
 
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
@@ -16,7 +17,7 @@ public class AtualizarVeterinarioUseCase implements IAtualizarUseCase<Veterinari
     }
 
     @Override
-    public Veterinario executar(Long id, Veterinario veterinario) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+    public Veterinario executar(Long id, Veterinario veterinario) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         return veterinarioGateway.update(id, veterinario);
     }
 

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IClienteMapper;
 import br.com.sigvet.api.application.mapper.cliente.ClienteDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
@@ -48,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/customer")
 @Validated
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ClienteController extends BaseCrudController<Cliente, CreateClientRequestDTO, UpdateClientRequestDTO, ClientResponseDTO> {
 
         private final MapperManager<IClienteMapper, ClienteDTOMapper> mapperManager;
@@ -69,9 +72,9 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
       
         @GetMapping("/get/{id}")
         @Override
-        public ResponseEntity<BaseResponse<ClientResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<ClientResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método ClienteController::get", id);
-                var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
+                var clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id), clienteUploadPhotoService);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
                 log.info("Saindo do método ClienteController::get");
                 return ResponseEntity.ok(baseResponse);
@@ -91,7 +94,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
 
         @PutMapping("/update/{id}")
         @Override
-        public ResponseEntity<BaseResponse<ClientResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateClientRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+        public ResponseEntity<BaseResponse<ClientResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateClientRequestDTO record) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException, CidadeNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método ClienteController::put", id, record);
                 ClientResponseDTO clienteDTO = mapperManager.getDTOMapper().toClienteDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<ClientResponseDTO>(true, HttpStatus.OK.value(), "Cliente retornado", clienteDTO);
@@ -101,7 +104,7 @@ public class ClienteController extends BaseCrudController<Cliente, CreateClientR
 
         @DeleteMapping("/delete/{id}")
         @Override
-        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método ClienteController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);

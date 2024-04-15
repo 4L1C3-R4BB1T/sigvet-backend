@@ -26,6 +26,7 @@ import br.com.sigvet.api.application.dto.animal.UpdateAnimalRequestDTO;
 import br.com.sigvet.api.application.exception.CidadeNotFoundException;
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.animal.AnimalDTOMapper;
 import br.com.sigvet.api.application.mapper.base.IAnimalMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
@@ -64,7 +65,7 @@ public class AnimalController extends BaseCrudController<Animal, CreateAnimalReq
 
         @GetMapping("/get/{id}")
         @Override
-        public ResponseEntity<BaseResponse<AnimalResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<AnimalResponseDTO>> get(@PathVariable Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método AnimalController::get", id);
                 var clienteDTO = mapperManager.getDTOMapper().toAnimalDTO(domainObjectUseCaseManager.getObterPorIdUseCase().executar(id));
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
@@ -86,7 +87,7 @@ public class AnimalController extends BaseCrudController<Animal, CreateAnimalReq
 
         @PutMapping("/update/{id}")
         @Override
-        public ResponseEntity<BaseResponse<AnimalResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateAnimalRequestDTO record) throws UsuarioExistsException, UsuarioNotFoundException, CidadeNotFoundException, DomainInvalidException {
+        public ResponseEntity<BaseResponse<AnimalResponseDTO>> put(@PathVariable Long id, @RequestBody UpdateAnimalRequestDTO record) throws UsuarioExistsException, UsuarioNotFoundException, CidadeNotFoundException, DomainInvalidException, VacinaNotFoundException {
                 log.info("Entrando no método AnimalController::put", id, record);
                 AnimalResponseDTO clienteDTO = mapperManager.getDTOMapper().toAnimalDTO(domainObjectUseCaseManager.getAtualizarUseCase().executar(id, mapperManager.getMapper().fromAtualizarModelToDomain(record)));
                 var baseResponse = new BaseResponse<AnimalResponseDTO>(true, HttpStatus.OK.value(), "Animal retornado", clienteDTO);
@@ -96,7 +97,7 @@ public class AnimalController extends BaseCrudController<Animal, CreateAnimalReq
         
         @DeleteMapping("/delete/{id}")
         @Override
-        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException {
+        public ResponseEntity<BaseResponse<Boolean>> delete(@PathVariable Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
                 log.info("Entrando no método AnimalController::delete", id);
                 var result = domainObjectUseCaseManager.getDeletarUseCase().executar(id);
                 var baseResponse = new BaseResponse<>(true, HttpStatus.OK.value(), "Resposta de sucesso retornada", result);

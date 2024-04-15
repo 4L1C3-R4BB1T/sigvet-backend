@@ -1,6 +1,7 @@
 package  br.com.sigvet.api.application.usecase.impl.cliente;
 
 import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Cliente;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IClientGateway;
@@ -15,7 +16,7 @@ public class ObterClientePorIdUseCase implements IObterPorIdUseCase<Cliente> {
     }
 
     @Override
-    public Cliente executar(Long id) throws DomainInvalidException, UsuarioNotFoundException {
+    public Cliente executar(Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
         return clienteGateway.findById(id);
     }
     

@@ -1,8 +1,8 @@
-package br.com.sigvet.api.usecase.vacinacao;
+package  br.com.sigvet.api.usecase.vacinacao;
 
 import br.com.sigvet.api.core.domain.entities.Vacinacao;
-import br.com.sigvet.api.core.exception.DomainInvalidException;
+import br.com.sigvet.api.usecase.base.ICadastrarUseCase;
 
-public interface IAgendarVacinacaoUseCase {
-    Vacinacao executar(Vacinacao vacinacao) throws DomainInvalidException;
+public interface IAgendarVacinacaoUseCase extends ICadastrarUseCase<Vacinacao> {
+    
 }

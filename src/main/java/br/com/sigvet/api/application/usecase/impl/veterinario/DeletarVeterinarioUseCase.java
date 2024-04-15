@@ -2,6 +2,7 @@ package br.com.sigvet.api.application.usecase.impl.veterinario;
 
 
 import br.com.sigvet.api.application.exception.UsuarioExistsException;
+import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.core.domain.entities.Veterinario;
 import br.com.sigvet.api.core.exception.DomainInvalidException;
 import br.com.sigvet.api.gateway.IVeterinarianGateway;
@@ -16,7 +17,7 @@ public class DeletarVeterinarioUseCase implements IDeletarUseCase<Veterinario> {
     }
 
     @Override
-    public boolean executar(Long id) throws UsuarioExistsException, DomainInvalidException {
+    public boolean executar(Long id) throws UsuarioExistsException, DomainInvalidException, VacinaNotFoundException {
         return veterinarioGateway.delete(id);
     }
 

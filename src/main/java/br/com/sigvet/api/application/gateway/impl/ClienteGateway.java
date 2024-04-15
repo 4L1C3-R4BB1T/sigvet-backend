@@ -44,7 +44,7 @@ public class ClienteGateway implements IClientGateway {
 
     @Transactional
     @Override
-    public Cliente save(Cliente record) throws DomainInvalidException, UsuarioExistsException {
+    public Cliente save(Cliente record) throws DomainInvalidException {
         logger.info("Entrando no método ClienteGateway::save", record);
         
         // Verifica se o cliente fornecido não é nulo
@@ -65,7 +65,7 @@ public class ClienteGateway implements IClientGateway {
     }
 
     @Override
-    public Cliente findById(Long id) throws DomainInvalidException, UsuarioNotFoundException {
+    public Cliente findById(Long id) throws DomainInvalidException {
         // Verifica se o ID fornecido não é nulo
         Assert.notNull(id, "O id não pode ser nulo");
         
@@ -110,7 +110,7 @@ public class ClienteGateway implements IClientGateway {
 
     @Transactional
     @Override
-    public Cliente update(Long id, Cliente source) throws UsuarioNotFoundException, UsuarioExistsException, DomainInvalidException {
+    public Cliente update(Long id, Cliente source) throws DomainInvalidException {
         Assert.notNull(id, "O id não pode ser nulo");
         Assert.notNull(source, "O cliente fornecido não pode ser nulo");
 
