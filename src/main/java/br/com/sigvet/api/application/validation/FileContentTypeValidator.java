@@ -2,7 +2,6 @@ package br.com.sigvet.api.application.validation;
 
 import java.util.Arrays;
 
-import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.ConstraintValidator;

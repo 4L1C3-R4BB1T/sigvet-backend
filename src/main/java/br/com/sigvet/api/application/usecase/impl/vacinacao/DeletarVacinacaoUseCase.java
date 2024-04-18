@@ -17,8 +17,7 @@ public class DeletarVacinacaoUseCase implements IDeletarUseCase<Vacinacao> {
     }
 
     @Override
-    public boolean executar(Long id)
-            throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
+    public boolean executar(Long id) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
        return vacinacaoGateway.delete(id);
     }
 

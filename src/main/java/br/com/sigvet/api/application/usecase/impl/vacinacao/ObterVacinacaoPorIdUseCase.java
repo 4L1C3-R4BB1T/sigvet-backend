@@ -10,8 +10,7 @@ import br.com.sigvet.api.usecase.base.IObterPorIdUseCase;
 public class ObterVacinacaoPorIdUseCase implements IObterPorIdUseCase<Vacinacao> {
 
     @Override
-    public Vacinacao executar(Long id)
-            throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
+    public Vacinacao executar(Long id) throws DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
        return null;
     }
     

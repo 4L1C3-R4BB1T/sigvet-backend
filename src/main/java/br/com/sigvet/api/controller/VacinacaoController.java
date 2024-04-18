@@ -6,30 +6,15 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sigvet.api.application.dto.UploadPhotoRequestDTO;
-import br.com.sigvet.api.application.dto.cliente.ClientResponseDTO;
-import br.com.sigvet.api.application.dto.cliente.CreateClientRequestDTO;
-import br.com.sigvet.api.application.dto.cliente.UpdateClientRequestDTO;
 import br.com.sigvet.api.application.dto.vacinacao.AgendarVacinacaoRequestDTO;
 import br.com.sigvet.api.application.dto.vacinacao.VacinacaoResponseDTO;
-import br.com.sigvet.api.application.exception.CidadeNotFoundException;
-import br.com.sigvet.api.application.exception.UsuarioExistsException;
-import br.com.sigvet.api.application.exception.UsuarioNotFoundException;
-import br.com.sigvet.api.application.exception.VacinaNotFoundException;
 import br.com.sigvet.api.application.mapper.base.IVacinacaoMapper;
 import br.com.sigvet.api.application.mapper.vacinacao.VacinacaoDTOMapper;
 import br.com.sigvet.api.application.model.BaseResponse;
@@ -45,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Tag(name = "Vacinacaos")
+@Tag(name = "Vacinacoes")
 @RestController
 @RequestMapping("/api/vacinacao")
 @Validated
@@ -68,8 +53,7 @@ public class VacinacaoController extends BaseCrudController<Vacinacao, AgendarVa
         }
 
         @Override
-        public ResponseEntity<BaseResponse<VacinacaoResponseDTO>> create(@Valid AgendarVacinacaoRequestDTO record)
-                        throws Exception {
+        public ResponseEntity<BaseResponse<VacinacaoResponseDTO>> create(@Valid AgendarVacinacaoRequestDTO record) throws Exception {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'create'");
         }

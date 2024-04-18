@@ -5,8 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.http.MediaType;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

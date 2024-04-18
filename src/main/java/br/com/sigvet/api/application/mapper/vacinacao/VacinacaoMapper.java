@@ -62,21 +62,20 @@ public class VacinacaoMapper implements IVacinacaoMapper {
 
     @Override
     public Vacinacao fromCriarModelToDomain(AgendarVacinacaoRequestDTO source) throws DomainInvalidException, CidadeNotFoundException {
-        
-       var animalEntity = Optional.ofNullable(animalJpaRepository.findAnimalByIdAndNotDeleted(source.animalId())).orElseThrow(AnimalNotFoundException::new);
-       var veterinarioEntity = Optional.ofNullable(veterinarioJpaRepository.findVeterinarioByIdAndNotDeleted(source.veterinarioId())).orElseThrow(UsuarioNotFoundException::new);
-       var vacinaEntity = vacinaJpaRepository.findVacinaByIdAndNotDeleted(source.vacinaId()).orElseThrow(VacinaNotFoundException::new);
+        var animalEntity = Optional.ofNullable(animalJpaRepository.findAnimalByIdAndNotDeleted(source.animalId())).orElseThrow(AnimalNotFoundException::new);
+        var veterinarioEntity = Optional.ofNullable(veterinarioJpaRepository.findVeterinarioByIdAndNotDeleted(source.veterinarioId())).orElseThrow(UsuarioNotFoundException::new);
+        var vacinaEntity = vacinaJpaRepository.findVacinaByIdAndNotDeleted(source.vacinaId()).orElseThrow(VacinaNotFoundException::new);
 
-       return new Vacinacao( 
-        source.dataHorario(), 
-        veterinarioMapper.fromEntityToDomain(veterinarioEntity), 
-        vacinaMapper.fromEntityToDomain(vacinaEntity),
-        animalMapper.fromEntityToDomain(animalEntity));
+        return new Vacinacao( 
+            source.dataHorario(), 
+            veterinarioMapper.fromEntityToDomain(veterinarioEntity), 
+            vacinaMapper.fromEntityToDomain(vacinaEntity),
+            animalMapper.fromEntityToDomain(animalEntity));
     }
 
     @Override
     public Vacinacao fromAtualizarModelToDomain(Object source) throws DomainInvalidException, CidadeNotFoundException {
-       return null;
+        return null;
     }
     
 }

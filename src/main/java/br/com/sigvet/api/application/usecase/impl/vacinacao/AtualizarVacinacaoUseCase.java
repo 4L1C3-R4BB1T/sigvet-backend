@@ -11,8 +11,7 @@ import br.com.sigvet.api.usecase.base.IAtualizarUseCase;
 public class AtualizarVacinacaoUseCase implements IAtualizarUseCase<Vacinacao> {
 
     @Override
-    public Vacinacao executar(Long id, Vacinacao type)
-            throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
+    public Vacinacao executar(Long id, Vacinacao type) throws UsuarioExistsException, DomainInvalidException, UsuarioNotFoundException, VacinaNotFoundException {
        return null;
     }
     
