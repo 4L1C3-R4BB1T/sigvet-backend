@@ -1,16 +1,19 @@
 spring:
+    application:
+      name: sigvet-api
+
     datasource:
-        url: jdbc:postgresql://localhost:5432/sigvet
-        username: sigvet_user
-        password: sigvet_pass
-    
+        url: jdbc:postgresql://localhost:5432/sigvetdb
+        username: admin
+        password: admin
     jpa:
-        hibernate:
-            ddl-auto: none
-        show-sql: true
-          
+      hibernate:
+          ddl-auto: none
+      show-sql: true
+
+    flyway:
+      enabled: true
+
     h2:
         console:
             enabled: false
-    servlet:
-        multipart.max-file-size: 5MB

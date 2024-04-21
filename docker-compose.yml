@@ -1,23 +1,23 @@
 version: "3.8"
 
 services:
-    db:
-        container_name: postgres
-        image: postgres 
-        environment:
-            POSTGRES_USER: sigvet_user 
-            POSTGRES_PASSWORD: sigvet_pass 
-            POSTGRES_DB: sigvet
-        ports: 
-            - 5432:5432
 
-    db-client:
-        container_name: pgadmin 
-        image: dpage/pgadmin4
-        environment:
-            PGADMIN_DEFAULT_EMAIL: sigvet@sigvet.com 
-            PGADMIN_DEFAULT_PASSWORD: sigvet 
-        ports:
-            - 15000:80
-        depends_on:
-            - db
+  database:
+      container_name: database
+      image: postgres
+      environment:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: sigvetdb
+      ports:
+        - "5432:5432"
+
+
+  pgadmin:
+      container_name: pgadmin
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: admin
+      ports:
+        - "15000:80"
