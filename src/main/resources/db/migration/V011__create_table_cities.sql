@@ -1,10 +1,10 @@
 CREATE TABLE cities (
-    id          BIGSERIAL       NOT NULL,
-    name        VARCHAR(255)    NOT NULL,
-    state_id    CHAR(2)         NOT NULL,
-    created_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
-    updated_at   TIMESTAMP       NOT NULL DEFAULT NOW(),
-    deleted     BOOLEAN         DEFAULT  false,
+    id              BIGSERIAL       NOT NULL,
+    name            VARCHAR(255)    NOT NULL,
+    state_id        CHAR(2)         NOT NULL,
+    created_at      TIMESTAMP       NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMP       NOT NULL DEFAULT NOW(),
+    deleted         BOOLEAN         DEFAULT  false,
     CONSTRAINT pk_city
         PRIMARY KEY (id),
     CONSTRAINT fk_city_state
