@@ -25,4 +25,5 @@ public class StateEntity extends BaseEntity<String> {
 
     @Column(length = 255, nullable = false)
     private String name;
+    
 }

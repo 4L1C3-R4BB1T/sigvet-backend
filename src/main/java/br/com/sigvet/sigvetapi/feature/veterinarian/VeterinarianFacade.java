@@ -19,5 +19,4 @@ public class VeterinarianFacade extends CrudFacade<VeterinarianEntity> {
         super(createUseCase, deleteUseCase, updateUseCase, findAllUseCase, findByIdUseCase);
     }
 
-
 }

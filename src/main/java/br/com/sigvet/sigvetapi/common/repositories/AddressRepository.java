@@ -14,5 +14,4 @@ public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
     @Query(value = "DELETE FROM addresses a WHERE a.user_id = ?1", nativeQuery = true)
     void deleteByUserId(Long id);
 
-    
 }

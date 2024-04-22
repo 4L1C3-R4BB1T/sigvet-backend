@@ -23,7 +23,8 @@ public class FindAllClientsUseCase implements FindAllUseCase<ClientEntity> {
     }
 
     private Specification<ClientEntity> buildSpecification(FilterModel filterModel) {
-        Specification<ClientEntity> spec = Specification.where((root, query, cb) -> cb.equal(root.get("deleted"), false));
+        Specification<ClientEntity> spec = Specification
+                .where((root, query, cb) -> cb.equal(root.get("deleted"), false));
 
         for (var equalFilter : filterModel.getEqualFilters())
             spec = spec.and(EntitySpecification.equal(equalFilter, ClientEntity.class));
@@ -33,4 +34,5 @@ public class FindAllClientsUseCase implements FindAllUseCase<ClientEntity> {
 
         return spec;
     }
+    
 }

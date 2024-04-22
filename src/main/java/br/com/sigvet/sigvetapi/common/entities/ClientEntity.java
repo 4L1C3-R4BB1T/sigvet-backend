@@ -35,4 +35,5 @@ public class ClientEntity extends UserEntity  {
     @SQLRestriction("deleted is false")
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<AnimalEntity> animals;
+    
 }

@@ -34,4 +34,5 @@ public class DiagnosticEntity extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @ManyToOne
     private ConsultEntity consult;
+
 }

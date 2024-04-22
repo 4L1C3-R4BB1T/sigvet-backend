@@ -12,25 +12,25 @@ public class ClientRepositoryTest {
     private ClientRepository clientRepository;
 
     @Test
-   void givenValidClientIdAndNotMarkedAsDeleted_whenCallFindById_thenShouldReturnClient() {
+    void givenValidClientIdAndNotMarkedAsDeleted_whenCallFindById_thenShouldReturnClient() {
         final long expectedId = 1L;
-            final boolean expectedDeleted = false;
-            final var result = clientRepository.findByIdAndNotMarkedAsDeleted(expectedId);
-            assertTrue(result.isPresent());
+        final boolean expectedDeleted = false;
+        final var result = clientRepository.findByIdAndNotMarkedAsDeleted(expectedId);
+        assertTrue(result.isPresent());
 
-            result.ifPresent(clientEntity -> {
-                assertNotNull(clientEntity.getId());
-                assertNotNull(clientEntity.getUsername());
-                assertNotNull(clientEntity.getPassword());
-                assertNotNull(clientEntity.getEmail());
-                assertNotNull(clientEntity.getName());
-                assertNotNull(clientEntity.getDocument());
-                assertNotNull(clientEntity.getPhone());
-                assertNotNull(clientEntity.getCreatedAt());
-                assertNotNull(clientEntity.getUpdatedAt());
-                assertEquals(expectedDeleted, clientEntity.isDeleted());
-                assertNotNull(clientEntity.getAddress());
-            });
+        result.ifPresent(clientEntity -> {
+            assertNotNull(clientEntity.getId());
+            assertNotNull(clientEntity.getUsername());
+            assertNotNull(clientEntity.getPassword());
+            assertNotNull(clientEntity.getEmail());
+            assertNotNull(clientEntity.getName());
+            assertNotNull(clientEntity.getDocument());
+            assertNotNull(clientEntity.getPhone());
+            assertNotNull(clientEntity.getCreatedAt());
+            assertNotNull(clientEntity.getUpdatedAt());
+            assertEquals(expectedDeleted, clientEntity.isDeleted());
+            assertNotNull(clientEntity.getAddress());
+        });
     }
 
     @Test
@@ -47,6 +47,5 @@ public class ClientRepositoryTest {
         final var result = clientRepository.findByIdAndNotMarkedAsDeleted(expectedId);
         assertTrue(result.isEmpty());
     }
-
 
 }

@@ -36,4 +36,5 @@ public class VeterinarianEntity extends UserEntity  {
 
     @Column(length = 2, nullable = false)
     private String crmvUf;
+    
 }

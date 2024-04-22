@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 @Getter
 @Setter
+@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class ApplicationException extends RuntimeException {
 
     private List<String> errors = new ArrayList<>();
@@ -30,7 +30,6 @@ public class ApplicationException extends RuntimeException {
         if (Objects.isNull(this.errors)) {
             this.errors = new ArrayList<>();
         }
-        
         this.errors.add(errorMessage);
     }
 

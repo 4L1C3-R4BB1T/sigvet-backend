@@ -17,7 +17,7 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
 
     VeterinarianMapper INSTANCE = Mappers.getMapper( VeterinarianMapper.class );
 
-   @Mappings({
+    @Mappings({
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
@@ -27,7 +27,6 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
     VeterinarianEntity fromModel(VeterinarianRequestDTO source);
 
     void map(@MappingTarget VeterinarianEntity target, VeterinarianEntity source);
-
 
     default AddressEntity mapAddress(VeterinarianRequestDTO source) {
         final var address = source.getAddress();
@@ -41,7 +40,6 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
                 .state(StateEntity.builder().id(address.getState()).build())
                 .build()
         ).build();
-        
     }
 
 }

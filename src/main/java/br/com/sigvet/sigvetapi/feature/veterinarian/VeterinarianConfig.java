@@ -10,4 +10,5 @@ public class VeterinarianConfig {
     VeterinarianMapper veterinarianMapper() {
         return VeterinarianMapper.INSTANCE;
     }
+    
 }

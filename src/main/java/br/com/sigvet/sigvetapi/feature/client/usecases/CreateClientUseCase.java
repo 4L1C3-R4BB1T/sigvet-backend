@@ -1,7 +1,5 @@
 package br.com.sigvet.sigvetapi.feature.client.usecases;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;

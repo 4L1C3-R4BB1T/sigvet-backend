@@ -23,7 +23,8 @@ public class FindAllVeterinariansUseCase implements FindAllUseCase<VeterinarianE
     }
 
     private Specification<VeterinarianEntity> buildSpecification(FilterModel filterModel) {
-        Specification<VeterinarianEntity> spec = Specification.where((root, query, cb) -> cb.equal(root.get("deleted"), false));
+        Specification<VeterinarianEntity> spec = Specification
+                .where((root, query, cb) -> cb.equal(root.get("deleted"), false));
 
         for (var equalFilter : filterModel.getEqualFilters())
             spec = spec.and(EntitySpecification.equal(equalFilter, VeterinarianEntity.class));
@@ -33,4 +34,5 @@ public class FindAllVeterinariansUseCase implements FindAllUseCase<VeterinarianE
 
         return spec;
     }
+    
 }

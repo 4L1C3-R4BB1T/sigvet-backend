@@ -14,5 +14,4 @@ public class VeterinarianController extends CrudController<VeterinarianEntity, V
         super(facade, mapper);
     }
 
-    
 }

@@ -19,5 +19,4 @@ public class ClientFacade extends CrudFacade<ClientEntity> {
         super(createUseCase, deleteUseCase, updateUseCase, findAllUseCase, findByIdUseCase);
     }
 
-
 }
