@@ -26,4 +26,5 @@ public interface AnimalMapper extends EntityMapper<AnimalRequestDTO, AnimalEntit
     default ClientEntity mapClientEntity(AnimalRequestDTO source) {
         return ClientEntity.builder().id(source.clientId()).build();
     }
+    
 }

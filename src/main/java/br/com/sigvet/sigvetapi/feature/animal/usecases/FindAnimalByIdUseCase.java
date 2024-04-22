@@ -21,4 +21,5 @@ public class FindAnimalByIdUseCase implements FindByIdUseCase<AnimalEntity> {
         return repository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ApplicationException("Animal with %d not found".formatted(id)));
     }
+    
 }

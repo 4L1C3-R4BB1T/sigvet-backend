@@ -15,4 +15,5 @@ public class VeterinarianRequestDTO extends UserRequestDTO {
     private String crmv;
 
     private String crmvUf;
+    
 }

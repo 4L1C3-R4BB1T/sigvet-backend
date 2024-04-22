@@ -32,5 +32,5 @@ public class CreateAnimalUseCase implements CreateUseCase<AnimalEntity> {
 
         return repository.save(Objects.requireNonNull(source));
     }
-
+    
 }

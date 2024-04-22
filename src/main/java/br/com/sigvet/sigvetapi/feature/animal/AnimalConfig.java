@@ -10,4 +10,5 @@ public class AnimalConfig {
     AnimalMapper animalMapper() {
         return AnimalMapper.INSTANCE;
     }
+    
 }

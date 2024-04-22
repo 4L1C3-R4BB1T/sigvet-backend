@@ -1,20 +1,20 @@
-package br.com.sigvet.sigvetapi.feature.animal.usecases;
+package br.com.sigvet.sigvetapi.feature.vaccine.usecases;
 
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
+import br.com.sigvet.sigvetapi.common.entities.VaccineEntity;
 import br.com.sigvet.sigvetapi.common.usecases.DeleteUseCase;
-import br.com.sigvet.sigvetapi.feature.animal.AnimalRepository;
+import br.com.sigvet.sigvetapi.feature.vaccine.VaccineRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteAnimalUseCase implements DeleteUseCase<AnimalEntity> {
+public class DeleteVaccineUseCase implements DeleteUseCase<VaccineEntity> {
 
-    private final AnimalRepository repository;
+    private final VaccineRepository repository;
 
     @Override
     public void execute(Long id) {
@@ -22,8 +22,7 @@ public class DeleteAnimalUseCase implements DeleteUseCase<AnimalEntity> {
             repository.deleteById(id);
             return;
         }
-
-        throw new ApplicationException("Animal not found");
+        throw new ApplicationException("Vaccine not found");
     }
-    
+
 }

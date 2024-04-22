@@ -16,14 +16,15 @@ import lombok.RequiredArgsConstructor;
 public class FindAllAnimalsUseCase implements FindAllUseCase<AnimalEntity> {
 
     private final AnimalRepository repository;
-    
+
     @Override
     public Page<AnimalEntity> execute(FilterModel filter) {
-       return repository.findAll(buildSpecification(filter), filter.toPageable());
+        return repository.findAll(buildSpecification(filter), filter.toPageable());
     }
 
     private Specification<AnimalEntity> buildSpecification(FilterModel filterModel) {
-        Specification<AnimalEntity> spec = Specification.where((root, query, cb) -> cb.equal(root.get("deleted"), false));
+        Specification<AnimalEntity> spec = Specification
+                .where((root, query, cb) -> cb.equal(root.get("deleted"), false));
 
         for (var equalFilter : filterModel.getEqualFilters())
             spec = spec.and(EntitySpecification.equal(equalFilter, AnimalEntity.class));
@@ -33,4 +34,5 @@ public class FindAllAnimalsUseCase implements FindAllUseCase<AnimalEntity> {
 
         return spec;
     }
+
 }

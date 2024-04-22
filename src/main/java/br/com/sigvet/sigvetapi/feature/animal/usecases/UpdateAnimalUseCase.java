@@ -1,23 +1,13 @@
 package br.com.sigvet.sigvetapi.feature.animal.usecases;
 
-import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeString;
-
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
-import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
-import br.com.sigvet.sigvetapi.common.repositories.AddressRepository;
-import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import br.com.sigvet.sigvetapi.feature.animal.AnimalRepository;
-import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
-import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianMapper;
-import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -25,9 +15,6 @@ import lombok.RequiredArgsConstructor;
 public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
 
     private final AnimalRepository repository;
-
-
-
 
     @Override
     public void execute(Long id, AnimalEntity source) {
@@ -42,8 +29,6 @@ public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
         if (animal.getClient().getId() != source.getClient().getId()) {
             throw new ApplicationException("Changing client identification is not permitted");
         }
-
-    
 
         // veterinarianMapper.map(veterinarian, source);
 
