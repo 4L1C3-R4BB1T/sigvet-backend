@@ -1,10 +1,16 @@
 package br.com.sigvet.sigvetapi.feature.vaccine;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-@SuperBuilder
-@Getter
-@Setter
-public class VaccineRequestDTO {}
+public record VaccineRequestDTO(
+    String name,
+    String manufacturer,
+    String lot,
+    Integer stock,
+    BigDecimal unitPrice,
+    LocalDate expirationDate
+) {
+
+   
+}

@@ -5,6 +5,7 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeStr
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.UserValidateUseCase;
@@ -34,6 +35,7 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
         this.veterinarianMapper = veterinarianMapper;
     }
 
+    @Transactional
     @Override
     public void execute(Long id, VeterinarianEntity source) {
         final var veterinarianOptional = repository.findById(Objects.requireNonNull(id));
@@ -57,9 +59,7 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
         }
 
         addressRepository.deleteByUserId(id);
-
         veterinarianMapper.map(veterinarian, source);
-
         repository.save(veterinarian);
     }
 

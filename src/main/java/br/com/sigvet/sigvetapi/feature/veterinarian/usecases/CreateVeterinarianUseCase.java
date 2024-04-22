@@ -40,8 +40,8 @@ public class CreateVeterinarianUseCase extends UserValidateUseCase implements Cr
         if (!errors.isEmpty()) {
             throw new ApplicationException("Veterinarian invalid", errors);
         }
-      
-        return repository.save(source);
+        
+        return repository.findById(repository.save(source).getId()).get();
     }
 
 }

@@ -16,7 +16,8 @@ public interface VaccineMapper extends EntityMapper<VaccineRequestDTO, VaccineEn
     @Mappings({
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
-        @Mapping(target = "updatedAt", ignore = true)
+        @Mapping(target = "updatedAt", ignore = true),
+        @Mapping(target = "id", ignore = true),
     })
     VaccineEntity fromModel(VaccineRequestDTO source);
 

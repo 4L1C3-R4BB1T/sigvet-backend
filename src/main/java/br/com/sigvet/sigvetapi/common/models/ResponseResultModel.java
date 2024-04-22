@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ResponseResultModel<T> {
+    private String title;
     private int statusCode;
     private boolean success;
     private T result;

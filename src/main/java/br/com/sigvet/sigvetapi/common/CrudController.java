@@ -55,7 +55,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         final Long id = entitySaved.getId();
         final var uri = ServletUriComponentsBuilder.fromPath("/{id}").buildAndExpand(id).toUri();
         log.info("New entity saved: {}", entitySaved);
-        log.info("Exiting post method with URI: {}", uri);
+        log.info("Exiting post method with URI: {}", uri); 
         return ResponseEntity.created(uri).body(buildJacksonValue(entitySaved));
     }
     

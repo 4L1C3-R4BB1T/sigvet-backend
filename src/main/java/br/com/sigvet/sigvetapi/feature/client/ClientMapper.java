@@ -1,9 +1,11 @@
 package br.com.sigvet.sigvetapi.feature.client;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import br.com.sigvet.sigvetapi.common.EntityMapper;
@@ -27,6 +29,7 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
     })
     ClientEntity fromModel(ClientRequestDTO source);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void map(@MappingTarget ClientEntity target, ClientEntity source);
 
     default AddressEntity mapAddress(ClientRequestDTO source) {
@@ -36,10 +39,7 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
             .neighborhood(address.getNeighborhood())
             .number(address.getNumber())
             .zipCode(address.getZipCode())
-            .city(CityEntity.builder()
-                .name(address.getCity())
-                .state(StateEntity.builder().id(address.getState()).build())
-                .build()
+            .city(CityEntity.builder().id(address.getCityId()).build()
         ).build();
     }
 

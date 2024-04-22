@@ -5,7 +5,6 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.removeNonNum
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.util.Assert;
 
@@ -40,9 +39,11 @@ public class UserValidateUseCase {
 
         final var city = target.getAddress().getCity();
 
-        if (!cityRepository.existsByNameAndStateId(city.getName(), city.getState().getId())) {
+        if (!cityRepository.existsById(city.getId())) {
             errors.add("There is no city and state with the information provided");
         }
+
+        target.getAddress().setUser(target);
 
         return errors;
     }
@@ -53,10 +54,8 @@ public class UserValidateUseCase {
 
         final List<String> errors = new ArrayList<>();
 
-        final var city = Objects.requireNonNull(source).getAddress().getCity();
-
-        if (!cityRepository.existsByNameAndStateId(city.getName(), city.getState().getId())) {
-            errors.add("There is no city and state with the information provided");
+        if (!cityRepository.existsById(source.getAddress().getCity().getId())) {
+            errors.add("There is no city with the information provided");
         }
 
         if (userRepository.existsByEmail(source.getEmail())) {
@@ -77,6 +76,8 @@ public class UserValidateUseCase {
                 errors.add("The username is already in use");
             }
         }
+
+        source.getAddress().setUser(target);
 
         return errors;
     }

@@ -22,7 +22,7 @@ import lombok.ToString;
 public class FilterModel {
 
     private static final int DEFAULT_PAGE = 0;
-    private static final int MAX_SIZE = 1000;
+    private static final int MAX_SIZE = 100;
     private static final int MIN_SIZE = 1;
 
     private int size = MAX_SIZE;

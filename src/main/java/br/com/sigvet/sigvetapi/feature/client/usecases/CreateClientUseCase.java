@@ -35,6 +35,7 @@ public class CreateClientUseCase extends UserValidateUseCase implements CreateUs
             throw new ApplicationException("Client invalid", errors);
         }
 
+
         return repository.save(source);
     }
 
