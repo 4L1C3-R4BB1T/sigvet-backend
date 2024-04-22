@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.common.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

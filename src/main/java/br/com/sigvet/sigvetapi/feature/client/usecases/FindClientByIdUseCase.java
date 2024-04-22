@@ -1,12 +1,13 @@
-package br.com.sigvet.sigvetapi.feature.client;
+package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.FindByIdUseCase;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
+import br.com.sigvet.sigvetapi.common.usecases.FindByIdUseCase;
+import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component

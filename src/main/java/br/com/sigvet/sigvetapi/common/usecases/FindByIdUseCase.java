@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.common.usecases;
 
 import br.com.sigvet.sigvetapi.common.entities.BaseEntity;
 

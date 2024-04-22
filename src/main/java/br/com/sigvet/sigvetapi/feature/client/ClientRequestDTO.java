@@ -1,22 +1,11 @@
 package br.com.sigvet.sigvetapi.feature.client;
 
-public record ClientRequestDTO(
-        String name,
-        String username,
-        String document,
-        String email,
-        String phone,
-        String password,
-        String confirmationPassword,
-        Address address
-) {
+import br.com.sigvet.sigvetapi.common.UserRequestDTO;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-    public record Address(
-            String street,
-            String neighborhood,
-            String zipCode,
-            Integer number,
-            String city,
-            String state
-    ) {}
-}
+@SuperBuilder
+@Getter
+@Setter
+public class ClientRequestDTO extends UserRequestDTO {}

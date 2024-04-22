@@ -5,6 +5,11 @@ import java.util.Objects;
 import br.com.sigvet.sigvetapi.common.entities.BaseEntity;
 import br.com.sigvet.sigvetapi.common.models.FilterModel;
 import br.com.sigvet.sigvetapi.common.models.PageModel;
+import br.com.sigvet.sigvetapi.common.usecases.CreateUseCase;
+import br.com.sigvet.sigvetapi.common.usecases.DeleteUseCase;
+import br.com.sigvet.sigvetapi.common.usecases.FindAllUseCase;
+import br.com.sigvet.sigvetapi.common.usecases.FindByIdUseCase;
+import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -25,7 +30,6 @@ public abstract class CrudFacade<E extends BaseEntity<Long>> {
     }
 
     public E create(final E record) {
-        System.out.println("OIII");
         return createUseCase.execute(Objects.requireNonNull(record));
     }
 

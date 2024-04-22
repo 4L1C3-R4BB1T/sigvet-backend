@@ -1,13 +1,13 @@
-package br.com.sigvet.sigvetapi.feature.client;
+package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.DeleteUseCase;
-import br.com.sigvet.sigvetapi.common.UserRepository;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
+import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
+import br.com.sigvet.sigvetapi.common.usecases.DeleteUseCase;
 import lombok.RequiredArgsConstructor;
 
 @Component

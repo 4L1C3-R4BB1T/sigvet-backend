@@ -1,13 +1,14 @@
-package br.com.sigvet.sigvetapi.feature.client;
+package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.EntitySpecification;
-import br.com.sigvet.sigvetapi.common.FindAllUseCase;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.models.FilterModel;
+import br.com.sigvet.sigvetapi.common.usecases.FindAllUseCase;
+import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component

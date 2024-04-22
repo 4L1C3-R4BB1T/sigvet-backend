@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.feature.client;
+package br.com.sigvet.sigvetapi.feature.veterinarian;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,28 +9,27 @@ import org.mapstruct.factory.Mappers;
 import br.com.sigvet.sigvetapi.common.EntityMapper;
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
-import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.entities.StateEntity;
+import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 
 @Mapper
-public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntity> {
+public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO, VeterinarianEntity> {
 
-    ClientMapper INSTANCE = Mappers.getMapper( ClientMapper.class );
+    VeterinarianMapper INSTANCE = Mappers.getMapper( VeterinarianMapper.class );
 
    @Mappings({
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
-        @Mapping(target = "animals", ignore = true),
         @Mapping(target = "id", ignore = true),
         @Mapping(target = "address", expression = "java(mapAddress(source))")
     })
-    ClientEntity fromModel(ClientRequestDTO source);
+    VeterinarianEntity fromModel(VeterinarianRequestDTO source);
 
-    void map(@MappingTarget ClientEntity target, ClientEntity source);
+    void map(@MappingTarget VeterinarianEntity target, VeterinarianEntity source);
 
 
-    default AddressEntity mapAddress(ClientRequestDTO source) {
+    default AddressEntity mapAddress(VeterinarianRequestDTO source) {
         final var address = source.getAddress();
         return AddressEntity.builder()
             .street(address.getStreet())
