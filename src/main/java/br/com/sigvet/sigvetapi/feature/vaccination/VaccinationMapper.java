@@ -27,14 +27,15 @@ public interface VaccinationMapper extends EntityMapper<VaccinationRequestDTO, V
     })
     VaccinationEntity fromModel(VaccinationRequestDTO source);
 
-    default VeterinarianEntity mapVeterinarianEntity(VaccinationRequestDTO source) {
-        return VeterinarianEntity.builder().id(source.veterinarianId()).build();
-    }
-
+    
     default VaccineEntity mapVaccineEntity(VaccinationRequestDTO source) {
         return VaccineEntity.builder().id(source.vaccineId()).build();
     }
-
+    
+    default VeterinarianEntity mapVeterinarianEntity(VaccinationRequestDTO source) {
+        return VeterinarianEntity.builder().id(source.veterinarianId()).build();
+    }
+    
     default AnimalEntity mapAnimalEntity(VaccinationRequestDTO source) {
         return AnimalEntity.builder().id(source.animalId()).build();
     }
