@@ -1,7 +1,9 @@
 package br.com.sigvet.sigvetapi.common;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,13 +20,36 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class UserRequestDTO {
     
+    @NotBlank(message = "Name can't be blank")
+    @Size(message = "Name max size is 100 characters", max = 100)
     protected String name;
+
+    @NotBlank(message = "Username can't be blank")
+    @Size(message = "Username max size is 100 characters", max = 100)
     protected String username;
+
+    @NotBlank(message = "Document can't be blank")
+    @Size(message = "Document max size is 14 characters", max = 14)
+    @Pattern(message = "Document should be valid", regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$")
     protected String document;
+
+    @NotBlank(message = "Email can't be blank")
+    @Size(message = "Email max size is 100 characters", max = 100)
+    @Email(message = "Email should be valid")
     protected String email;
+
+    @NotBlank(message = "Phone can't be blank")
+    @Size(message = "Phonw max size is 18 characters", max = 18)
     protected String phone;
+
+    @NotBlank(message = "Password can't be blank")
+    @Size(message = "Password max size is 100 characters", max = 100)
     protected String password;
+
+    @NotBlank(message = "Confirmation Password can't be blank")
+    @Size(message = "Confirmation Password max size is 100 characters", max = 100)
     protected String confirmationPassword;
+
     protected Address address;
 
     @Getter
@@ -43,7 +68,8 @@ public class UserRequestDTO {
         private String neighborhood;
 
         @NotBlank(message = "Zip Code can't be blank")
-        @Size(message = "Zip Code max size is 8 characters", max = 8)
+        @Size(message = "Zip Code max size is 9 characters", max = 9)
+        @Pattern(message = "Zip Code should be valid", regexp = "^\\d{5}-?\\d{3}$")
         private String zipCode;
 
         @NotNull(message = "Number can't be blank")
