@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
+import br.com.sigvet.sigvetapi.feature.animal.AnimalMapper;
 import br.com.sigvet.sigvetapi.feature.animal.AnimalRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
 
     private final AnimalRepository repository;
+
+    private final AnimalMapper animalMapper;
 
     @Override
     public void execute(Long id, AnimalEntity source) {
@@ -30,7 +33,8 @@ public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
             throw new ApplicationException("Changing client identification is not permitted");
         }
 
-        // veterinarianMapper.map(veterinarian, source);
+        animalMapper.map(animal, source);
+        
 
         repository.save(animal);
     }
