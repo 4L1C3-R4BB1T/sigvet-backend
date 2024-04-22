@@ -41,7 +41,7 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
         final var veterinarianOptional = repository.findById(Objects.requireNonNull(id));
 
         if (veterinarianOptional.isEmpty()) {
-            throw new ApplicationException("Client with id %d not found".formatted(id));
+            throw new ApplicationException("Veterinarian with id %d not found".formatted(id));
         }
 
         final var veterinarian = veterinarianOptional.get();

@@ -30,7 +30,7 @@ public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
         final var animal = animalOptional.get();
 
         if (animal.getClient().getId() != source.getClient().getId()) {
-            throw new ApplicationException("Changing client identification is not permitted");
+            throw new ApplicationException("Changing animal identification is not permitted");
         }
 
         animalMapper.map(animal, source);

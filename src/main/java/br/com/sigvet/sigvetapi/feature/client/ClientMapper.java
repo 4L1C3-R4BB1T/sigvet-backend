@@ -12,7 +12,6 @@ import br.com.sigvet.sigvetapi.common.EntityMapper;
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
-import br.com.sigvet.sigvetapi.common.entities.StateEntity;
 
 @Mapper
 public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntity> {
