@@ -18,12 +18,12 @@ public class DeleteVeterinarianUseCase implements DeleteUseCase<VeterinarianEnti
 
     @Override
     public void execute(Long id) {
-       if (userRepository.existsById(Objects.requireNonNull(id))) {
+        if (userRepository.existsById(Objects.requireNonNull(id))) {
             userRepository.deleteById(id);
             return;
-       }
+        }
 
-       throw new ApplicationException("Veterinarian not found");
-
+        throw new ApplicationException("Veterinarian not found");
     }
+    
 }

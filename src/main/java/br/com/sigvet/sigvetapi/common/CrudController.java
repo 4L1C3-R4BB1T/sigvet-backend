@@ -23,8 +23,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class CrudController<E extends BaseEntity<Long>, M> {
 
     protected final CrudFacade<E> facade;
@@ -75,20 +75,19 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.noContent().build();
     }
 
-
     private <T> MappingJacksonValue buildJacksonValue(final T obj) {
         final var simpleFilterProvider = new SimpleFilterProvider();
 
-        for (Map.Entry<String, List<String>> set: attributeFilters.entrySet()) {
+        for (Map.Entry<String, List<String>> set : attributeFilters.entrySet()) {
             simpleFilterProvider.addFilter(
-                set.getKey(), 
-                SimpleBeanPropertyFilter.serializeAllExcept(set.getValue().toArray(new String[] {})
-            ));
+                    set.getKey(),
+                    SimpleBeanPropertyFilter.serializeAllExcept(set.getValue().toArray(new String[] {})));
         }
-        
+
         final var mappingJacksonValue = new MappingJacksonValue(obj);
         mappingJacksonValue.setFilters(simpleFilterProvider);
 
         return mappingJacksonValue;
     }
+    
 }

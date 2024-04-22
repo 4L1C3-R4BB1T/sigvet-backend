@@ -41,4 +41,5 @@ public class BaseEntity<ID> {
 
     @Column(columnDefinition = "BOOLEAN")
     protected boolean deleted;
+    
 }

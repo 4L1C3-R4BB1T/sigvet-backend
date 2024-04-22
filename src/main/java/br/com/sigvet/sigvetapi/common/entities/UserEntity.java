@@ -48,4 +48,5 @@ public class UserEntity extends BaseEntity<Long> {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private AddressEntity address;
+    
 }

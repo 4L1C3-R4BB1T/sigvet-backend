@@ -31,4 +31,5 @@ public class CityEntity extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @ManyToOne
     private StateEntity state;
+    
 }

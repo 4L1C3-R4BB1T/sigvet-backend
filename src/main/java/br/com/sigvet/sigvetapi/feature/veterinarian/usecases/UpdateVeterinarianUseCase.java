@@ -21,14 +21,12 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
 
     private final VeterinarianRepository repository;
 
-
     private final AddressRepository addressRepository;
 
     private final VeterinarianMapper veterinarianMapper;
 
     public UpdateVeterinarianUseCase(UserRepository userRepository, CityRepository cityRepository,
-            VeterinarianRepository repository,
-            AddressRepository addressRepository,
+            VeterinarianRepository repository, AddressRepository addressRepository,
             VeterinarianMapper veterinarianMapper) {
         super(userRepository, cityRepository);
         this.repository = repository;
@@ -48,14 +46,11 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
 
         final var errors = validateOnUpdate(veterinarian, source);
 
-        if ( 
-            !(normalizeString(veterinarian.getCrmv()).equals(normalizeString(source.getCrmv()))  && 
+        if (!(normalizeString(veterinarian.getCrmv()).equals(normalizeString(source.getCrmv())) &&
             normalizeString(veterinarian.getCrmvUf()).equals(normalizeString(source.getCrmvUf()))) &&
-            repository.existsByCrmvAndCrmvUf(source.getCrmv(), source.getCrmvUf())
-        ) {
+            repository.existsByCrmvAndCrmvUf(source.getCrmv(), source.getCrmvUf())) {
             errors.add("CRMV is already being used");
         }
-
 
         if (!errors.isEmpty()) {
             throw new ApplicationException("Veterinarian Invalid", errors);

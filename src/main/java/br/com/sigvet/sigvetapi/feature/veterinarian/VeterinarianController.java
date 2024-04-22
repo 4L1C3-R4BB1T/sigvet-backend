@@ -28,5 +28,4 @@ public class VeterinarianController extends CrudController<VeterinarianEntity, V
         });
     }
 
-    
 }

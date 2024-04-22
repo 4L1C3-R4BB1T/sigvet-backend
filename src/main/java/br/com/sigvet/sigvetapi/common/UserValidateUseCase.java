@@ -45,9 +45,7 @@ public class UserValidateUseCase {
         }
 
         return errors;
-
     }
-
 
     public List<String> validateOnUpdate(final UserEntity target, final UserEntity source) {
         Assert.notNull(target, "The target cannot be null");
@@ -64,21 +62,23 @@ public class UserValidateUseCase {
         if (userRepository.existsByEmail(source.getEmail())) {
             if (!normalizeString(target.getEmail()).equals(normalizeString(source.getEmail()))) {
                 errors.add("Email is already registered");
-            }   
+            }
         }
 
         if (userRepository.existsByDocument(target.getDocument())) {
-            if (!removeNonNumericCharacteres(target.getDocument()).equals(removeNonNumericCharacteres(source.getDocument()))) {
+            if (!removeNonNumericCharacteres(target.getDocument())
+                    .equals(removeNonNumericCharacteres(source.getDocument()))) {
                 errors.add("The document is already registered");
-            } 
+            }
         }
 
         if (userRepository.existsByUsername(target.getUsername())) {
             if (!normalizeString(target.getUsername()).equals(normalizeString(source.getUsername()))) {
                 errors.add("The username is already in use");
-            }   
+            }
         }
 
         return errors;
     }
+    
 }

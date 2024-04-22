@@ -17,7 +17,7 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
 
     ClientMapper INSTANCE = Mappers.getMapper( ClientMapper.class );
 
-   @Mappings({
+    @Mappings({
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
@@ -28,7 +28,6 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
     ClientEntity fromModel(ClientRequestDTO source);
 
     void map(@MappingTarget ClientEntity target, ClientEntity source);
-
 
     default AddressEntity mapAddress(ClientRequestDTO source) {
         final var address = source.getAddress();
@@ -42,7 +41,6 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
                 .state(StateEntity.builder().id(address.getState()).build())
                 .build()
         ).build();
-        
     }
 
 }

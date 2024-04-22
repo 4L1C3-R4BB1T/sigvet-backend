@@ -90,7 +90,7 @@ public class FilterModel {
 
         var tuples = equalFilters.split(";");
 
-        for (var equalFilter: tuples) {
+        for (var equalFilter : tuples) {
             var columnCriteria = equalFilter.split(":");
 
             if (columnCriteria.length != 2)
@@ -107,4 +107,5 @@ public class FilterModel {
 
         return filters;
     }
+    
 }

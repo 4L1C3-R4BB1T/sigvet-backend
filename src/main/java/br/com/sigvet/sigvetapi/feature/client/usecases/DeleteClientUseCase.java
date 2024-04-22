@@ -18,12 +18,12 @@ public class DeleteClientUseCase implements DeleteUseCase<ClientEntity> {
 
     @Override
     public void execute(Long id) {
-       if (userRepository.existsById(Objects.requireNonNull(id))) {
+        if (userRepository.existsById(Objects.requireNonNull(id))) {
             userRepository.deleteById(id);
             return;
-       }
+        }
 
-       throw new ApplicationException("Client not found");
-
+        throw new ApplicationException("Client not found");
     }
+    
 }

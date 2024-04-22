@@ -10,4 +10,5 @@ public class ClientConfig {
     ClientMapper clientMapper() {
         return ClientMapper.INSTANCE;
     }
+    
 }

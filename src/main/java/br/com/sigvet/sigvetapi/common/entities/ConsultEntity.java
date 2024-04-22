@@ -43,4 +43,5 @@ public class ConsultEntity extends BaseEntity<Long> {
 
     @Enumerated(EnumType.STRING)
     private ConsultationStatus status;
+    
 }

@@ -21,4 +21,5 @@ public class FindClientByIdUseCase implements FindByIdUseCase<ClientEntity> {
         return repository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ApplicationException("Client with %d not found".formatted(id)));
     }
+    
 }

@@ -41,4 +41,5 @@ public class AnimalEntity extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @ManyToOne
     private ClientEntity client;
+    
 }

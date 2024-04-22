@@ -13,4 +13,5 @@ public class StringNormalizer {
         Assert.notNull(value, "The value cannot be null");
         return value.replaceAll("\\D", "");
     }
+    
 }

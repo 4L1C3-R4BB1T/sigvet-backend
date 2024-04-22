@@ -48,4 +48,5 @@ public class AddressEntity extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @OneToOne
     private UserEntity user;
+    
 }

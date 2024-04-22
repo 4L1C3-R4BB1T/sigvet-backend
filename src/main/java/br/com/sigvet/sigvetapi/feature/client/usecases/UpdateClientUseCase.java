@@ -53,4 +53,5 @@ public class UpdateClientUseCase extends UserValidateUseCase implements UpdateUs
 
         repository.save(client);
     }
+    
 }

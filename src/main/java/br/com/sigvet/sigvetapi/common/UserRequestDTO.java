@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class UserRequestDTO {
+    
     protected String name;
     protected String username;
     protected String document;

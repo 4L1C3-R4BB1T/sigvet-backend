@@ -21,4 +21,5 @@ public class FindVeterinarianByIdUseCase implements FindByIdUseCase<Veterinarian
         return repository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ApplicationException("Veterinarian with %d not found".formatted(id)));
     }
+    
 }
