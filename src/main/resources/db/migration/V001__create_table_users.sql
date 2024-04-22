@@ -4,7 +4,7 @@ CREATE TABLE users (
     password    VARCHAR(100)        NOT NULL,
     email       VARCHAR(100)        NOT NULL,
     name        VARCHAR(100)        NOT NULL,
-    cpf         CHAR(14)            NOT NULL,
+    document    CHAR(14)            NOT NULL,
     phone       VARCHAR(18)         NULL,
     created_at  TIMESTAMP           NOT NULL DEFAULT NOW(),
     updated_at  TIMESTAMP           NOT NULL DEFAULT NOW(),
@@ -14,5 +14,5 @@ CREATE TABLE users (
 );
 
 CREATE INDEX users_index_username ON users (username);
-CREATE INDEX users_index_cpf ON users (cpf);
+CREATE INDEX users_index_document ON users (document);
 CREATE INDEX users_index_email ON users (email);

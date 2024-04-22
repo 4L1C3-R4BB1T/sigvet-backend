@@ -1,20 +1,34 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import br.com.sigvet.sigvetapi.common.BaseEntity;
-import br.com.sigvet.sigvetapi.common.entities.enums.ConsultationStatus;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
+import br.com.sigvet.sigvetapi.common.entities.enums.ConsultationStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+@JsonFilter(ConsultEntity.CONSULT_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "consults")
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 @SuperBuilder
 public class ConsultEntity extends BaseEntity<Long> {
+
+    public static final String CONSULT_ENTITY_FILTER_KEY = "consultEntityFilter";
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dateTime;

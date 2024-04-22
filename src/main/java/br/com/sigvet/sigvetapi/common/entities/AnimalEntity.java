@@ -1,21 +1,34 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import br.com.sigvet.sigvetapi.common.BaseEntity;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.SQLDelete;
-
 import java.time.LocalDate;
 
+import org.hibernate.annotations.SQLDelete;
+
+import com.fasterxml.jackson.annotation.JsonFilter;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+@JsonFilter(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "animals")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @SuperBuilder
 @SQLDelete(sql = "UPDATE animals SET deleted = true WHERE id = ?")
 public class AnimalEntity extends BaseEntity<Long> {
+
+    public static final String ANIMAL_ENTITY_FILTER_KEY = "animalEntityFilter";
 
     @Column(length = 255, nullable = false)
     private String name;

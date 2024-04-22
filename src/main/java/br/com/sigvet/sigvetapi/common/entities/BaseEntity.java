@@ -1,9 +1,11 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.common.entities;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+@JsonIgnoreProperties({ "createdAt", "updatedAt", "deleted" })
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Data 
+@EqualsAndHashCode(callSuper = false)
 @SuperBuilder
 public class BaseEntity<ID> {
 
@@ -35,5 +40,5 @@ public class BaseEntity<ID> {
     protected LocalDateTime updatedAt;
 
     @Column(columnDefinition = "BOOLEAN")
-    protected Boolean deleted;
+    protected boolean deleted;
 }

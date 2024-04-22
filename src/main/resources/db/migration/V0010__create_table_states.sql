@@ -4,6 +4,6 @@ CREATE TABLE states (
     created_at      TIMESTAMP           NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMP           NOT NULL DEFAULT NOW(),
     deleted         BOOLEAN             DEFAULT false,
-    CONSTRAINT pk_uf
+    CONSTRAINT pk_state
         PRIMARY KEY (id)
 );

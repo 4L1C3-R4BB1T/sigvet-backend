@@ -1,18 +1,29 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.common.entities;
 
-import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class UserEntity extends BaseEntity<Long> {
@@ -30,7 +41,7 @@ public class UserEntity extends BaseEntity<Long> {
     protected String name;
 
     @Column(length = 14, nullable = false)
-    protected String cpf;
+    protected String document;
 
     @Column(length = 18, nullable = true)
     protected String phone;

@@ -1,19 +1,27 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import br.com.sigvet.sigvetapi.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonFilter(StateEntity.STATE_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "states")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @SuperBuilder
 public class StateEntity extends BaseEntity<String> {
+
+    public static final String STATE_ENTITY_FILTER_KEY = "stateEntityFilter";
 
     @Column(length = 255, nullable = false)
     private String name;
