@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class FindAllConsultUseCase implements FindAllUseCase<ConsultEntity> {
+public class FindAllConsultsUseCase implements FindAllUseCase<ConsultEntity> {
 
     private final ConsultRepository repository;
 

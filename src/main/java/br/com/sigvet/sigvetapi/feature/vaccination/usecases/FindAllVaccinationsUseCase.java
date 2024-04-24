@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class FindAllVaccinationUseCase implements FindAllUseCase<VaccinationEntity> {
+public class FindAllVaccinationsUseCase implements FindAllUseCase<VaccinationEntity> {
 
     private final VaccinationRepository repository;
 
