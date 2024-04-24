@@ -1,10 +1,12 @@
 package br.com.sigvet.sigvetapi.feature.consult;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
 import br.com.sigvet.sigvetapi.common.entities.enums.ConsultationStatus;
@@ -18,5 +20,8 @@ public interface ConsultRepository extends JpaRepository<ConsultEntity, Long>, J
     default Optional<ConsultEntity> findByIdAndStatusCompleted(Long id) {
         return findByIdAndStatus(id, ConsultationStatus.COMPLETED);
     }
+
+    @Query("SELECT c FROM ConsultEntity c WHERE c.dateTime >= :initialDate AND c.dateTime <= :finalDate")
+    List<ConsultEntity> findAllByDataBetween(LocalDateTime initialDate, LocalDateTime finalDate);
 
 }
