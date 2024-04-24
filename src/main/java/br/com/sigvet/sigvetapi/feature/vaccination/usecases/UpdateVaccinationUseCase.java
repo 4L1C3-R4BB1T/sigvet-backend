@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
+import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationMapper;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity> {
 
     private final VaccinationRepository repository;
+
+    private final VaccinationMapper vaccinationMapper;
 
     @Override
     public void execute(Long id, VaccinationEntity source) {
@@ -46,6 +49,7 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
             throw new ApplicationException("Vaccination invalid", errors);
         }
 
+        vaccinationMapper.map(vaccination, source);
         repository.save(vaccination);
     }
 

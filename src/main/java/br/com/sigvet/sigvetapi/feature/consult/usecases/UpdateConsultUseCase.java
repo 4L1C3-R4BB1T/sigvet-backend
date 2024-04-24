@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
+import br.com.sigvet.sigvetapi.feature.consult.ConsultMapper;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
 
     private final ConsultRepository repository;
+
+    private final ConsultMapper consultMapper;
 
     @Override
     public void execute(Long id, ConsultEntity source) {
@@ -42,6 +45,7 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
             throw new ApplicationException("Consult invalid", errors);
         }
 
+        consultMapper.map(consult, source);
         repository.save(consult);
     }
 

@@ -1,8 +1,11 @@
 package br.com.sigvet.sigvetapi.feature.vaccination;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import br.com.sigvet.sigvetapi.common.EntityMapper;
@@ -27,7 +30,9 @@ public interface VaccinationMapper extends EntityMapper<VaccinationRequestDTO, V
     })
     VaccinationEntity fromModel(VaccinationRequestDTO source);
 
-    
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void map(@MappingTarget VaccinationEntity target, VaccinationEntity source);
+
     default VaccineEntity mapVaccineEntity(VaccinationRequestDTO source) {
         return VaccineEntity.builder().id(source.vaccineId()).build();
     }

@@ -1,8 +1,11 @@
 package br.com.sigvet.sigvetapi.feature.consult;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import br.com.sigvet.sigvetapi.common.EntityMapper;
@@ -24,6 +27,9 @@ public interface ConsultMapper extends EntityMapper<ConsultRequestDTO, ConsultEn
         @Mapping(target = "veterinarian", expression = "java(mapVeterinarianEntity(source))")
     })
     ConsultEntity fromModel(ConsultRequestDTO source);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void map(@MappingTarget ConsultEntity target, ConsultEntity source);
 
     default VeterinarianEntity mapVeterinarianEntity(ConsultRequestDTO source) {
         return VeterinarianEntity.builder().id(source.veterinarianId()).build();
