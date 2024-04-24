@@ -22,8 +22,7 @@ public class DeleteClientUseCase implements DeleteUseCase<ClientEntity> {
             userRepository.deleteById(id);
             return;
         }
-
-        throw new ApplicationException("Client not found");
+        throw new ApplicationException("Client with id %d not found".formatted(id));
     }
     
 }

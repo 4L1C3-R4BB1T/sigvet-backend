@@ -19,7 +19,7 @@ public class FindAnimalByIdUseCase implements FindByIdUseCase<AnimalEntity> {
     @Override
     public AnimalEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Animal with %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Animal with id %d not found".formatted(id)));
     }
     
 }

@@ -22,8 +22,7 @@ public class DeleteVeterinarianUseCase implements DeleteUseCase<VeterinarianEnti
             userRepository.deleteById(id);
             return;
         }
-
-        throw new ApplicationException("Veterinarian not found");
+        throw new ApplicationException("Veterinarian with id %d not found".formatted(id));
     }
     
 }

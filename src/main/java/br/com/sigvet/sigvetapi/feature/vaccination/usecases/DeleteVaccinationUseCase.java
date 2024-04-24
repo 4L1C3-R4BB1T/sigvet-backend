@@ -22,7 +22,7 @@ public class DeleteVaccinationUseCase implements DeleteUseCase<VaccinationEntity
             repository.deleteById(id);
             return;
         }
-        throw new ApplicationException("Vaccination not found");
+        throw new ApplicationException("Vaccination with id %d not found".formatted(id));
     }
 
 }

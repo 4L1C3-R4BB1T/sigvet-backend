@@ -22,7 +22,7 @@ public class DeleteConsultUseCase implements DeleteUseCase<ConsultEntity> {
             repository.deleteById(id);
             return;
         }
-        throw new ApplicationException("Vaccine not found");
+        throw new ApplicationException("Consult with id %d not found".formatted(id));
     }
 
 }

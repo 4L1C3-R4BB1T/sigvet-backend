@@ -19,7 +19,7 @@ public class FindVaccinationByIdUseCase implements FindByIdUseCase<VaccinationEn
     @Override
     public VaccinationEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Vaccination with %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Vaccination with id %d not found".formatted(id)));
     }
 
 }

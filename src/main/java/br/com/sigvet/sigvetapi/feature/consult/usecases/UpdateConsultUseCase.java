@@ -29,7 +29,6 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
         }
 
         final var consult = consultOptional.get();
-
         
         if (!errors.isEmpty()) {
             throw new ApplicationException("Consult invalid", errors);

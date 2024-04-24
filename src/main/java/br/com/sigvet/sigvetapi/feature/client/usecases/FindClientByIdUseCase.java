@@ -19,7 +19,7 @@ public class FindClientByIdUseCase implements FindByIdUseCase<ClientEntity> {
     @Override
     public ClientEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Client with %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Client with id %d not found".formatted(id)));
     }
     
 }

@@ -23,11 +23,10 @@ public class CreateAnimalUseCase implements CreateUseCase<AnimalEntity> {
     @Transactional
     @Override
     public AnimalEntity execute(AnimalEntity source) {
-
         final var clientId = source.getClient().getId();
 
-        if (clientRepository.existsById(clientId)) {
-            throw new ApplicationException("Animal with %d not found".formatted(clientId));
+        if (!clientRepository.existsById(clientId)) {
+            throw new ApplicationException("Client with id %d not found".formatted(clientId));
         }
 
         return repository.save(Objects.requireNonNull(source));

@@ -22,8 +22,7 @@ public class DeleteAnimalUseCase implements DeleteUseCase<AnimalEntity> {
             repository.deleteById(id);
             return;
         }
-
-        throw new ApplicationException("Animal not found");
+        throw new ApplicationException("Animal with id %d not found".formatted(id));
     }
     
 }
