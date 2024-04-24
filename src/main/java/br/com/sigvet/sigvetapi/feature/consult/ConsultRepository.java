@@ -24,4 +24,7 @@ public interface ConsultRepository extends JpaRepository<ConsultEntity, Long>, J
     @Query("SELECT c FROM ConsultEntity c WHERE c.dateTime >= :initialDate AND c.dateTime <= :finalDate")
     List<ConsultEntity> findAllByDataBetween(LocalDateTime initialDate, LocalDateTime finalDate);
 
+    @Query("SELECT c FROM ConsultEntity c WHERE c.veterinarian.id = :id AND c.dateTime >= :initialDate AND c.dateTime <= :finalDate")
+    List<ConsultEntity> findAllByVeterinarianAndDataBetween(LocalDateTime initialDate, LocalDateTime finalDate, Long id);
+
 }
