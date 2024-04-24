@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
@@ -45,8 +45,7 @@ public class ReportsController {
 
         // A data inicial não pode ser maior que a data final
         if (initialDate.isAfter(finalDate)) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("The initial date can't be greater than the final date");
+            throw new ApplicationException("The initial date can't be greater than the final date");
         }
 
         var totalBilled = BigDecimal.ZERO;
@@ -88,8 +87,7 @@ public class ReportsController {
 
         // A data inicial não pode ser maior que a data final
         if (initialDate.isAfter(finalDate)) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body("The initial date can't be greater than the final date");
+            throw new ApplicationException("The initial date can't be greater than the final date");
         }
 
         List<VeterinarianConsults> veterinariansConsults = new ArrayList<>();
