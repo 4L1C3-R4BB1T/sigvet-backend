@@ -31,6 +31,15 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
             throw new ApplicationException("Consult with id %d not found".formatted(id));
         }
 
+        // Caso não haja horário disponível para o veterinário escolhido será lançada uma mensagem informativa
+        final var veterinarianId = source.getVeterinarian().getId();
+        final var consultExists = repository.findByDateTimeAndVeterinarianId(source.getDateTime(), veterinarianId);
+
+        if (consultExists.isPresent() && consultExists.get().getVeterinarian().getId() == veterinarianId) {
+            throw new ApplicationException("Consult with date time " + source.getDateTime()
+                    + " and veterinarian id " + veterinarianId + " already exists");
+        }
+
         final var consult = consultOptional.get();
 
         if (consult.getVeterinarian().getId() != source.getVeterinarian().getId()) {

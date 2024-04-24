@@ -30,8 +30,16 @@ public class CreateDiagnosticUseCase implements CreateUseCase<DiagnosticEntity> 
             throw new ApplicationException("Consult with id %d not found".formatted(consultId));
         }
 
+        // Se consulta já tem diagnóstico associado
+        final var consultOptional = consultRepository.findByIdAndStatusCompleted(consultId);
+
+        if (consultOptional.isPresent()) {
+            throw new ApplicationException("Consult with id %d already has a diagnostic".formatted(consultId));
+        }
+
         // O sistema altera o status da consulta para "concluído"
         final var consult = consultRepository.findById(consultId);
+
         consult.get().setStatus(ConsultationStatus.COMPLETED);
 
         return repository.save(Objects.requireNonNull(source));
