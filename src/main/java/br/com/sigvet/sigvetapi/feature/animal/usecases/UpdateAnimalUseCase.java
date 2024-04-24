@@ -34,8 +34,6 @@ public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
         }
 
         animalMapper.map(animal, source);
-        
-
         repository.save(animal);
     }
 

@@ -29,6 +29,14 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
         }
 
         final var consult = consultOptional.get();
+
+        if (consult.getVeterinarian().getId() != source.getVeterinarian().getId()) {
+            errors.add("Cannot be changing the veterinarian id");
+        }
+
+        if (consult.getAnimal().getId() != source.getAnimal().getId()) {
+            errors.add("Cannot be changing the animal id");
+        }
         
         if (!errors.isEmpty()) {
             throw new ApplicationException("Consult invalid", errors);
