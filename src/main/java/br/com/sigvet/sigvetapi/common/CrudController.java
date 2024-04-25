@@ -76,7 +76,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
     }
 
     private <T> MappingJacksonValue buildJacksonValue(final T obj) {
-        final var simpleFilterProvider = new SimpleFilterProvider();
+        final var simpleFilterProvider = new SimpleFilterProvider().setFailOnUnknownId(false);
 
         for (Map.Entry<String, List<String>> set : attributeFilters.entrySet()) {
             simpleFilterProvider.addFilter(

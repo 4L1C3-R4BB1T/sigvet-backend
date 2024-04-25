@@ -18,7 +18,6 @@ public class DiagnosticController extends CrudController<DiagnosticEntity, Diagn
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {
-                put(DiagnosticEntity.DIAGNOSTIC_ENTITY_FILTER_KEY, List.of());
                 put(ConsultEntity.CONSULT_ENTITY_FILTER_KEY, List.of("animal", "veterinarian"));
             }
         });

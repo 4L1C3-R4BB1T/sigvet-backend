@@ -1,8 +1,5 @@
 package br.com.sigvet.sigvetapi.feature.vaccine;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +12,6 @@ public class VaccineController extends CrudController<VaccineEntity, VaccineRequ
 
     public VaccineController(VaccineFacade facade, VaccineMapper mapper) {
         super(facade, mapper);
-        attributeFilters.putAll(new HashMap<>() {
-            {
-                put(VaccineEntity.VACCINE_ENTITY_FILTER_KEY, List.of());
-            }
-        });
     }
 
 }

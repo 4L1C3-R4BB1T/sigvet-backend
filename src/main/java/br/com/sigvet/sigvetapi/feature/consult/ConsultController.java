@@ -11,7 +11,6 @@ import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
-import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 
 
 @RestController
@@ -22,8 +21,6 @@ public class ConsultController extends CrudController<ConsultEntity, ConsultRequ
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {
-                put(ConsultEntity.CONSULT_ENTITY_FILTER_KEY, List.of());
-                put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of());
                 put(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY, List.of("client"));
                 put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("user"));
                 put(CityEntity.CITY_ENTITY_FILTER_KEY, List.of("state"));
