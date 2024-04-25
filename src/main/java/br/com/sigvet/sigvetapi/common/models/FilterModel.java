@@ -3,6 +3,7 @@ package br.com.sigvet.sigvetapi.common.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,17 +21,33 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Setter
-public class FilterModel {
+@Getter
+public class FilterModel { //TODO Adicionar filtro de campos e swagger.
 
     private static final int DEFAULT_PAGE = 0;
     private static final int MAX_SIZE = 100;
     private static final int MIN_SIZE = 1;
 
-    private int size = MAX_SIZE;
-    private int page = DEFAULT_PAGE;
+    private int size;
+    private int page;
     private String sort;
     private String equalFilters;
     private String inFilters;
+
+    private final String SIZE_KEY = "size";
+    private final String PAGE_KEY = "page";
+    private final String SORT_KEY = "sort";
+    private final String EQUAL_FILTERS_KEY = "equal_filters";
+    private final String IN_FILTERS_KEY = "in_filters";
+    private final String DEFAULT_VALUE = "";
+
+    public FilterModel(Map<String, String> parameters) {
+        size = parameters.containsKey(SIZE_KEY) ? Integer.parseInt(parameters.get(SIZE_KEY)) : MAX_SIZE;
+        page = parameters.containsKey(PAGE_KEY) ? Integer.parseInt(parameters.get(PAGE_KEY)) : DEFAULT_PAGE;
+        sort = parameters.containsKey(SORT_KEY) ? parameters.get(SORT_KEY) : DEFAULT_VALUE;
+        equalFilters = parameters.containsKey(EQUAL_FILTERS_KEY) ? parameters.get(EQUAL_FILTERS_KEY) : DEFAULT_VALUE;
+        inFilters = parameters.containsKey(IN_FILTERS_KEY) ? parameters.get(IN_FILTERS_KEY) : DEFAULT_VALUE;
+    }
 
     public int getPage() {
         return Math.max(DEFAULT_PAGE, page);

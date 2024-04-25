@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -33,7 +34,8 @@ public class CrudController<E extends BaseEntity<Long>, M> {
     protected final Map<String, List<String>> attributeFilters = new HashMap<>();
 
     @GetMapping
-    public final ResponseEntity<MappingJacksonValue> get(final FilterModel filterModel) {
+    public final ResponseEntity<MappingJacksonValue> get(@RequestParam final Map<String, String> parameters) {
+        final var filterModel = new FilterModel(parameters);
         log.info("Entering the get method with filter model: {}", filterModel);
         final var result = facade.findAll(filterModel);
         log.info("Exiting the get method with result: {}", result);
