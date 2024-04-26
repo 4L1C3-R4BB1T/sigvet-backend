@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,27 +20,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
  
     @ExceptionHandler(ApplicationException.class)
     ResponseEntity<ResponseResultModel<List<String>>> handleApplicationException(final ApplicationException exception) {
-        
+
         final var responseResultModel = ResponseResultModel.<List<String>>builder()
-            .title(exception.getMessage())
-            .statusCode(HttpStatus.BAD_REQUEST.value())
-            .result(exception.getErrors())
-            .build();
+                .title(exception.getMessage())
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .result(exception.getErrors())
+                .build();
 
         return ResponseEntity.badRequest().body(responseResultModel);
     }
     
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    ResponseEntity<ResponseResultModel<String>> handleUsernameNotFoundExEntity(final UsernameNotFoundException exception) {
-        
+    @ExceptionHandler(AuthenticationException.class)
+    ResponseEntity<ResponseResultModel<String>> handleAuthenticationException(final AuthenticationException exception) {
         final var responseResultModel = ResponseResultModel.<String>builder()
-            .title("Authentication")
-            .statusCode(HttpStatus.UNAUTHORIZED.value())
-            .result("Invalid email or password")
-            .build();
-
-        return ResponseEntity.badRequest().body(responseResultModel);
+                .title("Authentication")
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .result("Invalid email or password")
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(responseResultModel);
     }
 
     @Override
@@ -52,7 +49,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         .result(errors)
         .build();
         return ResponseEntity.badRequest().body(responseResultModel);
-    }
-
-    
+    }    
 }

@@ -4,7 +4,9 @@ import org.hibernate.annotations.SQLDelete;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
+import br.com.sigvet.sigvetapi.common.converts.CEPConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -35,6 +37,7 @@ public class AddressEntity extends BaseEntity<Long> {
     @Column(length = 255, nullable = false)
     private String neighborhood;
 
+    @Convert(converter = CEPConverter.class)
     @Column(length = 8, nullable = false)
     private String zipCode;
 

@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -37,8 +38,6 @@ public class SecurityConfig {
     private final String[] WHITELIST = {
         "/swagger-ui/**", 
         "/api-docs/**",
-        "/clients/**",
-        "/account/**" 
     };
     
     @PostConstruct
@@ -55,6 +54,8 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
                 authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                    authorizeRequests.requestMatchers(HttpMethod.POST,
+        "/clients/**", "/veterinarians/**", "/account/**").permitAll();
                 authorizeRequests.anyRequest().authenticated();
             })
             .oauth2ResourceServer(config -> {
@@ -64,20 +65,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    AuthenticationManager authenticationManager(final AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
     @Bean
     JwtDecoder jwtDecoder() {
-        SecretKey originalKey = new SecretKeySpec(secretKey.getBytes(), "RSA");
+        final SecretKey originalKey = new SecretKeySpec(secretKey.getBytes(), "RSA");
         return NimbusJwtDecoder.withSecretKey(originalKey).build();
     }
 
     @Bean
     JwtEncoder jwtEncoder() {
-        SecretKey key = new SecretKeySpec(secretKey.getBytes(), "RSA");
-        var immutableSecret = new ImmutableSecret<>(key);
+        final SecretKey key = new SecretKeySpec(secretKey.getBytes(), "RSA");
+        final var immutableSecret = new ImmutableSecret<>(key);
         return new NimbusJwtEncoder(immutableSecret);
     }
 

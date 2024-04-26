@@ -3,8 +3,10 @@ package br.com.sigvet.sigvetapi.common.entities;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import br.com.sigvet.sigvetapi.common.converts.CPFConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -40,6 +42,7 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(length = 100, nullable = false)
     protected String name;
 
+    @Convert(converter = CPFConverter.class)
     @Column(length = 14, nullable = false)
     protected String document;
 
