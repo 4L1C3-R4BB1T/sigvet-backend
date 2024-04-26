@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.common;
 
+import br.com.sigvet.sigvetapi.common.validators.UserPasswordMatch;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@UserPasswordMatch
 public class UserRequestDTO {
     
     @NotBlank(message = "Name can't be blank")

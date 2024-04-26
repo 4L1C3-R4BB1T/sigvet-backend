@@ -2,6 +2,7 @@ package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import java.util.Objects;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +20,8 @@ public class CreateClientUseCase extends UserValidateUseCase implements CreateUs
     private final ClientRepository repository;
     
     public CreateClientUseCase(UserRepository userRepository, CityRepository cityRepository,
-            ClientRepository repository) {
-        super(userRepository, cityRepository);
+            ClientRepository repository, PasswordEncoder passwordEncoder) {
+        super(userRepository, cityRepository, passwordEncoder);
         this.repository = repository;
     }
 

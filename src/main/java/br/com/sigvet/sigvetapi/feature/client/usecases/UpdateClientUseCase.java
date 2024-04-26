@@ -2,6 +2,7 @@ package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import java.util.Objects;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
@@ -23,9 +24,10 @@ public class UpdateClientUseCase extends UserValidateUseCase implements UpdateUs
 
     private final ClientMapper clientMapper;
 
+
     public UpdateClientUseCase(UserRepository userRepository, CityRepository cityRepository,
-            ClientRepository repository, AddressRepository addressRepository, ClientMapper clientMapper) {
-        super(userRepository, cityRepository);
+            ClientRepository repository, AddressRepository addressRepository, ClientMapper clientMapper, PasswordEncoder passwordEncoder) {
+        super(userRepository, cityRepository,  passwordEncoder);
         this.repository = repository;
         this.addressRepository = addressRepository;
         this.clientMapper = clientMapper;

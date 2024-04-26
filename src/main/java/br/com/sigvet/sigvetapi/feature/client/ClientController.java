@@ -22,6 +22,7 @@ public class ClientController extends CrudController<ClientEntity, ClientRequest
         // As propriedades dentro da lista serve pra ocultar determinada propriedade da entididade
         attributeFilters.putAll(new HashMap<>() {
             {   
+                put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("password"));
                 put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("user"));
                 put(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY, List.of("client"));
             }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,7 +17,7 @@ import br.com.sigvet.sigvetapi.common.models.ResponseResultModel;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
+ 
     @ExceptionHandler(ApplicationException.class)
     ResponseEntity<ResponseResultModel<List<String>>> handleApplicationException(final ApplicationException exception) {
         
@@ -28,10 +29,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.badRequest().body(responseResultModel);
     }
+    
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    ResponseEntity<ResponseResultModel<String>> handleUsernameNotFoundExEntity(final UsernameNotFoundException exception) {
+        
+        final var responseResultModel = ResponseResultModel.<String>builder()
+            .title("Authentication")
+            .statusCode(HttpStatus.UNAUTHORIZED.value())
+            .result("Invalid email or password")
+            .build();
+
+        return ResponseEntity.badRequest().body(responseResultModel);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        final var errors =  ex.getBindingResult().getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList();
+        final var errors =  ex.getBindingResult().getAllErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList();
         final var responseResultModel = ResponseResultModel.<List<String>>builder()
         .title("Invalid Entity")
         .statusCode(HttpStatus.BAD_REQUEST.value())

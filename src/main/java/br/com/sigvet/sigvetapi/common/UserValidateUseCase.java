@@ -6,6 +6,7 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.removeNonNum
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.sigvetapi.common.entities.UserEntity;
@@ -19,6 +20,8 @@ public class UserValidateUseCase {
     protected final UserRepository userRepository;
 
     protected final CityRepository cityRepository;
+
+    protected final PasswordEncoder passwordEncoder;
 
     public List<String> validateOnCreate(final UserEntity target) {
         Assert.notNull(target, "The target cannot be null");
@@ -44,6 +47,8 @@ public class UserValidateUseCase {
         }
 
         target.getAddress().setUser(target);
+
+        target.setPassword(passwordEncoder.encode(target.getPassword()));
 
         return errors;
     }
@@ -78,6 +83,7 @@ public class UserValidateUseCase {
         }
 
         source.getAddress().setUser(target);
+        target.setPassword(passwordEncoder.encode(source.getPassword()));
 
         return errors;
     }

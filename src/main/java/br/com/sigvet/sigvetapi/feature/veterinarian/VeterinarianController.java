@@ -18,6 +18,7 @@ public class VeterinarianController extends CrudController<VeterinarianEntity, V
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {   
+                put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of("password"));
                 put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("user"));
             }
         });

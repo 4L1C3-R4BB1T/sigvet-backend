@@ -4,6 +4,7 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeStr
 
 import java.util.Objects;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +29,8 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
 
     public UpdateVeterinarianUseCase(UserRepository userRepository, CityRepository cityRepository,
             VeterinarianRepository repository, AddressRepository addressRepository,
-            VeterinarianMapper veterinarianMapper) {
-        super(userRepository, cityRepository);
+            VeterinarianMapper veterinarianMapper, PasswordEncoder passwordEncoder) {
+        super(userRepository, cityRepository, passwordEncoder);
         this.repository = repository;
         this.addressRepository = addressRepository;
         this.veterinarianMapper = veterinarianMapper;
