@@ -4,12 +4,20 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import br.com.sigvet.sigvetapi.common.converts.CPFConverter;
+import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -51,5 +59,10 @@ public class UserEntity extends BaseEntity<Long> {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private AddressEntity address;
+
+    @ElementCollection
+    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private List<Role> roles;
     
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.sigvetapi.common.entities.UserEntity;
+import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
 import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,8 @@ public class UserValidateUseCase {
         if (!cityRepository.existsById(city.getId())) {
             errors.add("There is no city and state with the information provided");
         }
+        
+        target.setRoles(List.of(Role.CLIENT));
 
         target.getAddress().setUser(target);
 
