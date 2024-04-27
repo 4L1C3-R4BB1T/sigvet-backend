@@ -62,6 +62,7 @@ public class UserEntity extends BaseEntity<Long> {
 
     @ElementCollection
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
     
