@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 @Builder
 @Getter
@@ -17,10 +20,14 @@ public class User implements UserDetails {
 
     private String email;
     private String password;
+    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        if (roles == null) {
+            return Collections.emptyList();
+        }
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getValue())).toList();
     }
 
     @Override

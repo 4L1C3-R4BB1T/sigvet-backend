@@ -18,8 +18,6 @@ public class EntitySpecification {
             if (Objects.isNull(path))
                 return cb.and();
 
-            System.out.println(in.getValues());
-
             Predicate predicate = in.isIn() ? path.as(String.class).in(in.getValues())
                     : path.as(String.class).in(in.getValues()).not();
             return predicate;

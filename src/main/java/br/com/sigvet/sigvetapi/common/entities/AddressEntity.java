@@ -3,6 +3,7 @@ package br.com.sigvet.sigvetapi.common.entities;
 import org.hibernate.annotations.SQLDelete;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.sigvet.sigvetapi.common.converts.CEPConverter;
 import jakarta.persistence.Column;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonFilter(AddressEntity.ADDRESS_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "addresses")

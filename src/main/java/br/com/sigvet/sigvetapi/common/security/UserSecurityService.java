@@ -21,6 +21,7 @@ public class UserSecurityService implements UserDetailsService {
                 return User.builder()
                     .email(userEntity.getEmail())
                     .password(userEntity.getPassword())
+                    .roles(userEntity.getRoles())
                     .build();
             })
             .orElseThrow(() -> new UsernameNotFoundException("Unable to find user"));

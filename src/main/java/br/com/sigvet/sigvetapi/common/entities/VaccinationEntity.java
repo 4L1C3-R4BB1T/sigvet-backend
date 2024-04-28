@@ -3,6 +3,7 @@ package br.com.sigvet.sigvetapi.common.entities;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonFilter(VaccinationEntity.VACCINATION_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "vaccinations")

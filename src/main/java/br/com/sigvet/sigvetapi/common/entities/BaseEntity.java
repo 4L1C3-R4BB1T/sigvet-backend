@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties({ "createdAt", "updatedAt", "deleted" })
 @MappedSuperclass
 @AllArgsConstructor

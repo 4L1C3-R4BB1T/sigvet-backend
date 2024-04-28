@@ -3,6 +3,8 @@ package br.com.sigvet.sigvetapi.common.entities;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import br.com.sigvet.sigvetapi.common.converts.CPFConverter;
 import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import jakarta.persistence.CascadeType;
@@ -15,6 +17,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -26,6 +29,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "users")
 @Getter
@@ -57,7 +61,7 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(length = 18, nullable = true)
     protected String phone;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AddressEntity address;
 
     @ElementCollection

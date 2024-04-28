@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.hibernate.annotations.SQLDelete;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonFilter(VaccineEntity.VACCINE_ENTITY_FILTER_KEY)
 @Entity
 @Table(name = "vaccines")

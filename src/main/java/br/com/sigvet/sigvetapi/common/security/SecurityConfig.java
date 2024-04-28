@@ -54,9 +54,9 @@ public class SecurityConfig {
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
                 authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.POST,
-        "/clients/**", "/veterinarians/**", "/account/**").permitAll();
-                authorizeRequests.anyRequest().authenticated();
+                authorizeRequests.requestMatchers(HttpMethod.POST, "/clients/**", "/veterinarians/**", "/account/**").permitAll();
+                authorizeRequests.requestMatchers(HttpMethod.DELETE, "/clients/**", "/veterinarians/**").hasAuthority("SCOPE_ADMIN");
+                authorizeRequests.anyRequest().hasAnyAuthority("SCOPE_CLIENT", "SCOPE_ADMIN");
             })
             .oauth2ResourceServer(config -> {
                 config.jwt(Customizer.withDefaults());
