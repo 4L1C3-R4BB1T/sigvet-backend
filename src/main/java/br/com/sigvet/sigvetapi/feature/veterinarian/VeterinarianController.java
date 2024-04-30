@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sigvet.sigvetapi.common.CrudController;
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Veterinários", description = "Agrupa endpoints para gerenciar veterinários")
 @RestController
 @RequestMapping("/veterinarians")
 public class VeterinarianController extends CrudController<VeterinarianEntity, VeterinarianRequestDTO> {

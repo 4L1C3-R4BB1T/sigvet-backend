@@ -17,9 +17,11 @@ import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Tag(name = "Relatórios", description = "Agrupa endpoints para se obter relatórios")
 @Slf4j
 @RestController
 @RequestMapping("/reports")

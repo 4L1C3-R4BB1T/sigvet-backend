@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigvet.sigvetapi.common.CrudController;
 import br.com.sigvet.sigvetapi.common.entities.VaccineEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Vacinas", description = "Agrupa endpoints para gerenciar vacinas")
 @RestController
 @RequestMapping("/vaccines")
 public class VaccineController extends CrudController<VaccineEntity, VaccineRequestDTO> {

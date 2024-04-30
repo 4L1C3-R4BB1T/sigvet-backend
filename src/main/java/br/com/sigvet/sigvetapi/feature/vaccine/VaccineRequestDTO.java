@@ -3,12 +3,14 @@ package br.com.sigvet.sigvetapi.feature.vaccine;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
+@Schema(name = "Vacina", example = "{\"name\":\"Example Vaccine\",\"manufacturer\":\"Example Manufacturer\",\"lot\":\"ABC123\",\"stock\":100,\"unitPrice\":10.50,\"expirationDate\":\"2025-12-31\"}")
 public record VaccineRequestDTO(
 
     @NotBlank(message = "Name can't be blank") 

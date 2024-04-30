@@ -11,8 +11,9 @@ import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-
+@Tag(name = "Consultas", description = "Agrupa endpoints para gerenciar consultas")
 @RestController
 @RequestMapping("/consults")
 public class ConsultController extends CrudController<ConsultEntity, ConsultRequestDTO> {

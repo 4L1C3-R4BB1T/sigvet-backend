@@ -10,7 +10,10 @@ import br.com.sigvet.sigvetapi.common.CrudController;
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+
+@Tag(name = "Clientes", description = "Agrupa endpoints para gerenciar clientes")
 @RestController
 @RequestMapping("/clients")
 public class ClientController extends CrudController<ClientEntity, ClientRequestDTO> {

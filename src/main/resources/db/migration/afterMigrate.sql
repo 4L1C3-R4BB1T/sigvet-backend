@@ -1,3 +1,27 @@
+DELETE FROM vaccinations;
+DELETE FROM vaccines;
+DELETE FROM diagnostics;
+DELETE FROM consults;
+DELETE FROM animals;
+DELETE FROM addresses;
+DELETE FROM cities;
+DELETE FROM states;
+DELETE FROM roles;
+DELETE FROM clients;
+DELETE FROM veterinarians;
+DELETE FROM users;
+
+SELECT setval('addresses_id_seq', 1, false);
+SELECT setval('animals_id_seq', 1, false);
+SELECT setval('cities_id_seq', 1, false);
+SELECT setval('clients_id_seq', 1, false);
+SELECT setval('consults_id_seq', 1, false);
+SELECT setval('diagnostics_id_seq', 1, false);
+SELECT setval('users_id_seq', 1, false);
+SELECT setval('vaccinations_id_seq', 1, false);
+SELECT setval('vaccines_id_seq', 1, false);
+SELECT setval('veterinarians_id_seq', 1, false);
+
 -- Populando a tabela ufs
 INSERT INTO states (id, name) VALUES
     ('AC', 'Acre'),

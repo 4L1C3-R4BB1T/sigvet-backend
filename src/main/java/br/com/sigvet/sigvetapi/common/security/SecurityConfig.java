@@ -37,7 +37,8 @@ public class SecurityConfig {
 
     private final String[] WHITELIST = {
         "/swagger-ui/**", 
-        "/api-docs/**",
+        "/v3/api-docs/**",
+        "/",
     };
     
     @PostConstruct

@@ -11,7 +11,9 @@ import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Vacinações", description = "Agrupa endpoints para gerenciar vacinações")
 @RestController
 @RequestMapping("/vaccinations")
 public class VaccinationController extends CrudController<VaccinationEntity, VaccinationRequestDTO> {

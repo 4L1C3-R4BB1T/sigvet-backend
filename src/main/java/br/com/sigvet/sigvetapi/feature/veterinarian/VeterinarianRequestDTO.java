@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.veterinarian;
 
 import br.com.sigvet.sigvetapi.common.UserRequestDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@Schema(name = "Veterinário", example = "{\"name\":\"John Doe\",\"username\":\"johndoe\",\"document\":\"123.456.789-00\",\"email\":\"johndoe@example.com\",\"phone\":\"1234567890\",\"password\":\"mypassword\",\"confirmationPassword\":\"mypassword\",\"address\":{\"street\":\"123 Test St\",\"neighborhood\":\"Testville\",\"zipCode\":\"98765-432\",\"number\":20,\"cityId\":2},\"specialty\":\"Example Specialty\",\"crmv\":\"AB123456\",\"crmvUf\":\"UF\"}")
 @SuperBuilder
 @Getter
 @Setter

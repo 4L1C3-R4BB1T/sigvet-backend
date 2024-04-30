@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sigvet.sigvetapi.common.CrudController;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
 import br.com.sigvet.sigvetapi.common.entities.DiagnosticEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Diagnósticos", description = "Agrupa endpoints para gerenciar diagnósticos")
 @RestController
 @RequestMapping("/diagnostics")
 public class DiagnosticController extends CrudController<DiagnosticEntity, DiagnosticRequestDTO> {
