@@ -18,10 +18,6 @@ spring:
         console:
             enabled: false
 
-file:
-  upload-dir: C:\sigvet\profile\upload
-        
-
 jwt:
   issuer: sigvet-backend-api
   expiresInMinutes: 60

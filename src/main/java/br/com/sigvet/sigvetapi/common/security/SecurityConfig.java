@@ -39,6 +39,7 @@ public class SecurityConfig {
         "/swagger-ui/**", 
         "/v3/api-docs/**",
         "/",
+        "/profiles/**"
     };
     
     @PostConstruct
@@ -54,10 +55,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
-                authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.POST, "/clients/**", "/veterinarians/**", "/account/**").permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.DELETE, "/clients/**", "/veterinarians/**").hasAuthority("SCOPE_ADMIN");
-                authorizeRequests.anyRequest().hasAnyAuthority("SCOPE_CLIENT", "SCOPE_ADMIN");
+                // authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                // authorizeRequests.requestMatchers(HttpMethod.POST, "/clients/**", "/veterinarians/**", "/account/**").permitAll();
+                // authorizeRequests.requestMatchers(HttpMethod.DELETE, "/clients/**", "/veterinarians/**").hasAuthority("SCOPE_ADMIN");
+                // authorizeRequests.anyRequest().hasAnyAuthority("SCOPE_CLIENT", "SCOPE_ADMIN");
+                authorizeRequests.anyRequest().permitAll();
             })
             .oauth2ResourceServer(config -> {
                 config.jwt(Customizer.withDefaults());
