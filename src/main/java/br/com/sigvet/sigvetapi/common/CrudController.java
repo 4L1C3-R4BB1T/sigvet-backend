@@ -51,7 +51,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         @Parameter(
             description = "Parâmetros para filtrar dados",
             allowEmptyValue = true,
-            example = "{\"size\":100,\"page\":0,\"sort\":\"-field1,field2\",\"equal_filters\":\"field:=Value\",\"in_filters\":\"field1=Value1,Value2;field2=Value1,Value2\"}"        )
+            example = "{\"size\":100,\"page\":0,\"sort\":\"-field1,field2\",\"equal_filters\":\"field:=Value\",\"in_filters\":\"field1=Value1,Value2;field2=Value1,Value2\"}")
         @RequestParam final Map<String, String> parameters
     ) {
         final var filterModel = new FilterModel(parameters);
