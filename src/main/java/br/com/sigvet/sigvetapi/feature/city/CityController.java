@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CityController {
 
-    private CityRepository repository;
+    private final CityRepository repository;
 
     @GetMapping
     public final ResponseEntity<?> get() {
