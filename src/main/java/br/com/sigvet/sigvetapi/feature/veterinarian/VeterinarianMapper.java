@@ -1,5 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.veterinarian;
 
+import java.util.Objects;
+
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,6 +25,7 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
         @Mapping(target = "id", ignore = true),
+        @Mapping(target = "roles", ignore = true),
         @Mapping(target = "address", expression = "java(mapAddress(source))")
     })
     VeterinarianEntity fromModel(VeterinarianRequestDTO source);
@@ -31,6 +34,9 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
     void map(@MappingTarget VeterinarianEntity target, VeterinarianEntity source);
 
     default AddressEntity mapAddress(VeterinarianRequestDTO source) {
+        if (Objects.isNull(source.getAddress())) {
+            return null;
+        }
         final var address = source.getAddress();
         return AddressEntity.builder()
             .street(address.getStreet())

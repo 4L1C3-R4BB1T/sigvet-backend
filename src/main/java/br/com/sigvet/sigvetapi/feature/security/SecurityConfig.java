@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.common.security;
+package br.com.sigvet.sigvetapi.feature.security;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -39,6 +39,7 @@ public class SecurityConfig {
         "/swagger-ui/**", 
         "/v3/api-docs/**",
         "/",
+        "/api/v1/account/**",
     };
     
     @PostConstruct
@@ -54,10 +55,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
-                authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.POST, "/clients/**", "/veterinarians/**", "/account/**").permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.DELETE, "/clients/**", "/veterinarians/**").hasAuthority("SCOPE_ADMIN");
-                authorizeRequests.anyRequest().hasAnyAuthority("SCOPE_CLIENT", "SCOPE_ADMIN");
+                // authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                // authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/v1/clients/**", "/api/v1/veterinarians/**", "/api/v1/vaccinations/**", "/api/v1/vaccines/**").hasAuthority("SCOPE_ADMIN");
+                // authorizeRequests.anyRequest().authenticated();
+                authorizeRequests.anyRequest().permitAll();
             })
             .oauth2ResourceServer(config -> {
                 config.jwt(Customizer.withDefaults());

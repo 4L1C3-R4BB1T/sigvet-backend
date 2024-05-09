@@ -70,6 +70,12 @@ public class PathBuilder<T> {
 
         if (Objects.nonNull(superClass)) {
             fields.addAll(Arrays.asList(superClass.getDeclaredFields()));
+            
+            superClass = superClass.getSuperclass();
+
+            if (Objects.nonNull(superClass)) {
+                fields.addAll(Arrays.asList(superClass.getDeclaredFields()));
+            }
         }
 
         return fields.stream().anyMatch(f -> f.getName().equals(field));

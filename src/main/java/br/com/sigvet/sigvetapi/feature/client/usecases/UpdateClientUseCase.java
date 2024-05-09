@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.repositories.AddressRepository;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
@@ -14,6 +13,7 @@ import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import br.com.sigvet.sigvetapi.feature.client.ClientMapper;
 import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
+import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
 
 @Component
 public class UpdateClientUseCase extends UserValidateUseCase implements UpdateUseCase<ClientEntity> {

@@ -11,6 +11,9 @@ public class CEPConverter implements AttributeConverter<String, String> {
     @Override
     public String convertToDatabaseColumn(final String value) {
         Assert.notNull(value, "The cep value cannot be null or empty");
+        if (Objects.isNull(value)) {
+            return "";
+        }
         return value.replaceAll("\\D", "").trim();
     }
 
@@ -19,7 +22,7 @@ public class CEPConverter implements AttributeConverter<String, String> {
         if (Objects.isNull(value)) {
             return null;
         }
-        return value.replaceAll("(\\d{5})(\\d{3})", "$1-$2");
+        return value.replaceAll("(\\d{5})(\\d{3})", "$1-$2").trim();
     }
     
 }

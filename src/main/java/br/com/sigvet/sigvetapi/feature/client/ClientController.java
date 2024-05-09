@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Clientes", description = "Agrupa endpoints para gerenciar clientes")
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api/v1/clients")
 public class ClientController extends CrudController<ClientEntity, ClientRequestDTO> {
   
     public ClientController(ClientFacade clientFacade, ClientMapper clientMapper) {

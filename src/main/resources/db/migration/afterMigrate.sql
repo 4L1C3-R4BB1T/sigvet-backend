@@ -10,6 +10,7 @@ DELETE FROM roles;
 DELETE FROM clients;
 DELETE FROM veterinarians;
 DELETE FROM users;
+DELETE FROM photos;
 
 SELECT setval('addresses_id_seq', 1, false);
 SELECT setval('animals_id_seq', 1, false);

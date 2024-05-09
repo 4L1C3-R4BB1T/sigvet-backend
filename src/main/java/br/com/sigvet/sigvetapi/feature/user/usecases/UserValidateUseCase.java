@@ -1,10 +1,11 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.feature.user.usecases;
 
 import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeString;
 import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.removeNonNumericCharacteres;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
@@ -41,15 +42,14 @@ public class UserValidateUseCase {
             errors.add("The username is already in use");
         }
 
-        final var city = target.getAddress().getCity();
-
-        if (!cityRepository.existsById(city.getId())) {
-            errors.add("There is no city and state with the information provided");
+        if (Objects.nonNull(target.getAddress())) {
+            if (!cityRepository.existsById(target.getAddress().getCity().getId())) {
+                errors.add("There is no city and state with the information provided");
+            }
+            target.getAddress().setUser(target);
         }
         
         target.setRoles(List.of(Role.CLIENT));
-
-        target.getAddress().setUser(target);
 
         target.setPassword(passwordEncoder.encode(target.getPassword()));
 
@@ -62,8 +62,11 @@ public class UserValidateUseCase {
 
         final List<String> errors = new ArrayList<>();
 
-        if (!cityRepository.existsById(source.getAddress().getCity().getId())) {
-            errors.add("There is no city with the information provided");
+        if (Objects.nonNull(source.getAddress())) {
+            if (!cityRepository.existsById(source.getAddress().getCity().getId())) {
+                errors.add("There is no city with the information provided");
+            }
+            source.getAddress().setUser(target);
         }
 
         if (userRepository.existsByEmail(source.getEmail())) {
@@ -85,7 +88,6 @@ public class UserValidateUseCase {
             }
         }
 
-        source.getAddress().setUser(target);
         target.setPassword(passwordEncoder.encode(source.getPassword()));
 
         return errors;

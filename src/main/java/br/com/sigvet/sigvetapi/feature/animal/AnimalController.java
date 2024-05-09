@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Animais", description = "Agrupa endpoints para gerenciar animais")
 @RestController
-@RequestMapping("/animals")
+@RequestMapping("/api/v1/animals")
 public class AnimalController extends CrudController<AnimalEntity, AnimalRequestDTO> {
 
     public AnimalController(AnimalFacade facade, AnimalMapper mapper) {

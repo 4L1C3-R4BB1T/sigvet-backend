@@ -21,7 +21,7 @@ public class SetPhotoUseCase {
 
     private final PhotoMapper photoMapper;
     
-    @Transactional
+    @Transactional 
     public PhotoResponseDTO execute(Long entityId, MultipartFile multipartFile, EntityType entityType) {
         try {
 

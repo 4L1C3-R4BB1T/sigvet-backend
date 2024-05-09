@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.common.security;
+package br.com.sigvet.sigvetapi.feature.security;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Consultas", description = "Agrupa endpoints para gerenciar consultas")
 @RestController
-@RequestMapping("/consults")
+@RequestMapping("/api/v1/consults")
 public class ConsultController extends CrudController<ConsultEntity, ConsultRequestDTO> {
 
     public ConsultController(ConsultFacade facade, ConsultMapper mapper) {

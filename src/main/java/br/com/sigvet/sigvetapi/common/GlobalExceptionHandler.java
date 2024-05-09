@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,6 +18,17 @@ import br.com.sigvet.sigvetapi.common.models.ResponseResultModel;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    ResponseEntity<ResponseResultModel<String>> handleException(final Exception exception) {
+        final var responseResultModel = ResponseResultModel.<String>builder()
+                .title("Intern error")
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .result("Sorry, we are unable to process this request")
+                .build(); 
+
+        return ResponseEntity.badRequest().body(responseResultModel);
+    }
  
     @ExceptionHandler(ApplicationException.class)
     ResponseEntity<ResponseResultModel<List<String>>> handleApplicationException(final ApplicationException exception) {

@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Vacinas", description = "Agrupa endpoints para gerenciar vacinas")
 @RestController
-@RequestMapping("/vaccines")
+@RequestMapping("/api/v1/vaccines")
 public class VaccineController extends CrudController<VaccineEntity, VaccineRequestDTO> {
 
     public VaccineController(VaccineFacade facade, VaccineMapper mapper) {

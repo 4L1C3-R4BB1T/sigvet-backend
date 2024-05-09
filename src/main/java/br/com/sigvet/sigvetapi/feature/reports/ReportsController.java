@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Relatórios", description = "Agrupa endpoints para se obter relatórios")
 @Slf4j
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/api/v1/reports")
 @RequiredArgsConstructor
 public class ReportsController {
 
@@ -32,7 +32,7 @@ public class ReportsController {
     private final VaccinationRepository vaccinationRepository;
     private final VeterinarianRepository veterinarianRepository;
 
-    @GetMapping("/totalbilled")
+    @GetMapping("/total-billed")
     public final ResponseEntity<?> getTotalBilled(@RequestBody ReportDateRequestDTO request) {
         LocalDateTime initialDate = request.initialDate();
         LocalDateTime finalDate = request.finalDate();

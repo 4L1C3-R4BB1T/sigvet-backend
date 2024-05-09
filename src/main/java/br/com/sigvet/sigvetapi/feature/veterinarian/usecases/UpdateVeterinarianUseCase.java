@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.common.repositories.AddressRepository;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
 import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
+import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianMapper;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 

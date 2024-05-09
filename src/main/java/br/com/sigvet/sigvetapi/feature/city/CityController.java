@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Cidades", description = "Agrupa endpoints para gerenciar cidades")
 @Slf4j
 @RestController
-@RequestMapping("/cities")
+@RequestMapping("/api/v1/cities")
 @RequiredArgsConstructor
 public class CityController {
 

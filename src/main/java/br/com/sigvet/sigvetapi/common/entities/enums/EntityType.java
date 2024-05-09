@@ -6,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum EntityType {
-    CLIENT("Client"),
-    VETERINARIAN("Veterinarian"),
+    USER("User"),
     VACCINE("Vaccine");
 
     private final String value;

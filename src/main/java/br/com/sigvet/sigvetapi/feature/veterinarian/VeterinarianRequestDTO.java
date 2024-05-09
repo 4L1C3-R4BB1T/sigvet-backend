@@ -1,6 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.veterinarian;
 
-import br.com.sigvet.sigvetapi.common.UserRequestDTO;
+import br.com.sigvet.sigvetapi.feature.user.UserRequestDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

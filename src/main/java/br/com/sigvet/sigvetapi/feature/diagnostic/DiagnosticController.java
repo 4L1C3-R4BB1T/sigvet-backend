@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Diagnósticos", description = "Agrupa endpoints para gerenciar diagnósticos")
 @RestController
-@RequestMapping("/diagnostics")
+@RequestMapping("/api/v1/diagnostics")
 public class DiagnosticController extends CrudController<DiagnosticEntity, DiagnosticRequestDTO> {
 
     public DiagnosticController(DiagnosticFacade facade, DiagnosticMapper mapper) {

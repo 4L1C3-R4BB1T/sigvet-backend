@@ -2,7 +2,7 @@ package br.com.sigvet.sigvetapi.common.validators;
 
 import java.util.Objects;
 
-import br.com.sigvet.sigvetapi.common.UserRequestDTO;
+import br.com.sigvet.sigvetapi.feature.user.UserRequestDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

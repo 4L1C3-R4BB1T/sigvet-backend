@@ -3,6 +3,8 @@ package br.com.sigvet.sigvetapi.common.entities;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.sigvet.sigvetapi.common.converts.CPFConverter;
@@ -29,6 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@JsonFilter("user")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "users")
@@ -41,6 +44,8 @@ import lombok.experimental.SuperBuilder;
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class UserEntity extends BaseEntity<Long> {
+
+    public static final String USER_ENTITY_FILTER_KEY = "user";
 
     @Column(length = 100, nullable = false)
     protected String username;
@@ -64,6 +69,7 @@ public class UserEntity extends BaseEntity<Long> {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AddressEntity address;
 
+    @JsonIgnore
     @ElementCollection
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

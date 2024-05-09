@@ -1,7 +1,8 @@
-package br.com.sigvet.sigvetapi.common;
+package br.com.sigvet.sigvetapi.feature.user;
 
 import br.com.sigvet.sigvetapi.common.validators.UserPasswordMatch;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -53,6 +54,7 @@ public class UserRequestDTO {
     @Size(message = "Confirmation Password max size is 100 characters", max = 100)
     protected String confirmationPassword;
 
+    @Valid
     protected Address address;
 
     @Schema(name = "Endereço")

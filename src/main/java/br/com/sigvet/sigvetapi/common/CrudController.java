@@ -41,7 +41,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
 
     protected final Map<String, List<String>> attributeFilters = new HashMap<>();
     
-    @Operation(summary = "Obter objetos")
+    @Operation(summary = "Obter objetos dessa entidade")
     @ApiResponses({
         @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(example = "{\"currentPage\":1,\"totalPages\":5,\"totalElements\":100,\"pageSize\":20,\"elements\": [] }"))),
         @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(schema = @Schema())),
@@ -61,7 +61,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.ok(buildJacksonValue(result));
     }
 
-    @Operation(summary = "Obter um objeto")
+    @Operation(summary = "Obter um objeto dessa entidade")
     @ApiResponses({
         @ApiResponse(content = @Content(
             schema = @Schema(example = "{\"title\":\"Objeto\",\"statusCode\":200,\"success\":true,\"result\": {} }")
@@ -82,7 +82,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.ok(buildJacksonValue(responseResultModel));
     }
 
-    @Operation(summary = "Criar um objeto")
+    @Operation(summary = "Criar um objeto dessa entidade")
     @ApiResponses({
         @ApiResponse(responseCode = "201",  content = @Content(
             schema = @Schema(example = "{\"title\":\"Objeto\",\"statusCode\":201,\"success\":true,\"result\": {} }")
@@ -106,7 +106,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.created(uri).body(buildJacksonValue(responseResultModel));
     }
     
-    @Operation(summary = "Atualizar um objeto")
+    @Operation(summary = "Atualizar um objeto dessa entidade")
     @ApiResponse(content = @Content())
     @PutMapping("/{id}")
     public final ResponseEntity<Void> put(@PathVariable("id") final Long id, @RequestBody @Valid final M record) {
@@ -116,7 +116,7 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Deletar um objeto")
+    @Operation(summary = "Deletar um objeto dessa entidade")
     @ApiResponse(content = @Content())
     @DeleteMapping("/{id}")
     public final ResponseEntity<Void> delete(@PathVariable("id") final Long id) {

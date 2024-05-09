@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
 import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.CreateUseCase;
 import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
+import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
 
 @Component
 public class CreateClientUseCase extends UserValidateUseCase implements CreateUseCase<ClientEntity> {
