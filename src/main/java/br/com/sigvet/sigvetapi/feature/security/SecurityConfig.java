@@ -55,10 +55,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
-                // authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                // authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/v1/clients/**", "/api/v1/veterinarians/**", "/api/v1/vaccinations/**", "/api/v1/vaccines/**").hasAuthority("SCOPE_ADMIN");
-                // authorizeRequests.anyRequest().authenticated();
-                authorizeRequests.anyRequest().permitAll();
+                authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/v1/clients/**", "/api/v1/veterinarians/**", "/api/v1/vaccinations/**", "/api/v1/vaccines/**").hasAuthority("SCOPE_ADMIN");
+                authorizeRequests.anyRequest().authenticated();
             })
             .oauth2ResourceServer(config -> {
                 config.jwt(Customizer.withDefaults());
