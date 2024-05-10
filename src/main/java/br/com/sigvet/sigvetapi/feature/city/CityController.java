@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.StateEntity;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class CityController {
 
     private final CityRepository repository;
 
+    @Operation(summary = "Obter objetos dessa entidade")
     @GetMapping
     public final ResponseEntity<MappingJacksonValue> get() {
         log.info("Entering the get method");

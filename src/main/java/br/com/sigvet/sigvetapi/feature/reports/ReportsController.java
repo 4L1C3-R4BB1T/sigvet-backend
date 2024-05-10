@@ -17,6 +17,11 @@ import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +37,13 @@ public class ReportsController {
     private final VaccinationRepository vaccinationRepository;
     private final VeterinarianRepository veterinarianRepository;
 
+    @Operation(summary = "Obter relatório de total faturado")
+    @ApiResponses({
+        @ApiResponse(content = @Content(
+            schema = @Schema(example = "{\"initialDate\":\"2022-04-30T00:00:00\",\"finalDate\": \"2024-05-30T00:00:00\"}")
+        )),
+        @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content()),
+    })
     @GetMapping("/total-billed")
     public final ResponseEntity<?> getTotalBilled(@RequestBody ReportDateRequestDTO request) {
         LocalDateTime initialDate = request.initialDate();
@@ -74,6 +86,13 @@ public class ReportsController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "Obter relatório de consultas por veterinário")
+    @ApiResponses({
+        @ApiResponse(content = @Content(
+            schema = @Schema(example = "{\"initialDate\":\"2022-04-30T00:00:00\",\"finalDate\": \"2024-05-30T00:00:00\"}")
+        )),
+        @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content()),
+    })
     @GetMapping("/veterinarians/consults")
     public final ResponseEntity<?> getVeterinariansConsults(@RequestBody ReportDateRequestDTO request) {
         LocalDateTime initialDate = request.initialDate();
