@@ -23,7 +23,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final var responseResultModel = ResponseResultModel.<String>builder()
                 .title("Intern error")
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .result("Sorry, we are unable to process this request")
+                .result("We are unable to process this request")
                 .build(); 
 
         return ResponseEntity.badRequest().body(responseResultModel);

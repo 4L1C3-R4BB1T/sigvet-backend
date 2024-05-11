@@ -1,11 +1,15 @@
 package br.com.sigvet.sigvetapi.feature.reports;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.PastOrPresent;
 
-@Schema(name = "Relatório", example = "{\"initialDate\":\"2022-04-30T00:00:00\",\"finalDate\":\"2024-05-01T00:00:00\"}")
+@Schema(name = "Relatório", example = "{\"initialDate\":\"2022-04-30\",\"finalDate\":\"2024-05-01\"}")
 public record ReportDateRequestDTO(
-    LocalDateTime initialDate,
-    LocalDateTime finalDate
+    
+    @PastOrPresent(message = "Date Time should be past or present")
+    Date initialDate,
+    Date finalDate
+
 ) {}

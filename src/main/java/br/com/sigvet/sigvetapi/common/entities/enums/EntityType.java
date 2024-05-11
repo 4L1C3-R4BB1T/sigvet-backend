@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum EntityType {
+    ANIMAL("Animal"),
     USER("User"),
     VACCINE("Vaccine");
 

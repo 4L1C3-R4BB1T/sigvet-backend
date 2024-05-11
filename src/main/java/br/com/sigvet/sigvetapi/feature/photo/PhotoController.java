@@ -63,5 +63,21 @@ public class PhotoController {
         return ResponseEntity.ok(findPhotoUseCase.execute(id, EntityType.VACCINE));
     }
 
-    
+    @Operation(summary = "Upload de foto para animal")
+    @PutMapping(value = "/animal/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<PhotoResponseDTO> putForAnimal(@PathVariable("id") Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) @Valid PhotoRequestDTO photoRequestDTO) {
+        final var photoResponse = setPhotoUseCase.execute(id, photoRequestDTO.photo(), EntityType.ANIMAL);
+        final var url = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(id);
+        photoResponse.setLink(url.toUriString());
+        return ResponseEntity.ok(photoResponse);
+    }
+
+    @Operation(summary = "Obter foto de animal")
+    @GetMapping(value = "/animal/{id}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
+    public ResponseEntity<InputStreamResource> getForAnimal(@PathVariable("id") Long id) {
+        System.out.println("OII");
+        return ResponseEntity.ok(findPhotoUseCase.execute(id, EntityType.ANIMAL));
+    }
+
 }

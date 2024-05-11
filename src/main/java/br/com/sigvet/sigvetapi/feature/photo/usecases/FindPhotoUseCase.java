@@ -18,7 +18,8 @@ public class FindPhotoUseCase {
 
     public InputStreamResource execute(Long entityId, EntityType entityType) {
         final var profile = repository.findByEntityIdAndEntityType(entityId, entityType).orElseThrow(() -> 
-            new ApplicationException("There is no photo for this %s".formatted(entityType.getValue())));
+        new ApplicationException("There is no photo for this %s".formatted(entityType.getValue())));
+
         return new InputStreamResource(new ByteArrayInputStream(profile.getData()));
     }
 }

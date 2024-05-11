@@ -2,12 +2,13 @@ package br.com.sigvet.sigvetapi.feature.reports;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,14 +42,22 @@ public class ReportsController {
     @Operation(summary = "Obter relatório de total faturado")
     @ApiResponses({
         @ApiResponse(content = @Content(
-            schema = @Schema(example = "{\"initialDate\":\"2022-04-30T00:00:00\",\"finalDate\": \"2024-05-30T00:00:00\"}")
+            schema = @Schema(example = "{\"initialDate\":\"2022-04-30\",\"finalDate\": \"2024-05-30\"}")
         )),
         @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content()),
     })
     @GetMapping("/total-billed")
-    public final ResponseEntity<?> getTotalBilled(@RequestBody ReportDateRequestDTO request) {
-        LocalDateTime initialDate = request.initialDate();
-        LocalDateTime finalDate = request.finalDate();
+    public final ResponseEntity<TotalBilledResponse> getTotalBilled(@ModelAttribute @Valid ReportDateRequestDTO request) {
+        LocalDateTime initialDate = null;
+        LocalDateTime finalDate = null;
+
+        if (request.initialDate() != null) {
+            initialDate = LocalDateTime.of(request.initialDate().toLocalDate(), LocalTime.of(0, 0, 0));
+        }
+
+        if (request.finalDate() != null) {
+            finalDate = LocalDateTime.of(request.finalDate().toLocalDate(), LocalTime.of(0, 0, 0));
+        }
 
         log.info("Entering the getTotalBilled method with initial date {} and final date {}", initialDate, finalDate);
 
@@ -89,14 +99,22 @@ public class ReportsController {
     @Operation(summary = "Obter relatório de consultas por veterinário")
     @ApiResponses({
         @ApiResponse(content = @Content(
-            schema = @Schema(example = "{\"initialDate\":\"2022-04-30T00:00:00\",\"finalDate\": \"2024-05-30T00:00:00\"}")
+            schema = @Schema(example = "{\"initialDate\":\"2022-04-30\",\"finalDate\": \"2024-05-30\"}")
         )),
         @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content()),
     })
     @GetMapping("/veterinarians/consults")
-    public final ResponseEntity<?> getVeterinariansConsults(@RequestBody ReportDateRequestDTO request) {
-        LocalDateTime initialDate = request.initialDate();
-        LocalDateTime finalDate = request.finalDate();
+    public final ResponseEntity<VeterinariansConsultsResponse> getVeterinariansConsults(@ModelAttribute @Valid ReportDateRequestDTO request) {
+        LocalDateTime initialDate = null;
+        LocalDateTime finalDate = null;
+
+        if (request.initialDate() != null) {
+            initialDate = LocalDateTime.of(request.initialDate().toLocalDate(), LocalTime.of(0, 0, 0));
+        }
+
+        if (request.finalDate() != null) {
+            finalDate = LocalDateTime.of(request.finalDate().toLocalDate(), LocalTime.of(0, 0, 0));
+        }
 
         log.info("Entering the getVeterinariansConsults method with initial date {} and final date {}", initialDate, finalDate);
 

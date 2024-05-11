@@ -40,7 +40,6 @@ public class SetPhotoUseCase {
 
             return photoMapper.map(repository.save(photoEntity));
         } catch (Exception exception) {
-            System.out.println(exception);
             throw new ApplicationException("Unable to save photo file");
         }
     }
