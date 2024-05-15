@@ -2,6 +2,7 @@ package br.com.sigvet.sigvetapi.feature.security;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,13 +12,13 @@ import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
 
 @Builder
 @Getter
 @Setter
 public class User implements UserDetails {
 
+    private Long id;
     private String email;
     private String password;
     private List<Role> roles;

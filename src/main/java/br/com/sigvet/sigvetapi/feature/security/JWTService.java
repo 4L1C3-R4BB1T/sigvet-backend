@@ -40,8 +40,14 @@ public class JWTService {
             .issuer(issuer)
             .expiresAt(now.plus(expiresInMinutes, ChronoUnit.MINUTES))
             .subject(authentication.getName())
-            .claims(addClaims -> addClaims.put("scope", scopes))
-            .build();
+            .claims(addClaims -> {
+                addClaims.put("scope", scopes);
+                final var principal = authentication.getPrincipal();
+                if (principal instanceof User user) {
+                    addClaims.put("user_id", user.getId());
+                }
+            })
+            .build(); 
 
         return jwtEncoder.encode(
             JwtEncoderParameters.from(

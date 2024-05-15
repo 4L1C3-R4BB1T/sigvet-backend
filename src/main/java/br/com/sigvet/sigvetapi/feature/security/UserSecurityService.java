@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
+import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,12 +20,12 @@ public class UserSecurityService implements UserDetailsService {
         return repository.findByEmail(email)
             .map(userEntity -> {
                 return User.builder()
+                    .id(userEntity.getId())
                     .email(userEntity.getEmail())
                     .password(userEntity.getPassword())
                     .roles(userEntity.getRoles())
                     .build();
             })
             .orElseThrow(() -> new UsernameNotFoundException("Unable to find user"));
-    }
-    
+    } 
 }

@@ -1,18 +1,17 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.sigvet.sigvetapi.common.converts.CPFConverter;
 import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
-
-import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
@@ -25,6 +24,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,12 +39,13 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class UserEntity extends BaseEntity<Long> {
-
+ 
     public static final String USER_ENTITY_FILTER_KEY = "user";
 
     @Column(length = 100, nullable = false)
@@ -69,7 +70,6 @@ public class UserEntity extends BaseEntity<Long> {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AddressEntity address;
 
-    @JsonIgnore
     @ElementCollection
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
