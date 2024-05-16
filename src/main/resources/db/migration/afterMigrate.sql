@@ -83,18 +83,41 @@ INSERT INTO cities (name, state_id) VALUES
     ('Aracaju', 'SE'),
     ('Palmas', 'TO');
 
--- Populando a tabela usuarios
+-- Populando a tabela usuarios -- password: 123
 INSERT INTO users (username, password, email, name, document, phone) VALUES
-    ('user1', 'senha123', 'user1@example.com', 'João Silva', '12345678910', '123456789'),
-    ('user2', 'password', 'user2@example.com', 'Maria Oliveira', '98765432110', '987654321'),
-    ('user3', 'mysecretpass', 'user3@example.com', 'Pedro Santos', '45678912310', NULL),
-    ('user4', 'securepass123', 'user4@example.com', 'Ana Souza', '85274196310', '654987321'),
-    ('user5', 'letmein', 'user5@example.com', 'Laura Costa', '15935785210', '789654123'),
-    ('user6', 'password123', 'user6@example.com', 'Carlos Oliveira', '36925814710', '987654321'),
-    ('user7', '123456', 'user7@example.com', 'Mariana Silva', '45612378940', NULL),
-    ('user8', 'qwerty', 'user8@example.com', 'Fernando Santos', '98865432110', '123456789'),
-    ('user9', 'abc123', 'user9@example.com', 'Patricia Souza', '78945612310', '654987321'),
-    ('user10', 'pass123', 'user10@example.com', 'Rafaela Costa', '15936885210', NULL);
+    ('user1', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user1@email.com', 'João Silva', '12345678910', '123456789'),
+    ('user2', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user2@email.com', 'Maria Oliveira', '98765432110', '987654321'),
+    ('user3', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user3@email.com', 'Pedro Santos', '45678912310', NULL),
+    ('user4', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user4@email.com', 'Ana Souza', '85274196310', '654987321'),
+    ('user5', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user5@email.com', 'Laura Costa', '15935785210', '789654123'),
+    ('user6', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user6@email.com', 'Carlos Oliveira', '36925814710', '987654321'),
+    ('user7', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user7@email.com', 'Mariana Silva', '45612378940', NULL),
+    ('user8', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user8@email.com', 'Fernando Santos', '98865432110', '123456789'),
+    ('user9', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user9@email.com', 'Patricia Souza', '78945612310', '654987321'),
+    ('user10', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user10@email.com', 'Rafaela Costa', '15936885210', NULL);
+
+-- Populando a tabela roles
+INSERT INTO roles (user_id, role) VALUES 
+(1, 'CLIENT'),
+(1, 'ADMIN'),
+(2, 'CLIENT'),
+(2, 'ADMIN'),
+(3, 'CLIENT'),
+(3, 'ADMIN'),
+(4, 'CLIENT'),
+(4, 'ADMIN'),
+(5, 'CLIENT'),
+(5, 'ADMIN'),
+(6, 'CLIENT'),
+(6, 'ADMIN'),
+(7, 'CLIENT'),
+(7, 'ADMIN'),
+(8, 'CLIENT'),
+(8, 'ADMIN'),
+(9, 'CLIENT'),
+(9, 'ADMIN'),
+(10, 'CLIENT'),
+(10, 'ADMIN');
 
 -- Populando a tabela clientes
 INSERT INTO clients (id) VALUES

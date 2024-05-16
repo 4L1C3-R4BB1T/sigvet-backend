@@ -59,7 +59,6 @@ public class AccountController {
         mappingJacksonValue.setFilters(new SimpleFilterProvider().addFilter("user", SimpleBeanPropertyFilter.serializeAll()));
  
         return ResponseEntity.ok(mappingJacksonValue);
-
     }
     
     @Operation(summary = "Criar um usuário e obter token de autenticação") 
