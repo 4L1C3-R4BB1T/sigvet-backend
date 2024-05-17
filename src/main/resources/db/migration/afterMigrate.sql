@@ -85,7 +85,7 @@ INSERT INTO cities (name, state_id) VALUES
 
 -- Populando a tabela usuarios
 INSERT INTO users (username, password, email, name, document, phone) VALUES
-    ('user1', 'senha123', 'user1@example.com', 'João Silva', '12345678910', '123456789'),
+    ('test', '$2a$12$RBg2Bv1E2GuDe/N4FbpNkOChoAwhkGWqNOW3U/YSu3ei.mlKOMNdG', 'test@test.com', 'João Silva', '12345678910', '123456789'),
     ('user2', 'password', 'user2@example.com', 'Maria Oliveira', '98765432110', '987654321'),
     ('user3', 'mysecretpass', 'user3@example.com', 'Pedro Santos', '45678912310', NULL),
     ('user4', 'securepass123', 'user4@example.com', 'Ana Souza', '85274196310', '654987321'),

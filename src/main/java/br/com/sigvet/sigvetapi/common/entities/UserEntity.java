@@ -24,6 +24,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,7 +32,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-@JsonFilter("user")
+@JsonFilter(UserEntity.USER_ENTITY_FILTER_KEY)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "users")
@@ -66,6 +67,9 @@ public class UserEntity extends BaseEntity<Long> {
 
     @Column(length = 18, nullable = true)
     protected String phone;
+
+    @Transient
+    protected String photoUrl;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AddressEntity address;

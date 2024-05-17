@@ -36,15 +36,15 @@ public class SecurityConfig {
     private String secretKey;
 
     private final String[] WHITELIST = {
-        "/swagger-ui/**", 
-        "/v3/api-docs/**",
-        "/",
-        "/api/v1/cities/**"
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/",
+            "/api/v1/cities/**"
     };
-    
+
     @PostConstruct
     void generateSecretKey() {
-        byte[] secretKeyBytes = new byte[32]; 
+        byte[] secretKeyBytes = new byte[32];
         new SecureRandom().nextBytes(secretKeyBytes);
         secretKey = Base64.getEncoder().encodeToString(secretKeyBytes);
     }
@@ -52,21 +52,22 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authorizeRequests -> {
-                authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/account/**").authenticated();
-                authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll();
-                authorizeRequests.requestMatchers(HttpMethod.DELETE, "/api/v1/clients/**", "/api/v1/veterinarians/**", "/api/v1/vaccinations/**", "/api/v1/vaccines/**").hasAuthority("SCOPE_ADMIN");
-                authorizeRequests.anyRequest().authenticated();
-            })
-            .oauth2ResourceServer(config -> {
-                config.jwt(Customizer.withDefaults());
-            })
-            .build();
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(
+                        sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorizeRequests -> {
+                    // authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/account/**").permitAll();
+                    authorizeRequests.anyRequest().permitAll();
+                    // authorizeRequests.anyRequest().permitAll();
+                })
+                .oauth2ResourceServer(config -> {
+                    config.jwt(Customizer.withDefaults());
+                })
+                .build();
     }
-
+ 
     @Bean
     AuthenticationManager authenticationManager(final AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

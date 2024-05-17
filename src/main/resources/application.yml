@@ -17,6 +17,12 @@ spring:
     h2:
         console:
             enabled: false
+    servlet:
+      multipart:
+        max-file-size: 20MB
+        max-request-size: 20MB
+        enabled: true
+        
 
 jwt:
   issuer: sigvet-backend-api

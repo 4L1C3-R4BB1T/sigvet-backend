@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 @Tag(name = "Foto")
 public record PhotoRequestDTO(
     @NotNull(message = "The Upload cannot be null")
-    @FileContentType(allowed = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE } )
+    @FileContentType(allowed = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE }, message = "Only PNG and JPEG is allowed.")
     @FileSize(max = "5MB")
     MultipartFile photo
 ) {}

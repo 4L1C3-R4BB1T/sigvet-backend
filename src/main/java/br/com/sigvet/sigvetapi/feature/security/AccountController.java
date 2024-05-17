@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
+import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
+import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
+import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.entities.UserEntity;
+import br.com.sigvet.sigvetapi.common.entities.enums.EntityType;
 import br.com.sigvet.sigvetapi.common.models.ResponseResultModel;
+import br.com.sigvet.sigvetapi.feature.photo.usecases.FindPhotoUseCase;
 import br.com.sigvet.sigvetapi.feature.user.UserRequestDTO;
 import br.com.sigvet.sigvetapi.feature.user.usecases.CreateUserUseCase;
 import br.com.sigvet.sigvetapi.feature.user.usecases.FindUserByIdUseCase;
@@ -43,24 +49,41 @@ public class AccountController {
 
     private final FindUserByIdUseCase findUserByIdUseCase;
 
+    private final FindPhotoUseCase findPhotoUseCase;
+
+
     @Operation(summary = "Obter informações de um usuário autenticado") 
     @GetMapping("/{id}")
     public ResponseEntity<MappingJacksonValue> get(@PathVariable("id") Long id) {
         final var userEntity = findUserByIdUseCase.execute(id);
+
+        try {
+            findPhotoUseCase.execute(id, EntityType.USER);
+            userEntity.setPhotoUrl(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/photo/user/{id}").buildAndExpand(id).toString());
+        } catch (Exception ex) {}
+
         final var responseResultModel = ResponseResultModel.<UserEntity>builder()
                 .title("Authentication")
-                .statusCode(HttpStatus.CREATED.value())
+                .statusCode(HttpStatus.OK.value())
                 .success(true)
                 .result(userEntity)
                 .build();
-
+ 
         final var mappingJacksonValue = new MappingJacksonValue(responseResultModel);
+        final var simpleFilterProvider = new SimpleFilterProvider().setFailOnUnknownId(false);
 
-        mappingJacksonValue.setFilters(new SimpleFilterProvider().addFilter("user", SimpleBeanPropertyFilter.serializeAll()));
+        simpleFilterProvider
+            .addFilter(UserEntity.USER_ENTITY_FILTER_KEY, SimpleBeanPropertyFilter.serializeAllExcept("password", "animals"))
+            .addFilter(ClientEntity.CLIENT_ENTITY_FILTER_KEY, SimpleBeanPropertyFilter.serializeAllExcept("password"))
+            .addFilter(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, SimpleBeanPropertyFilter.serializeAllExcept("user"))
+            .addFilter(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY, SimpleBeanPropertyFilter.serializeAllExcept("client"));
+
+        
+        mappingJacksonValue.setFilters(simpleFilterProvider);
  
         return ResponseEntity.ok(mappingJacksonValue);
 
-    }
+    }  
     
     @Operation(summary = "Criar um usuário e obter token de autenticação") 
     @PostMapping

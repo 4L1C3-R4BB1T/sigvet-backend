@@ -58,8 +58,8 @@ public class UserRequestDTO {
     protected Address address;
 
     @Schema(name = "Endereço")
-    @Getter
-    @Setter
+    @Getter 
+    @Setter 
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

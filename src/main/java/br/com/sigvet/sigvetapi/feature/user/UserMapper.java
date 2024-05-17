@@ -26,7 +26,7 @@ public interface UserMapper {
     })
     UserEntity fromModel(UserRequestDTO source);
 
-     default AddressEntity mapAddress(UserRequestDTO source) {
+    default AddressEntity mapAddress(UserRequestDTO source) {
         if (Objects.isNull(source.getAddress())) {
             return null;
         }

@@ -38,7 +38,7 @@ public class PhotoController {
         final var url = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(id);
         photoResponse.setLink(url.toUriString());
         return ResponseEntity.ok(photoResponse);
-    }
+    } 
 
     @Operation(summary = "Obeter foto de usuário")
     @GetMapping(value = "/user/{id}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
@@ -55,13 +55,13 @@ public class PhotoController {
         final var url = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(id);
         photoResponse.setLink(url.toUriString());
         return ResponseEntity.ok(photoResponse);
-    }
+    } 
 
     @Operation(summary = "Obter foto de vacina")
     @GetMapping(value = "/vaccine/{id}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     public ResponseEntity<InputStreamResource> getForVaccine(@PathVariable("id") Long id) {
         return ResponseEntity.ok(findPhotoUseCase.execute(id, EntityType.VACCINE));
-    }
+    } 
 
     @Operation(summary = "Upload de foto para animal")
     @PutMapping(value = "/animal/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
