@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
-import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
