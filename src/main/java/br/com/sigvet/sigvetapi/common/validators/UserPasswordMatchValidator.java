@@ -10,8 +10,8 @@ public class UserPasswordMatchValidator implements ConstraintValidator<UserPassw
 
     @Override
     public boolean isValid(UserRequestDTO target, ConstraintValidatorContext context) {
-        return Objects.nonNull(target.getPassword()) && Objects.nonNull(target.getConfirmationPassword())
-            && target.getPassword().equalsIgnoreCase(target.getConfirmationPassword());
+        return (Objects.isNull(target.getPassword()) && Objects.isNull(target.getConfirmationPassword()))
+            || target.getPassword().equalsIgnoreCase(target.getConfirmationPassword());
     }
     
 }

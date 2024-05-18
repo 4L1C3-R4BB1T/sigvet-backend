@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties({ "createdAt", "updatedAt", "deleted" })
+@JsonIgnoreProperties({ "deleted" })
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor

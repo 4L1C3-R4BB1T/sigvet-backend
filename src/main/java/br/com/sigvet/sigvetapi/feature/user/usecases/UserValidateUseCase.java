@@ -30,15 +30,15 @@ public class UserValidateUseCase {
 
         final List<String> errors = new ArrayList<>();
 
-        if (userRepository.existsByEmail(target.getEmail())) {
+        if (userRepository.existsByEmail(normalizeString(target.getEmail()))) {
             errors.add("Email is already registered");
         }
 
-        if (userRepository.existsByDocument(target.getDocument())) {
+        if (userRepository.existsByDocument(removeNonNumericCharacteres(target.getDocument()))) {
             errors.add("The document is already registered");
         }
 
-        if (userRepository.existsByUsername(target.getDocument())) {
+        if (userRepository.existsByUsername(normalizeString(target.getUsername()))) {
             errors.add("The username is already in use");
         }
 
@@ -69,26 +69,29 @@ public class UserValidateUseCase {
             source.getAddress().setUser(target);
         }
 
-        if (userRepository.existsByEmail(source.getEmail())) {
+        if (userRepository.existsByEmail(normalizeString(source.getEmail()))) {
             if (!normalizeString(target.getEmail()).equals(normalizeString(source.getEmail()))) {
                 errors.add("Email is already registered");
             }
         }
 
-        if (userRepository.existsByDocument(target.getDocument())) {
+
+        if (userRepository.existsByDocument(removeNonNumericCharacteres(source.getDocument()))) {
             if (!removeNonNumericCharacteres(target.getDocument())
                     .equals(removeNonNumericCharacteres(source.getDocument()))) {
                 errors.add("The document is already registered");
             }
         }
 
-        if (userRepository.existsByUsername(target.getUsername())) {
+        if (userRepository.existsByUsername(normalizeString(source.getUsername()))) {
             if (!normalizeString(target.getUsername()).equals(normalizeString(source.getUsername()))) {
                 errors.add("The username is already in use");
             }
         }
 
-        target.setPassword(passwordEncoder.encode(source.getPassword()));
+        if (Objects.nonNull(source.getPassword())) {
+            target.setPassword(passwordEncoder.encode(source.getPassword()));
+        }
 
         return errors;
     }

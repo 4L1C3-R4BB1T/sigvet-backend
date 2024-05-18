@@ -46,11 +46,10 @@ public class UserRequestDTO {
     @Size(message = "Phonw max size is 18 characters", max = 18)
     protected String phone;
 
-    @NotBlank(message = "Password can't be blank")
     @Size(message = "Password max size is 100 characters", max = 100)
     protected String password;
 
-    @NotBlank(message = "Confirmation Password can't be blank")
+    
     @Size(message = "Confirmation Password max size is 100 characters", max = 100)
     protected String confirmationPassword;
 

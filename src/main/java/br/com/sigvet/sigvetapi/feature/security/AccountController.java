@@ -51,6 +51,21 @@ public class AccountController {
 
     private final FindPhotoUseCase findPhotoUseCase;
 
+    private final RecoverUserUseCase recoverUserUseCase;
+
+    @Operation(summary = "Resetar senha de um usuário") 
+    @PostMapping("/recover")
+    public ResponseEntity<ResponseResultModel<Boolean>> post(@RequestBody @Valid RecoverUserRequestDTO request) {
+        final var responseResultModel = ResponseResultModel.<Boolean>builder()
+            .title("Authentication")
+            .statusCode(HttpStatus.CREATED.value())
+            .success(true)
+            .result(recoverUserUseCase.execute(request))
+            .build();
+        
+        return ResponseEntity.ok(responseResultModel);
+    }
+
 
     @Operation(summary = "Obter informações de um usuário autenticado") 
     @GetMapping("/{id}")
