@@ -33,7 +33,7 @@ public class AnimalController extends CrudController<AnimalEntity, AnimalRequest
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {   
-                put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("animals", "roles", "password", "address", "updatedAt", "createdAt"));
+                put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("animals", "roles", "password", "updatedAt", "createdAt"));
                 put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("user"));
             }
         });
