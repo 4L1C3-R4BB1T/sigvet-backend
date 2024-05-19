@@ -23,6 +23,8 @@ SELECT setval('vaccinations_id_seq', 1, false);
 SELECT setval('vaccines_id_seq', 1, false);
 SELECT setval('veterinarians_id_seq', 1, false);
 
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
 -- Populando a tabela ufs
 INSERT INTO states (id, name) VALUES
     ('AC', 'Acre'),

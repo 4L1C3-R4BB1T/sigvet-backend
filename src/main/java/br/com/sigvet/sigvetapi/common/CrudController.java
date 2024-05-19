@@ -126,10 +126,25 @@ public class CrudController<E extends BaseEntity<Long>, M> {
         return ResponseEntity.noContent().build();
     }
 
-    private <T> MappingJacksonValue buildJacksonValue(final T obj) {
+    protected <T> MappingJacksonValue buildJacksonValue(final T obj) {
         final var simpleFilterProvider = new SimpleFilterProvider().setFailOnUnknownId(false);
 
         for (Map.Entry<String, List<String>> set : attributeFilters.entrySet()) {
+            simpleFilterProvider.addFilter(
+                    set.getKey(),
+                    SimpleBeanPropertyFilter.serializeAllExcept(set.getValue().toArray(new String[] {})));
+        }
+
+        final var mappingJacksonValue = new MappingJacksonValue(obj);
+        mappingJacksonValue.setFilters(simpleFilterProvider);
+
+        return mappingJacksonValue;
+    }
+
+    protected <T> MappingJacksonValue buildJacksonValue(final T obj, Map<String, List<String>> filters) {
+        final var simpleFilterProvider = new SimpleFilterProvider().setFailOnUnknownId(false);
+
+        for (Map.Entry<String, List<String>> set : filters.entrySet()) {
             simpleFilterProvider.addFilter(
                     set.getKey(),
                     SimpleBeanPropertyFilter.serializeAllExcept(set.getValue().toArray(new String[] {})));
