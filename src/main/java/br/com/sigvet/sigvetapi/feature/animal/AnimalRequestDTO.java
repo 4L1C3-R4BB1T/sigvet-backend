@@ -14,7 +14,7 @@ public record AnimalRequestDTO(
     @Size(message = "Name max size is 255 characters", max = 255) 
     String name,
 
-    @NotBlank(message = "Breed can't be blank") 
+    @NotBlank(message = "Breed can't be blank")  
     @Size(message = "Breed max size is 255 characters", max = 255) 
     String breed,
 

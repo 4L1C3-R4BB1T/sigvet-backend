@@ -76,7 +76,6 @@ public class PhotoController {
     @Operation(summary = "Obter foto de animal")
     @GetMapping(value = "/animal/{id}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     public ResponseEntity<InputStreamResource> getForAnimal(@PathVariable("id") Long id) {
-        System.out.println("OII");
         return ResponseEntity.ok(findPhotoUseCase.execute(id, EntityType.ANIMAL));
     }
 

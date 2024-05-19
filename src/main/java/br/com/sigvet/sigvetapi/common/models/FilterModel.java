@@ -44,7 +44,7 @@ public class FilterModel { //TODO Adicionar filtro de campos e swagger.
     public FilterModel(Map<String, String> parameters) {
         size = parameters.containsKey(SIZE_KEY) ? Integer.parseInt(parameters.get(SIZE_KEY)) : MAX_SIZE;
         page = parameters.containsKey(PAGE_KEY) ? Integer.parseInt(parameters.get(PAGE_KEY)) : DEFAULT_PAGE;
-        sort = parameters.containsKey(SORT_KEY) ? parameters.get(SORT_KEY) : DEFAULT_VALUE;
+        sort = parameters.containsKey(SORT_KEY) ? parameters.get(SORT_KEY) : "id";
         equalFilters = parameters.containsKey(EQUAL_FILTERS_KEY) ? parameters.get(EQUAL_FILTERS_KEY) : DEFAULT_VALUE;
         inFilters = parameters.containsKey(IN_FILTERS_KEY) ? parameters.get(IN_FILTERS_KEY) : DEFAULT_VALUE;
     }

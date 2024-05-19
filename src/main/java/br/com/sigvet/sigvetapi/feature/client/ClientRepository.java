@@ -17,7 +17,7 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long>, Jpa
         return findByIdAndDeleted(id, false);
     }
 
-    @Query(value = "SELECT * FROM clients c INNER JOIN users u ON u.id = c.id WHERE LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM clients c INNER JOIN users u ON u.id = c.id WHERE LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) AND u.deleted = false", nativeQuery = true)
     List<ClientEntity> searchByName(String name);
 
 }
