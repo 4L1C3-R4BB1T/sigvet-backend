@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,9 @@ public class AnimalEntity extends BaseEntity<Long> {
     private String breed;
 
     private LocalDate birthDate;
+
+    @Transient
+    private String photoUrl;
 
     @JoinColumn(nullable = false)
     @ManyToOne

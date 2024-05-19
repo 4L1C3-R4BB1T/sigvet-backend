@@ -22,6 +22,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
@@ -31,7 +33,7 @@ import lombok.Getter;
 @Configuration
 @EnableWebSecurity
 @Getter
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 
     private String secretKey;
 
@@ -47,6 +49,13 @@ public class SecurityConfig {
         byte[] secretKeyBytes = new byte[32];
         new SecureRandom().nextBytes(secretKeyBytes);
         secretKey = Base64.getEncoder().encodeToString(secretKeyBytes);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+        .allowedOrigins("*")
+        .allowedMethods("*");
     }
 
     @Bean
