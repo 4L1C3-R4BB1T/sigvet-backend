@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.animal.usecases;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class FindAnimalByIdUseCase implements FindByIdUseCase<AnimalEntity> {
     @Override
     public AnimalEntity execute(Long id) {
         final var animal = repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Animal with id %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Animal not found", List.of("Animal with id %d not found".formatted(id))));
         try {
             findPhotoUseCase.execute(id, EntityType.ANIMAL);
             animal.setPhotoUrl(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/photo/animal/{id}").buildAndExpand(id).toString());

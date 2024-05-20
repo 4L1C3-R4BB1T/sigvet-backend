@@ -12,4 +12,6 @@ public interface PhotoRepository extends JpaRepository<PhotoEntity, Long> {
     Optional<PhotoEntity> findByEntityIdAndEntityType(Long entityId, EntityType entityType);
 
     boolean existsByEntityIdAndEntityType(Long entityId, EntityType entityType);
+
+    int deleteByEntityIdAndEntityType(Long entityId, EntityType entityType);
 }

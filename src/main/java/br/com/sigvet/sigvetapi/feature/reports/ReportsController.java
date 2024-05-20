@@ -16,6 +16,7 @@ import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
+import br.com.sigvet.sigvetapi.feature.reports.usecases.GetGeneralMetricsUseCase;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,14 @@ public class ReportsController {
     private final ConsultRepository consultRepository;
     private final VaccinationRepository vaccinationRepository;
     private final VeterinarianRepository veterinarianRepository;
+
+    private final GetGeneralMetricsUseCase generalMetricsUseCase;
+
+    @Operation(description = "Obtém métricas gerais")
+    @GetMapping("/general-metrics")
+    public ResponseEntity<GeneralMetricsResponseDTO> getGeneralMetrics() {
+        return ResponseEntity.ok(generalMetricsUseCase.execute());
+    }
 
     @Operation(summary = "Obter relatório de total faturado")
     @ApiResponses({

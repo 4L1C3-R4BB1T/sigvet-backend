@@ -151,12 +151,43 @@ INSERT INTO addresses (street, neighborhood, zip_code, number, city_id, user_id)
     ('Rua J', 'Bairro 10', '01234567', 1000, 10, 10);
 
 -- Populando a tabela animais
-INSERT INTO animals (name, breed, birth_date, client_id) VALUES
-    ('Tobby', 'Vira-lata', '2019-05-15', 1),
-    ('Rex', 'Labrador', NULL, 2),
-    ('Luna', 'Siamese', '2020-08-20', 3),
-    ('Max', 'Golden Retriever', NULL, 4),
-    ('Bella', 'Persian', '2018-12-10', 5);
+INSERT INTO animals (name, breed, birth_date, client_id, created_at, updated_at) VALUES
+    ('Maximus', 'German Shepherd', '2019-03-25', 1, '2023-11-01', '2023-11-01'),
+    ('Milo', 'Labrador Retriever', NULL, 2, '2023-11-05', '2023-11-05'),
+    ('Coco', 'Pomeranian', '2022-08-10', 3, '2023-11-10', '2023-11-10'),
+    ('Oscar', 'Pug', NULL, 4, '2023-11-15', '2023-11-15'),
+    ('Buddy', 'Golden Retriever', '2022-07-20', 5, '2023-11-20', '2023-11-20'),
+    ('Rocky', 'French Bulldog', NULL, 1, '2023-11-25', '2023-11-25'),
+    ('Lola', 'Siberian Husky', '2023-10-05', 2, '2023-12-01', '2023-12-01'),
+    ('Bailey', 'Dalmatian', NULL, 3, '2023-12-05', '2023-12-05'),
+    ('Cooper', 'Border Collie', '2023-05-15', 4, '2023-12-10', '2023-12-10'),
+    ('Duke', 'Rottweiler', NULL, 5, '2023-12-15', '2023-12-15'),
+    ('Stella', 'English Bulldog', '2023-01-20', 1, '2023-12-20', '2023-12-20'),
+    ('Tucker', 'Boxer', NULL, 2, '2023-12-25', '2023-12-25'),
+    ('Zoe', 'Shih Tzu', '2023-09-10', 3, '2024-01-01', '2024-01-01'),
+    ('Bailey', 'Yorkshire Terrier', NULL, 4, '2024-01-05', '2024-01-05'),
+    ('Bear', 'Bulldog', '2022-04-22', 5, '2024-01-10', '2024-01-10'),
+    ('Oliver', 'Cavalier King Charles Spaniel', NULL, 1, '2024-01-15', '2024-01-15'),
+    ('Bentley', 'Chihuahua', '2023-06-30', 2, '2024-01-20', '2024-01-20'),
+    ('Riley', 'Bernese Mountain Dog', NULL, 3, '2024-01-25', '2024-01-25'),
+    ('Lily', 'Doberman Pinscher', '2022-12-10', 4, '2024-02-01', '2024-02-01'),
+    ('Charlie', 'Shiba Inu', NULL, 5, '2024-02-05', '2024-02-05'),
+    ('Daisy', 'Poodle', '2022-02-15', 1, '2024-02-10', '2024-02-10'),
+    ('Lucy', 'Corgi', NULL, 2, '2024-02-15', '2024-02-15'),
+    ('Bella', 'Maltese', '2022-10-20', 3, '2024-02-20', '2024-02-20'),
+    ('Molly', 'Dachshund', NULL, 4, '2024-02-25', '2024-02-25'),
+    ('Rosie', 'English Springer Spaniel', '2023-04-18', 5, '2024-03-01', '2024-03-01'),
+    ('Toby', 'Jack Russell Terrier', NULL, 1, '2024-03-05', '2024-03-05'),
+    ('Penny', 'Shetland Sheepdog', '2022-03-10', 2, '2024-03-10', '2024-03-10'),
+    ('Mia', 'Great Dane', NULL, 3, '2024-03-15', '2024-03-15'),
+    ('Milo', 'Australian Shepherd', '2023-07-25', 4, '2024-03-20', '2024-03-20'),
+    ('Leo', 'Pit Bull', NULL, 5, '2024-03-25', '2024-03-25'),
+    ('Sophie', 'Miniature Schnauzer', '2023-03-01', 1, '2024-04-01', '2024-04-01'),
+    ('Luna', 'Golden Retriever', NULL, 2, '2024-04-05', '2024-04-05'),
+    ('Jack', 'West Highland White Terrier', '2022-05-12', 3, '2024-04-10', '2024-04-10'),
+    ('Rocco', 'Schnoodle', NULL, 4, '2024-04-15', '2024-04-15');
+   
+
 
 -- Populando a tabela vacinas
 INSERT INTO vaccines (name, manufacturer, lot, unit_price, stock, expiration_date) VALUES
