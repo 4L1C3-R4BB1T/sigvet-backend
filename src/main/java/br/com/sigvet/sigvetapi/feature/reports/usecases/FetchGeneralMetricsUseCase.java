@@ -22,7 +22,7 @@ public class FetchGeneralMetricsUseCase {
             GeneralMetricsResponseDTO result = (GeneralMetricsResponseDTO) query.getSingleResult();
          return result;
         } catch (Exception ex) {
-            return new GeneralMetricsResponseDTO(0L, 0L, 0L, BigDecimal.ZERO);
+            return new GeneralMetricsResponseDTO(0L, 0L, 0L, 0L, 0L, 0L, BigDecimal.ZERO, BigDecimal.ZERO);
         }
     }
 }

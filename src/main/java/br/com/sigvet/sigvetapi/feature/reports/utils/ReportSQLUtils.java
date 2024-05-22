@@ -4,10 +4,32 @@ public final class ReportSQLUtils {
     
     public static final String GENERAL_METRICS_SQL = """
         SELECT 
-            (SELECT COUNT(*) FROM clients c, users u WHERE c.id = u.id AND u.deleted IS FALSE) as "totalClients",
-            (SELECT COUNT(*) FROM animals a WHERE a.deleted IS FALSE) as "totalAnimals",
-            (SELECT COUNT(*) FROM consults c WHERE c.deleted IS FALSE) as "totalConsults",
-            (SELECT COUNT(*) FROM consults c WHERE c.deleted IS FALSE AND status = 'COMPLETED') * 350 as "revenue";
+            (SELECT COUNT(*) FROM clients c, users u WHERE c.id = u.id AND u.deleted IS FALSE AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM u.created_at)) AS "totalClients",
+            (SELECT COUNT(*) 
+                FROM clients c, users u 
+                WHERE c.id = u.id 
+                AND u.deleted IS FALSE 
+                AND EXTRACT(MONTH FROM u.created_at) = EXTRACT(MONTH FROM NOW()) - 1
+                AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM u.created_at))  AS "totalClientsPreviousMonth",
+            (SELECT COUNT(*) FROM animals a WHERE a.deleted IS FALSE AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM a.created_at)) AS "totalAnimals",
+            (SELECT COUNT(*) 
+                FROM animals a 
+                WHERE a.deleted IS FALSE
+                AND EXTRACT(MONTH FROM a.created_at) = EXTRACT(MONTH FROM NOW()) - 1
+                AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM a.created_at)) AS "totalAnimalsPreviousMonth",
+            (SELECT COUNT(*) FROM consults c WHERE c.deleted IS FALSE AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM c.created_at)) AS "totalConsults",
+            (SELECT COUNT(*) 
+                FROM consults c 
+                WHERE c.deleted IS FALSE
+                AND EXTRACT(MONTH FROM c.created_at) = EXTRACT(MONTH FROM NOW()) - 1
+                AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM c.created_at)) AS "totalConsultsPreviousMonth",
+            (SELECT COUNT(*) 
+                FROM consults c 
+                WHERE c.deleted IS FALSE AND status = 'COMPLETED' 
+                AND EXTRACT(MONTH FROM c.created_at) = EXTRACT(MONTH FROM NOW()) - 1
+                AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM c.created_at)) * 350 AS "totalRevenuePreviousMonth",
+            (SELECT COUNT(*) FROM consults c WHERE c.deleted IS FALSE AND status = 'COMPLETED' AND EXTRACT(YEAR FROM NOW()) = EXTRACT(YEAR FROM c.created_at)) * 350 AS "revenue";
+
         """;
 
     public static final String GENERAL_METRICS_RESULT_MAPPING_KEY = "GeneralMetricsResult";

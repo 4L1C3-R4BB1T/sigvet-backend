@@ -7,9 +7,13 @@
     <sql-result-set-mapping name="GeneralMetricsResult">
         <constructor-result target-class="br.com.sigvet.sigvetapi.feature.reports.dtos.GeneralMetricsResponseDTO">
             <column name="totalClients" class="java.lang.Long"/>
+            <column name="totalClientsPreviousMonth" class="java.lang.Long"/>
             <column name="totalAnimals" class="java.lang.Long"/>
+            <column name="totalAnimalsPreviousMonth" class="java.lang.Long"/>
             <column name="totalConsults" class="java.lang.Long"/>
+            <column name="totalConsultsPreviousMonth" class="java.lang.Long"/>
             <column name="revenue" class="java.math.BigDecimal"/>
+            <column name="totalRevenuePreviousMonth" class="java.math.BigDecimal"/>
         </constructor-result>
     </sql-result-set-mapping>
 

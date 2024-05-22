@@ -23,7 +23,6 @@ public class FetchTotalCountVaccineOfUsesUseCase {
             TotalCountVaccineOfUsesResponseDTO result = (TotalCountVaccineOfUsesResponseDTO) query.getSingleResult();
          return result;
         } catch (Exception ex) {
-            System.out.println(ex);
             return new TotalCountVaccineOfUsesResponseDTO(0L);
         }
     }
