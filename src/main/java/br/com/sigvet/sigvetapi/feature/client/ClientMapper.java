@@ -25,6 +25,7 @@ public interface ClientMapper extends EntityMapper<ClientRequestDTO, ClientEntit
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
         @Mapping(target = "animals", ignore = true),
+        @Mapping(target = "photoUrl", ignore = true),
         @Mapping(target = "id", ignore = true),
         @Mapping(target = "address", expression = "java(mapAddress(source))"),
         @Mapping(target = "roles", ignore = true)

@@ -21,6 +21,7 @@ public interface AnimalMapper extends EntityMapper<AnimalRequestDTO, AnimalEntit
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
+        @Mapping(target = "photoUrl", ignore = true),
         @Mapping(target = "id", ignore = true),
         @Mapping(target = "client", expression = "java(mapClientEntity(source))"),
     })

@@ -24,6 +24,7 @@ public interface VeterinarianMapper extends EntityMapper<VeterinarianRequestDTO,
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
+        @Mapping(target = "photoUrl", ignore = true),
         @Mapping(target = "id", ignore = true),
         @Mapping(target = "roles", ignore = true),
         @Mapping(target = "address", expression = "java(mapAddress(source))")

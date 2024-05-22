@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
+                 version="2.2">
+
+    <sql-result-set-mapping name="GeneralMetricsResult">
+        <constructor-result target-class="br.com.sigvet.sigvetapi.feature.reports.dtos.GeneralMetricsResponseDTO">
+            <column name="totalClients" class="java.lang.Long"/>
+            <column name="totalAnimals" class="java.lang.Long"/>
+            <column name="totalConsults" class="java.lang.Long"/>
+            <column name="revenue" class="java.math.BigDecimal"/>
+        </constructor-result>
+    </sql-result-set-mapping>
+
+
+    <sql-result-set-mapping name="MonthlyAnimalCreationCount">
+        <constructor-result target-class="br.com.sigvet.sigvetapi.feature.reports.dtos.MonthlyAnimalCreationCountResponseDTO">
+            <column name="month" class="java.lang.Integer"/>
+            <column name="count" class="java.lang.Long"/>
+        </constructor-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="MonthlyClientCreationCount">
+        <constructor-result target-class="br.com.sigvet.sigvetapi.feature.reports.dtos.MonthlyClientCreationCountResponseDTO">
+            <column name="month" class="java.lang.Integer"/>
+            <column name="count" class="java.lang.Long"/>
+        </constructor-result>
+    </sql-result-set-mapping>
+
+    <sql-result-set-mapping name="TotalCountVaccineOfUses">
+        <constructor-result target-class="br.com.sigvet.sigvetapi.feature.reports.dtos.TotalCountVaccineOfUsesResponseDTO">
+            <column name="count" class="java.lang.Long"/>
+        </constructor-result>
+    </sql-result-set-mapping>
+</entity-mappings>

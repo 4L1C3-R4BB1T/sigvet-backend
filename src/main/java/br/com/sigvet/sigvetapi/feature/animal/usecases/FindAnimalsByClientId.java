@@ -24,10 +24,13 @@ public class FindAnimalsByClientId {
         return animals.stream() 
             .map(animal -> {
                   try {
-                    findPhotoUseCase.execute(id, EntityType.ANIMAL);
+                    findPhotoUseCase.execute(animal.getId(), EntityType.ANIMAL);
                     animal.setPhotoUrl(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/photo/animal/{id}").buildAndExpand(animal.getId()).toString());
-                } catch (Exception ex) {}
+                } catch (Exception ex) {
+                    animal.setPhotoUrl(null);
+                }
                 return animal;
         }).toList();
     }
 }
+ 

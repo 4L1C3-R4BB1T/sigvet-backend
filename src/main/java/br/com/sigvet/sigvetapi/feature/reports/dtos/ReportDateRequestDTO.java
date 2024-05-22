@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.feature.reports;
+package br.com.sigvet.sigvetapi.feature.reports.dtos;
 
 import java.sql.Date;
 

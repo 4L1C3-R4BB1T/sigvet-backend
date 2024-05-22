@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.feature.reports;
+package br.com.sigvet.sigvetapi.feature.reports.dtos;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TotalBilledResponse {
+public class TotalBilledResponseDTO {
 
     BigDecimal totalBilled;
     Long consults;

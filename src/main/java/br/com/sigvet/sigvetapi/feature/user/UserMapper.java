@@ -20,6 +20,7 @@ public interface UserMapper {
         @Mapping(target = "deleted", ignore = true),
         @Mapping(target = "createdAt", ignore = true),
         @Mapping(target = "updatedAt", ignore = true),
+        @Mapping(target = "photoUrl", ignore = true),
         @Mapping(target = "id", ignore = true),
         @Mapping(target = "address", expression = "java(mapAddress(source))"),
         @Mapping(target = "roles", ignore = true)
