@@ -10,7 +10,10 @@ import br.com.sigvet.sigvetapi.common.CrudController;
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.CityEntity;
+import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
+import br.com.sigvet.sigvetapi.common.entities.VaccineEntity;
+import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Vacinações", description = "Agrupa endpoints para gerenciar vacinações")
@@ -22,9 +25,12 @@ public class VaccinationController extends CrudController<VaccinationEntity, Vac
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {
-                put(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY, List.of("client"));
-                put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("user"));
+                put(AnimalEntity.ANIMAL_ENTITY_FILTER_KEY, List.of( "createdAt", "updatedAt"));
+                put(AddressEntity.ADDRESS_ENTITY_FILTER_KEY, List.of("address"));
+                put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("address", "animals", "password", "roles", "createdAt", "updatedAt"));
                 put(CityEntity.CITY_ENTITY_FILTER_KEY, List.of("state"));
+                put(VaccineEntity.VACCINE_ENTITY_FILTER_KEY, List.of("createdAt", "updatedAt"));
+                put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of("password", "address", "roles", "createdAt", "updatedAt"));
             }
         });
     }

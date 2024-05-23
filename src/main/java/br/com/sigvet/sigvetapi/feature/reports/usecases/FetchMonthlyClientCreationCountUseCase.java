@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class FetchMonthlyClienCreationCountUseCase {
+public class FetchMonthlyClientCreationCountUseCase {
     
     private final EntityManager entityManager;
     

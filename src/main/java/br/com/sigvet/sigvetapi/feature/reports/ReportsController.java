@@ -24,7 +24,7 @@ import br.com.sigvet.sigvetapi.feature.reports.dtos.TotalBilledResponseDTO;
 import br.com.sigvet.sigvetapi.feature.reports.dtos.TotalCountVaccineOfUsesResponseDTO;
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchGeneralMetricsUseCase;
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchMonthlyAnimalCreationCountUseCase;
-import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchMonthlyClienCreationCountUseCase;
+import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchMonthlyClientCreationCountUseCase;
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchTotalCountVaccineOfUsesUseCase;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
@@ -53,7 +53,7 @@ public class ReportsController {
 
     private final FetchMonthlyAnimalCreationCountUseCase fetchMonthlyAnimalCreationCountUseCase;
 
-    private final FetchMonthlyClienCreationCountUseCase fetchMonthlyClienCreationCountUseCase;
+    private final FetchMonthlyClientCreationCountUseCase fetchMonthlyClientCreationCountUseCase;
 
     private final FetchTotalCountVaccineOfUsesUseCase fetchTotalCountVaccineOfUsesUseCase;
 
@@ -68,7 +68,7 @@ public class ReportsController {
     public ResponseEntity<MonthlyClientAndAnimalCountResponseDTO> getMonthlyAnimalsAndClients() {
         final var response = new MonthlyClientAndAnimalCountResponseDTO(
             fetchMonthlyAnimalCreationCountUseCase.execute(), 
-            fetchMonthlyClienCreationCountUseCase.execute()
+            fetchMonthlyClientCreationCountUseCase.execute()
         );
         return ResponseEntity.ok(response);
     }
