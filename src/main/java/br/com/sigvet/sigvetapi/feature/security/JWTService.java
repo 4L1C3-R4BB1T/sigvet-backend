@@ -33,7 +33,7 @@ public class JWTService {
         String scopes = authentication.getAuthorities()
             .stream()
             .map(scope -> scope.getAuthority())
-            .collect(Collectors.joining(","));
+            .collect(Collectors.joining(" "));
 
         var jwtClaims = JwtClaimsSet.builder()
             .issuedAt(now)
@@ -41,7 +41,7 @@ public class JWTService {
             .expiresAt(now.plus(expiresInMinutes, ChronoUnit.MINUTES))
             .subject(authentication.getName())
             .claims(addClaims -> {
-                addClaims.put("role", scopes);
+                addClaims.put("scope", scopes);
                 final var principal = authentication.getPrincipal();
                 if (principal instanceof User user) {
                     addClaims.put("user_id", user.getId());

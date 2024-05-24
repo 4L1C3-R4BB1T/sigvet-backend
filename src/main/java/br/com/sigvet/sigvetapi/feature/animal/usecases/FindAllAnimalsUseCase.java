@@ -3,8 +3,11 @@ package br.com.sigvet.sigvetapi.feature.animal.usecases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.nimbusds.jose.proc.SecurityContext;
 
 import br.com.sigvet.sigvetapi.common.EntitySpecification;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
@@ -24,8 +27,8 @@ public class FindAllAnimalsUseCase implements FindAllUseCase<AnimalEntity> {
     private final FindPhotoUseCase findPhotoUseCase;
 
     @Override
-    public Page<AnimalEntity> execute(FilterModel filter) {
-          final Page<AnimalEntity> oldPage = repository.findAll(buildSpecification(filter), filter.toPageable());
+    public Page<AnimalEntity> execute(final FilterModel filter) {
+        final Page<AnimalEntity> oldPage = repository.findAll(buildSpecification(filter), filter.toPageable());
         final var content = oldPage.getContent().stream().map(obj -> {
             try {
                 findPhotoUseCase.execute(obj.getId(), EntityType.ANIMAL);
@@ -36,7 +39,7 @@ public class FindAllAnimalsUseCase implements FindAllUseCase<AnimalEntity> {
         return new PageImpl<>(content, oldPage.getPageable(), oldPage.getTotalElements());
     }
 
-    private Specification<AnimalEntity> buildSpecification(FilterModel filterModel) {
+    private Specification<AnimalEntity> buildSpecification(final FilterModel filterModel) {
         Specification<AnimalEntity> spec = Specification
                 .where((root, query, cb) -> cb.equal(root.get("deleted"), false));
 

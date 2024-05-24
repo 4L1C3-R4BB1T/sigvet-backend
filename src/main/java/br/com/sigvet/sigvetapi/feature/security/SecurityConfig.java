@@ -69,7 +69,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                     authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll();
                     authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/account/**").permitAll();
                     authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/photo/**").permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.DELETE, "/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_CLIENT");
+                    authorizeRequests.requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("SCOPE_ADMIN");
                     authorizeRequests.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(config -> {
