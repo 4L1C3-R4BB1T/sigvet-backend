@@ -34,20 +34,20 @@ public class UserValidateUseCase {
         final List<String> errors = new ArrayList<>();
 
         if (userRepository.existsByEmail(normalizeString(target.getEmail()))) {
-            errors.add("Email is already registered");
+            errors.add("Email já em uso");
         }
 
         if (userRepository.existsByDocument(removeNonNumericCharacteres(target.getDocument()))) {
-            errors.add("The document is already registered");
+            errors.add("Documento já em uso");
         }
 
         if (userRepository.existsByUsername(normalizeString(target.getUsername()))) {
-            errors.add("The username is already in use");
+            errors.add("Apelido já em uso");
         }
 
         if (Objects.nonNull(target.getAddress())) {
             if (!cityRepository.existsById(target.getAddress().getCity().getId())) {
-                errors.add("There is no city and state with the information provided");
+                errors.add("Não há cidade cadastrada para esse endereço");
             }
             target.getAddress().setUser(target);
         }
@@ -67,14 +67,14 @@ public class UserValidateUseCase {
 
         if (Objects.nonNull(source.getAddress())) {
             if (!cityRepository.existsById(source.getAddress().getCity().getId())) {
-                errors.add("There is no city with the information provided");
+                errors.add("Não há cidade cadastrada para esse endereço");
             }
             source.getAddress().setUser(target);
         }
 
         if (userRepository.existsByEmail(normalizeString(source.getEmail()))) {
             if (!normalizeString(target.getEmail()).equals(normalizeString(source.getEmail()))) {
-                errors.add("Email is already registered");
+                errors.add("Email já em uso");
             }
         }
 
@@ -82,13 +82,13 @@ public class UserValidateUseCase {
         if (userRepository.existsByDocument(removeNonNumericCharacteres(source.getDocument()))) {
             if (!removeNonNumericCharacteres(target.getDocument())
                     .equals(removeNonNumericCharacteres(source.getDocument()))) {
-                errors.add("The document is already registered");
+                errors.add("Documento já em uso");
             }
         }
 
         if (userRepository.existsByUsername(normalizeString(source.getUsername()))) {
             if (!normalizeString(target.getUsername()).equals(normalizeString(source.getUsername()))) {
-                errors.add("The username is already in use");
+                errors.add("Apelido já em uso");
             }
         }
 

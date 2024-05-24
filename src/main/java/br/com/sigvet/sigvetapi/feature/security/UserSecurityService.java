@@ -20,7 +20,6 @@ public class UserSecurityService implements UserDetailsService {
             .map(userEntity -> {
                 return User.builder()
                     .id(userEntity.getId())
-                    .username(userEntity.getUsername())
                     .email(userEntity.getEmail())
                     .password(userEntity.getPassword())
                     .roles(userEntity.getRoles())
