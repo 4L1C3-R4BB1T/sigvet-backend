@@ -96,20 +96,50 @@ INSERT INTO users (username, password, email, name, document, phone) VALUES
     ('user7', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user7@email.com', 'Mariana Silva', '45612378940', NULL),
     ('user8', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user8@email.com', 'Fernando Santos', '98865432110', '123456789'),
     ('user9', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user9@email.com', 'Patricia Souza', '78945612310', '654987321'),
-    ('user10', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user10@email.com', 'Rafaela Costa', '15936885210', NULL);
+    ('user10', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user10@email.com', 'Rafaela Costa', '15936885210', NULL),
+    ('user11', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user11@email.com', 'Guilherme Almeida', '12312312310', '123123123'),
+    ('user12', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user12@email.com', 'Julia Carvalho', '32132132110', '321321321'),
+    ('user13', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user13@email.com', 'Thiago Mendes', '98798798710', '987987987'),
+    ('user14', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user14@email.com', 'Fernanda Lima', '65465465410', '654654654'),
+    ('user15', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user15@email.com', 'Ricardo Pereira', '32165498710', '321654987'),
+    ('user16', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user16@email.com', 'Renata Nogueira', '78912345610', '789123456'),
+    ('user17', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user17@email.com', 'Felipe Souza', '14725836910', '147258369'),
+    ('user18', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user18@email.com', 'Amanda Ribeiro', '25836914710', '258369147'),
+    ('user19', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user19@email.com', 'Gabriel Ferreira', '36914725810', '369147258'),
+    ('user20', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user20@email.com', 'Bruna Cardoso', '14736925810', '147369258'),
+    ('user21', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user21@email.com', 'Lucas Lima', '25814736910', '258147369'),
+    ('user22', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user22@email.com', 'Juliana Araújo', '36925814710', '369258147'),
+    ('user23', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user23@email.com', 'Rafael Castro', '74125836910', '741258369'),
+    ('user24', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user24@email.com', 'Gabriela Teixeira', '85236914710', '852369147'),
+    ('user25', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user25@email.com', 'Eduardo Silva', '96314725810', '963147258'),
+    ('user26', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user26@email.com', 'Camila Souza', '14785236910', '147852369'),
+    ('user27', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user27@email.com', 'Vinicius Gomes', '25874136910', '258741369'),
+    ('user28', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user28@email.com', 'Larissa Martins', '36985214710', '369852147'),
+    ('user29', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user29@email.com', 'Rodrigo Almeida', '74136925810', '741369258'),
+    ('user30', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user30@email.com', 'Aline Cardoso', '85214736910', '852147369'),
+    ('user31', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user31@email.com', 'Fábio Araújo', '96325814710', '963258147'),
+    ('user32', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user32@email.com', 'Carla Ribeiro', '14796325810', '147963258'),
+    ('user33', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user33@email.com', 'Wagner Lima', '25896314710', '258963147'),
+    ('user34', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user34@email.com', 'Tânia Mendes', '36974125810', '369741258'),
+    ('user35', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user35@email.com', 'Leandro Souza', '74185236910', '741852369'),
+    ('user36', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user36@email.com', 'Adriana Teixeira', '85296314710', '852963147'),
+    ('user37', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user37@email.com', 'Fernando Castro', '96374125810', '963741258'),
+    ('user38', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user38@email.com', 'Regina Lima', '14725874110', '147258741'),
+    ('user39', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user39@email.com', 'Bruno Ribeiro', '25836985210', '258369852'),
+    ('user40', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user40@email.com', 'Natália Araújo', '36914796310', '369147963'),
+    ('user41', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user41@email.com', 'Jorge Almeida', '74125896310', '741258963'),
+    ('user42', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user42@email.com', 'Renata Cardoso', '85236974110', '852369741'),
+    ('user43', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user43@email.com', 'Paulo Lima', '96314785210', '963147852'),
+    ('user44', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user44@email.com', 'Tatiana Nogueira', '14736985210', '147369852'),
+    ('user45', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user45@email.com', 'André Silva', '25814796310', '258147963'),
+    ('user46', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user46@email.com', 'Lara Borges', '15975345610', '159753456'),
+    ('user47', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user47@email.com', 'Lucas Fernandes', '98732165410', '987321654'),
+    ('user48', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user48@email.com', 'Paula Souza', '12378945610', '123789456'),
+    ('user49', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user49@email.com', 'Marcos Oliveira', '45612378910', '456123789'),
+    ('user50', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user50@email.com', 'Beatriz Ferreira', '78945612310', '789456123');
 
 -- Populando a tabela roles
 INSERT INTO roles (user_id, role) VALUES 
-(1, 'CLIENT'),
-(1, 'ADMIN'),
-(2, 'CLIENT'),
-(2, 'ADMIN'),
-(3, 'CLIENT'),
-(3, 'ADMIN'),
-(4, 'CLIENT'),
-(4, 'ADMIN'),
-(5, 'CLIENT'),
-(5, 'ADMIN'),
 (6, 'CLIENT'),
 (6, 'ADMIN'),
 (7, 'CLIENT'),
@@ -127,7 +157,54 @@ INSERT INTO clients (id) VALUES
     (2),
     (3),
     (4),
-    (5);
+    (5),
+    (11),
+    (12),
+    (13),
+    (14),
+    (15),
+    (16),
+    (17),
+    (18),
+    (19),
+    (20),
+    (21),
+    (22),
+    (23),
+    (24),
+    (25),
+    (26),
+    (27),
+    (28),
+    (29),
+    (30),
+    (31),
+    (32),
+    (33),
+    (34),
+    (35),
+    (36),
+    (37),
+    (38),
+    (39),
+    (40),
+    (41),
+    (42),
+    (43),
+    (44),
+    (45),
+    (46),
+    (47),
+    (48),
+    (49),
+    (50);
+
+-- Populando a tabela roles para clientes
+INSERT INTO roles (user_id, role)
+SELECT id, 'CLIENT' FROM clients;
+
+INSERT INTO roles (user_id, role)
+SELECT id, 'ADMIN' FROM clients;
 
 -- Populando a tabela veterinarios
 INSERT INTO veterinarians (id, specialty, crmv, crmv_uf) VALUES
@@ -185,9 +262,17 @@ INSERT INTO animals (name, breed, birth_date, client_id, created_at, updated_at)
     ('Sophie', 'Miniature Schnauzer', '2023-03-01', 1, '2024-04-01', '2024-04-01'),
     ('Luna', 'Golden Retriever', NULL, 2, '2024-04-05', '2024-04-05'),
     ('Jack', 'West Highland White Terrier', '2022-05-12', 3, '2024-04-10', '2024-04-10'),
-    ('Rocco', 'Schnoodle', NULL, 4, '2024-04-15', '2024-04-15');
-   
-
+    ('Rocco', 'Schnoodle', NULL, 4, '2024-04-15', '2024-04-15'),
+    ('Kiwi', 'Papagaio', '2019-07-10', 11, '2023-11-01', '2023-11-01'),
+    ('Coco', 'Cacatua', '2020-04-05', 12, '2023-11-05', '2023-11-05'),
+    ('Sunny', 'Canário', '2018-12-20', 13, '2023-11-10', '2023-11-10'),
+    ('Whiskers', 'Persa', '2017-09-15', 14, '2023-11-15', '2023-11-15'),
+    ('Tiger', 'Bengal', '2019-02-10', 15, '2023-11-20', '2023-11-20'),
+    ('Oreo', 'Gato Americano de Pêlo Curto', '2021-05-25', 16, '2023-11-25', '2023-11-25'),
+    ('Buddy', 'Gato Ragdoll', '2020-11-30', 25, '2023-12-01', '2023-12-01'),
+    ('Luna', 'Gato Siamês', '2018-07-15', 30, '2023-12-05', '2023-12-05'),
+    ('Shadow', 'Gato Maine Coon', '2019-10-20', 42, '2023-12-10', '2023-12-10'),
+    ('Milo', 'Gato Scottish Fold', '2020-04-01', 50, '2023-12-15', '2023-12-15');
 
 -- Populando a tabela vacinas
 INSERT INTO vaccines (name, manufacturer, lot, unit_price, stock, expiration_date) VALUES
