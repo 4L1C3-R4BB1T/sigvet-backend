@@ -11,7 +11,48 @@ import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 
 public interface VaccinationRepository extends JpaRepository<VaccinationEntity, Long>, JpaSpecificationExecutor<VaccinationEntity> {
     
+    @Query(value = """
+        SELECT * FROM vaccinations v1
+                INNER JOIN animals a ON a.id = v1.animal_id
+                INNER JOIN veterinarians v2 ON v2.id = v1.veterinarian_id
+                INNER JOIN vaccines v3 ON v3.id = v1.vaccine_id
+                INNER JOIN users u ON v2.id = u.id
+        WHERE
+            (
+                a.deleted IS FALSE AND
+                u.deleted IS FALSE AND
+                v3.deleted IS FALSE AND
+                v1.deleted IS FALSE
+            ) AND 
+            (
+                LOWER(unaccent(a.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) OR
+                LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) OR
+                LOWER(unaccent(v3.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+            );
+    """, nativeQuery = true)
+    List<VaccinationEntity> search(String term);
+
     @Query("SELECT v FROM VaccinationEntity v WHERE v.dateTime >= :initialDate AND v.dateTime <= :finalDate")
     List<VaccinationEntity> findAllByDataBetween(LocalDateTime initialDate, LocalDateTime finalDate);
 
 }
+
+
+
+// SELECT * FROM vaccinations v1
+// 	INNER JOIN animals a ON a.id = v1.animal_id
+// 	INNER JOIN veterinarians v2 ON v2.id = v1.veterinarian_id
+// 	INNER JOIN vaccines v3 ON v3.id = v1.vaccine_id
+// 	INNER JOIN users u ON v2.id = u.id
+// WHERE
+//  (
+// 	a.deleted IS FALSE AND
+// 	u.deleted IS FALSE AND
+// 	v3.deleted IS FALSE AND
+// 	v1.deleted IS FALSE
+// ) AND 
+// (
+// 	LOWER(unaccent(a.name)) LIKE unaccent(CONCAT('%', LOWER(''), '%')) OR
+// 	LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER('Gabriel'), '%')) OR
+// 	LOWER(unaccent(v3.name)) LIKE unaccent(CONCAT('%', LOWER(''), '%'))
+// );

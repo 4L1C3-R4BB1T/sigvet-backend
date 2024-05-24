@@ -56,6 +56,12 @@ public class PhotoController {
         return ResponseEntity.ok(deletePhotoUseCase.execute(id, EntityType.USER));
     }
 
+    @Operation(summary = "Remover foto do animal")
+    @DeleteMapping(value = "/animal/{id}")
+    public ResponseEntity<Boolean> deleteAnimalPhoto(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(deletePhotoUseCase.execute(id, EntityType.ANIMAL));
+    }
+
     @Operation(summary = "Upload de foto para vacina")
     @PutMapping(value = "/vaccine/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<PhotoResponseDTO> putVaccinePhoto(@PathVariable("id") Long id, 
