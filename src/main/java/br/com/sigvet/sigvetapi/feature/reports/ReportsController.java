@@ -6,6 +6,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +29,9 @@ import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchGeneralMetricsUseCa
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchMonthlyAnimalCreationCountUseCase;
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchMonthlyClientCreationCountUseCase;
 import br.com.sigvet.sigvetapi.feature.reports.usecases.FetchTotalCountVaccineOfUsesUseCase;
+import br.com.sigvet.sigvetapi.feature.reports.usecases.MetricsExcelUseCase;
+import br.com.sigvet.sigvetapi.feature.reports.usecases.MonthlyAnimalCreationCountExcelUseCase;
+import br.com.sigvet.sigvetapi.feature.reports.usecases.MonthlyClientCreationCountExcelUseCase;
 import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,10 +63,44 @@ public class ReportsController {
 
     private final FetchTotalCountVaccineOfUsesUseCase fetchTotalCountVaccineOfUsesUseCase;
 
+    private final MetricsExcelUseCase metricsExcelUseCase;
+
+    private final MonthlyAnimalCreationCountExcelUseCase monthlyAnimalCreationCountExcelUseCase;
+    
+    private final MonthlyClientCreationCountExcelUseCase monthlyClientCreationCountExcelUseCase;
+
+    @Operation(description = "Obter relatório excel de métricas gerais")
+    @GetMapping("/general-metrics/excel")
+    public ResponseEntity<byte[]> getGeneralMetricsExcel() {
+        final var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "general_metrics.xls");
+        final var bytes = metricsExcelUseCase.execute();
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
     @Operation(description = "Obter métricas gerais")
     @GetMapping("/general-metrics")
     public ResponseEntity<GeneralMetricsResponseDTO> getGeneralMetrics() {
         return ResponseEntity.ok(fetchGeneralMetricsUseCase.execute());
+    }
+
+    @Operation(description = "Obter planilha de métricas relacionadas a quantidade de animais criados por mês")
+    @GetMapping("/monthly-metrics/animals/excel")
+    public ResponseEntity<byte[]> getMonthlyCreationCountAnimals() {
+        final var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "animals.xls");
+        return new ResponseEntity<>(monthlyAnimalCreationCountExcelUseCase.execute(), headers, HttpStatus.OK);
+    }
+
+    @Operation(description = "Obter planilha de métricas relacionadas a quantidade de clientes criados por mês")
+    @GetMapping("/monthly-metrics/clients/excel")
+    public ResponseEntity<byte[]> getMonthlyCreationCountClients() {
+        final var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "clients.xls");
+        return new ResponseEntity<>(monthlyClientCreationCountExcelUseCase.execute(), headers, HttpStatus.OK);
     }
 
     @Operation(description = "Obter quantidade mensal de animais e clientes cridos")
