@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.UserEntity;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
+import br.com.sigvet.sigvetapi.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component

@@ -1,4 +1,4 @@
-package br.com.sigvet.sigvetapi.common.repositories;
+package br.com.sigvet.sigvetapi.feature.user;
 
 import java.util.Optional;
 
@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByDocument(String document);
 
     boolean existsByEmailAndDocument(String email, String document);
+
+    Optional<UserEntity> findByEmailOrUsername(String email, String username);
 
     Optional<UserEntity> findByEmail(String email);
     

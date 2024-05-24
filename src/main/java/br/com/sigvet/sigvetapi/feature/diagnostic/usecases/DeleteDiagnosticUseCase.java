@@ -22,7 +22,7 @@ public class DeleteDiagnosticUseCase implements DeleteUseCase<DiagnosticEntity> 
             repository.deleteById(id);
             return;
         }
-        throw new ApplicationException("Diagnostic with id %d not found".formatted(id));
+        throw new ApplicationException("Diagnóstico com id %d não encontrado".formatted(id));
     }
 
 }

@@ -28,7 +28,7 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
         List<String> errors = new ArrayList<>();
 
         if (consultOptional.isEmpty()) {
-            throw new ApplicationException("Consult with id %d not found".formatted(id));
+            throw new ApplicationException("Consulta com id %d não encontrado".formatted(id));
         }
 
         // Caso não haja horário disponível para o veterinário escolhido será lançada uma mensagem informativa
@@ -36,18 +36,18 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
         final var consultExists = repository.findByDateTimeAndVeterinarianId(source.getDateTime(), veterinarianId);
 
         if (consultExists.isPresent() && consultExists.get().getVeterinarian().getId() == veterinarianId) {
-            throw new ApplicationException("Consult with date time " + source.getDateTime()
-                    + " and veterinarian id " + veterinarianId + " already exists");
+            throw new ApplicationException("Consulta com data " + source.getDateTime()
+                    + " e veterinário com id" + veterinarianId + " já existem");
         }
 
         final var consult = consultOptional.get();
 
         if (consult.getVeterinarian().getId() != source.getVeterinarian().getId()) {
-            errors.add("Cannot be changing the veterinarian id");
+            errors.add("Não é possível alterar o veterinário");
         }
 
         if (consult.getAnimal().getId() != source.getAnimal().getId()) {
-            errors.add("Cannot be changing the animal id");
+            errors.add("Não é possível alterar o animal");
         }
         
         if (!errors.isEmpty()) {

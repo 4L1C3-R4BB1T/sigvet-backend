@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.utils.StringNormalizer;
+import br.com.sigvet.sigvetapi.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

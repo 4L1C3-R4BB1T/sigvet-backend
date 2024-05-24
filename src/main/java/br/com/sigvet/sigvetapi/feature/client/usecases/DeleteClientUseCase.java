@@ -21,18 +21,17 @@ public class DeleteClientUseCase implements DeleteUseCase<ClientEntity> {
     @Transactional
     @Override
     public void execute(Long id) {
-        System.out.println("OIIIIIIIIIIIIIIIIIIIIII");
         final var errors = new ArrayList<String>();
         final var user = clientRepository.findById(id);
 
         if (user.isEmpty()) {
-            errors.add("Client with id %d not found".formatted(id));
+            errors.add("Cliente com id %d não encontrado".formatted(id));
         }
 
         if (user.isPresent()) {
             final var animals = user.get().getAnimals();
             if (Objects.nonNull(animals) && !animals.isEmpty()) {
-                errors.add("Client has pets, first delete them");
+                errors.add("Esse cliente possui animais, remova eles primeiro");
             }
         }
 

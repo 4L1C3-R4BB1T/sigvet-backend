@@ -4,22 +4,21 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeStr
 
 import java.util.Objects;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
 import br.com.sigvet.sigvetapi.common.repositories.AddressRepository;
-import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianMapper;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Component
-public class UpdateVeterinarianUseCase extends UserValidateUseCase implements UpdateUseCase<VeterinarianEntity> {
+public class UpdateVeterinarianUseCase implements UpdateUseCase<VeterinarianEntity> {
 
     private final VeterinarianRepository repository;
 
@@ -27,14 +26,7 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
 
     private final VeterinarianMapper veterinarianMapper;
 
-    public UpdateVeterinarianUseCase(UserRepository userRepository, CityRepository cityRepository,
-            VeterinarianRepository repository, AddressRepository addressRepository,
-            VeterinarianMapper veterinarianMapper, PasswordEncoder passwordEncoder) {
-        super(userRepository, cityRepository, passwordEncoder);
-        this.repository = repository;
-        this.addressRepository = addressRepository;
-        this.veterinarianMapper = veterinarianMapper;
-    }
+    private final UserValidateUseCase userValidateUseCase;
 
     @Transactional
     @Override
@@ -47,7 +39,11 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
 
         final var veterinarian = veterinarianOptional.get();
 
-        final var errors = validateOnUpdate(veterinarian, source);
+        if (Objects.nonNull(veterinarian.getAddress())) {
+            addressRepository.deleteByUserId(id);
+        }
+
+        final var errors = userValidateUseCase.execute(veterinarian, source);
 
         if (!(normalizeString(veterinarian.getCrmv()).equals(normalizeString(source.getCrmv())) &&
             normalizeString(veterinarian.getCrmvUf()).equals(normalizeString(source.getCrmvUf()))) &&
@@ -58,8 +54,8 @@ public class UpdateVeterinarianUseCase extends UserValidateUseCase implements Up
         if (!errors.isEmpty()) {
             throw new ApplicationException("Veterinarian Invalid", errors);
         }
+        
 
-        addressRepository.deleteByUserId(id);
         veterinarianMapper.map(veterinarian, source);
         repository.save(veterinarian);
     }

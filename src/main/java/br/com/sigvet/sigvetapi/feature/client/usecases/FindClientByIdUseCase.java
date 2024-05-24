@@ -25,7 +25,7 @@ public class FindClientByIdUseCase implements FindByIdUseCase<ClientEntity> {
     public ClientEntity execute(Long id) {
 
         final var client = repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Client with id %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Cliente com id %d não encontrado".formatted(id)));
         try {
             findPhotoUseCase.execute(id, EntityType.USER);
             client.setPhotoUrl(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/photo/user/{id}").buildAndExpand(id).toString());

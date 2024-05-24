@@ -1,7 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.reports.usecases;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

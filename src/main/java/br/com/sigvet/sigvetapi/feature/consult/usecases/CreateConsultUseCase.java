@@ -28,21 +28,21 @@ public class CreateConsultUseCase implements CreateUseCase<ConsultEntity> {
         final var animalId = source.getAnimal().getId();
 
         if (!animalRepository.existsById(animalId)) {
-            throw new ApplicationException("Animal with id %d not found".formatted(animalId));
+            throw new ApplicationException("Animal com id %d não encontrado".formatted(animalId));
         }
 
         final var veterinarianId = source.getVeterinarian().getId();
 
         if (!veterinarianRepository.existsById(veterinarianId)) {
-            throw new ApplicationException("Veterinarian with id %d not found".formatted(veterinarianId));
+            throw new ApplicationException("Veterinário com id %d não encontrado".formatted(veterinarianId));
         }
 
         // Caso não haja horário disponível para o veterinário escolhido será lançada uma mensagem informativa
         final var consultOptional = repository.findByDateTimeAndVeterinarianId(source.getDateTime(), veterinarianId);
 
         if (consultOptional.isPresent() && consultOptional.get().getVeterinarian().getId() == veterinarianId) {
-            throw new ApplicationException("Consult with date time " + source.getDateTime()
-                    + " and veterinarian id " + veterinarianId + " already exists");
+            throw new ApplicationException("Consulta com data " + source.getDateTime()
+                    + " e veterinário com id " + veterinarianId + " já existem");
         }
 
         return repository.save(Objects.requireNonNull(source));

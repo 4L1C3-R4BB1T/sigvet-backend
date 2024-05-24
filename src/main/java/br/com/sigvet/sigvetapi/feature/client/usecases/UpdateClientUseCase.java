@@ -2,21 +2,20 @@ package br.com.sigvet.sigvetapi.feature.client.usecases;
 
 import java.util.Objects;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.repositories.AddressRepository;
-import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import br.com.sigvet.sigvetapi.feature.client.ClientMapper;
 import br.com.sigvet.sigvetapi.feature.client.ClientRepository;
 import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Component
-public class UpdateClientUseCase extends UserValidateUseCase implements UpdateUseCase<ClientEntity> {
+public class UpdateClientUseCase implements UpdateUseCase<ClientEntity> {
 
     private final ClientRepository repository;
 
@@ -24,32 +23,28 @@ public class UpdateClientUseCase extends UserValidateUseCase implements UpdateUs
 
     private final ClientMapper clientMapper;
 
-
-    public UpdateClientUseCase(UserRepository userRepository, CityRepository cityRepository,
-            ClientRepository repository, AddressRepository addressRepository, ClientMapper clientMapper, PasswordEncoder passwordEncoder) {
-        super(userRepository, cityRepository,  passwordEncoder);
-        this.repository = repository;
-        this.addressRepository = addressRepository;
-        this.clientMapper = clientMapper;
-    }
+    private final UserValidateUseCase userValidateUseCase;
 
     @Override
     public void execute(Long id, ClientEntity source) {
         final var clientOptional = repository.findById(Objects.requireNonNull(id));
 
         if (clientOptional.isEmpty()) {
-            throw new ApplicationException("Client with id %d not found".formatted(id));
+            throw new ApplicationException("Cliente com id %d não encontrado".formatted(id));
         }
 
         final var client = clientOptional.get();
 
-        final var errors = validateOnUpdate(client, source);
+        if (Objects.nonNull(client.getAddress())) {
+            addressRepository.deleteByUserId(id);
+        }
+
+        final var errors = userValidateUseCase.execute(client, source);
 
         if (!errors.isEmpty()) {
             throw new ApplicationException("Client Invalid", errors);
         }
 
-        addressRepository.deleteByUserId(id);
         clientMapper.map(client, source);
         repository.save(client);
     }

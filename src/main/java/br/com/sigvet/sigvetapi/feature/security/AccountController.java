@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ import br.com.sigvet.sigvetapi.feature.photo.usecases.FindPhotoUseCase;
 import br.com.sigvet.sigvetapi.feature.user.UserRequestDTO;
 import br.com.sigvet.sigvetapi.feature.user.usecases.CreateUserUseCase;
 import br.com.sigvet.sigvetapi.feature.user.usecases.FindUserByIdUseCase;
+import br.com.sigvet.sigvetapi.feature.user.usecases.UpdateUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,6 +54,20 @@ public class AccountController {
     private final FindPhotoUseCase findPhotoUseCase;
 
     private final RecoverUserUseCase recoverUserUseCase;
+
+    private final UpdateUserUseCase updateUserUseCase;
+
+    @Operation(summary = "Endpoint para atualizar perfil do usuário") 
+    @PutMapping("/profile/{id}/update")
+    public ResponseEntity<ResponseResultModel<Boolean>> put(@PathVariable("id") Long id, @RequestBody @Valid UserRequestDTO record) {
+        final var responseResultModel = ResponseResultModel.<Boolean>builder()
+            .title("User Updated")
+            .statusCode(HttpStatus.OK.value())
+            .success(true)
+            .result(updateUserUseCase.execute(id, record))
+            .build();
+        return ResponseEntity.ok(responseResultModel);
+    }
 
     @Operation(summary = "Resetar senha de um usuário") 
     @PostMapping("/recover")
@@ -124,7 +140,7 @@ public class AccountController {
     ))
     @PostMapping("/token")
     public ResponseEntity<ResponseResultModel<TokenResponseDTO>> post(@RequestBody @Valid final UserAccountRequestDTO user) {
-        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.email(), user.password());
+        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.emailOrUsername(), user.password());
         final Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         final var responseResultModel = ResponseResultModel.<TokenResponseDTO>builder()
                 .title("Authentication")

@@ -7,25 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import br.com.sigvet.sigvetapi.common.entities.UserEntity;
 import br.com.sigvet.sigvetapi.common.entities.enums.Role;
 import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
+import br.com.sigvet.sigvetapi.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor
 public class UserValidateUseCase {
     
-    protected final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    protected final CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
-    protected final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public List<String> validateOnCreate(final UserEntity target) {
+    public List<String> execute(final UserEntity target) {
         Assert.notNull(target, "The target cannot be null");
 
         final List<String> errors = new ArrayList<>();
@@ -56,7 +59,7 @@ public class UserValidateUseCase {
         return errors;
     }
 
-    public List<String> validateOnUpdate(final UserEntity target, final UserEntity source) {
+    public List<String> execute(final UserEntity target, final UserEntity source) {
         Assert.notNull(target, "The target cannot be null");
         Assert.notNull(source, "The source cannot be null");
 

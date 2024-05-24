@@ -23,7 +23,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final var responseResultModel = ResponseResultModel.<String>builder()
                 .title("Intern error")
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .result("We are unable to process this request")
+                .result("Um erro ocorreu, tente mais tarde")
                 .build(); 
 
         return ResponseEntity.badRequest().body(responseResultModel);
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final var responseResultModel = ResponseResultModel.<String>builder()
                 .title("Authentication")
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .result("Invalid email or password")
+                .result("Email/Apelido ou senha incorretos")
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(responseResultModel);
     }

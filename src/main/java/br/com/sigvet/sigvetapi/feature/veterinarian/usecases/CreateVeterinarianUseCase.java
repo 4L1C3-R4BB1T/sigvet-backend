@@ -4,35 +4,30 @@ import static br.com.sigvet.sigvetapi.common.utils.StringNormalizer.normalizeStr
 
 import java.util.Objects;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
-import br.com.sigvet.sigvetapi.common.repositories.CityRepository;
-import br.com.sigvet.sigvetapi.common.repositories.UserRepository;
 import br.com.sigvet.sigvetapi.common.usecases.CreateUseCase;
 import br.com.sigvet.sigvetapi.feature.user.usecases.UserValidateUseCase;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Component
-public class CreateVeterinarianUseCase extends UserValidateUseCase implements CreateUseCase<VeterinarianEntity> {
+public class CreateVeterinarianUseCase implements CreateUseCase<VeterinarianEntity> {
 
     private final VeterinarianRepository repository;
 
-    public CreateVeterinarianUseCase(UserRepository userRepository, CityRepository cityRepository,
-            VeterinarianRepository repository, PasswordEncoder passwordEncoder) {
-        super(userRepository, cityRepository, passwordEncoder);
-        this.repository = repository;
-    }
+    private final UserValidateUseCase userValidateUseCase;
 
     @Transactional
     @Override
     public VeterinarianEntity execute(VeterinarianEntity source) {
         Objects.requireNonNull(source);
 
-        final var errors = validateOnCreate(source);
+        final var errors = userValidateUseCase.execute(source);
 
         if (repository.existsByCrmvAndCrmvUf(normalizeString(source.getCrmv()), normalizeString(source.getCrmvUf()))) {
             errors.add("CRMV is already being used");

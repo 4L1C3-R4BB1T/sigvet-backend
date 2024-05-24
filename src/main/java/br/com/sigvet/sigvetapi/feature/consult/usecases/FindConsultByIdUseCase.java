@@ -19,7 +19,7 @@ public class FindConsultByIdUseCase implements FindByIdUseCase<ConsultEntity> {
     @Override
     public ConsultEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Consult with id %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Consulta com id %d não encontrado".formatted(id)));
     }
 
 }

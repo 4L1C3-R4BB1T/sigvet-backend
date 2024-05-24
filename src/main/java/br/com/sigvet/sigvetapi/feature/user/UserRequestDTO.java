@@ -24,33 +24,33 @@ import lombok.experimental.SuperBuilder;
 @UserPasswordMatch 
 public class UserRequestDTO {
     
-    @NotBlank(message = "Name can't be blank")
-    @Size(message = "Name max size is 100 characters", max = 100)
+    @NotBlank(message = "Nome é obrigatório")
+    @Size(message = "Nome pode ter no máximo 100 caracteres", max = 100)
     protected String name;
 
-    @NotBlank(message = "Username can't be blank")
-    @Size(message = "Username max size is 100 characters", max = 100)
+    @NotBlank(message = "Apelido é obrigatório")
+    @Size(message = "Apelido pode ter no máximo 100 caracteres", max = 100)
     protected String username;
 
-    @NotBlank(message = "Document can't be blank")
-    @Size(message = "Document max size is 14 characters", max = 14)
-    @Pattern(message = "Document should be valid", regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$")
+    @NotBlank(message = "Documento é obrigatório")
+    @Size(message = "Documento deve ter no máximo 14 caracteres", max = 14)
+    @Pattern(message = "Documento de ser válido", regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$")
     protected String document;
 
-    @NotBlank(message = "Email can't be blank")
-    @Size(message = "Email max size is 100 characters", max = 100)
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email é obrigatório")
+    @Size(message = "Email deve ter no máximo 100 caracteres", max = 100)
+    @Email(message = "Email deve ser válido")
     protected String email;
 
-    @NotBlank(message = "Phone can't be blank")
-    @Size(message = "Phonw max size is 18 characters", max = 18)
+    @NotBlank(message = "Celular é obrigatório")
+    @Size(message = "Celular pode ter no máximo 18 caracteres", max = 18)
     protected String phone;
 
-    @Size(message = "Password max size is 100 characters", max = 100)
+    @Size(message = "Senha pode ter no máximo 100 caracteres", max = 100)
     protected String password;
 
     
-    @Size(message = "Confirmation Password max size is 100 characters", max = 100)
+    @Size(message = "Senha de confirmação pode ter no máximo 100 caracteres", max = 100)
     protected String confirmationPassword;
 
     @Valid
@@ -64,24 +64,24 @@ public class UserRequestDTO {
     @AllArgsConstructor
     public static class Address {
 
-        @NotBlank(message = "Street can't be blank")
-        @Size(message = "Street max size is 255 characters", max = 255)
+        @NotBlank(message = "Rua é obrigatório")
+        @Size(message = "Rua pode ter no máximo 255 caracteres", max = 255)
         private String street;
 
-        @NotBlank(message = "Neighborhood can't be blank")
-        @Size(message = "Neighborhood max size is 255 characters", max = 255)
+        @NotBlank(message = "Bairro é obrigatório")
+        @Size(message = "Bairro pode ter no máximo 255 caracteres", max = 255)
         private String neighborhood;
 
-        @NotBlank(message = "Zip Code can't be blank")
-        @Size(message = "Zip Code max size is 9 characters", max = 9)
-        @Pattern(message = "Zip Code should be valid", regexp = "^\\d{5}-?\\d{3}$")
+        @NotBlank(message = "CEP é obrigatório")
+        @Size(message = "CEP pode ter no máximo 9 caracteres", max = 9)
+        @Pattern(message = "CEP deve ter um formato válido", regexp = "^\\d{5}-?\\d{3}$")
         private String zipCode;
 
-        @NotNull(message = "Number can't be blank")
-        @PositiveOrZero(message = "Number should be positive or zero")
+        @NotNull(message = "Número é obrigatório")
+        @PositiveOrZero(message = "Número não pode ser negativo")
         private Integer number;
 
-        @NotNull(message = "City ID can't be null")
+        @NotNull(message = "Cidade é obrigatório")
         private Long cityId;
 
     }

@@ -24,13 +24,13 @@ public class UpdateDiagnosticUseCase implements UpdateUseCase<DiagnosticEntity> 
         final var diagnosticOptional = repository.findById(Objects.requireNonNull(id));
 
         if (diagnosticOptional.isEmpty()) {
-            throw new ApplicationException("Diagnostic with id %d not found".formatted(id));
+            throw new ApplicationException("Diagnóstico com id %d não encontrado".formatted(id));
         }
 
         final var diagnostic = diagnosticOptional.get();
 
         if (diagnostic.getConsult().getId() != source.getConsult().getId()) {
-            throw new ApplicationException("Cannot be changing the consult id");
+            throw new ApplicationException("Não é permitido alterar a identificação da consulta");
         }
 
         diagnosticMapper.map(diagnostic, source);

@@ -71,7 +71,7 @@ public class UserEntity extends BaseEntity<Long> {
     @Transient
     protected String photoUrl;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AddressEntity address;
 
     @ElementCollection

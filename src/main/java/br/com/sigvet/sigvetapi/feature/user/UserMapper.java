@@ -2,9 +2,12 @@ package br.com.sigvet.sigvetapi.feature.user;
 
 import java.util.Objects;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import br.com.sigvet.sigvetapi.common.entities.AddressEntity;
@@ -40,4 +43,8 @@ public interface UserMapper {
             .city(CityEntity.builder().id(address.getCityId()).build()
         ).build();
     }
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void map(@MappingTarget UserEntity target, UserEntity source);
+
 }

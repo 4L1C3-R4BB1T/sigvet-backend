@@ -22,7 +22,7 @@ public class DeleteConsultUseCase implements DeleteUseCase<ConsultEntity> {
             repository.deleteById(id);
             return;
         }
-        throw new ApplicationException("Consult with id %d not found".formatted(id));
+        throw new ApplicationException("Consulta com id %d não encontrado".formatted(id));
     }
 
 }
