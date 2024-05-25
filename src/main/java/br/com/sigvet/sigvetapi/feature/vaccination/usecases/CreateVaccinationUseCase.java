@@ -1,5 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.vaccination.usecases;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -28,29 +30,35 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
     @Override
     public VaccinationEntity execute(VaccinationEntity source) {
         final var animalId = source.getAnimal().getId();
-
+        
+        if (source.getDateTime().isBefore(LocalDateTime.now())) {
+            throw new ApplicationException("Vaccination Invalid", List.of("A data deve estar no presente ou futuro"));
+        }
+    
         if (!animalRepository.existsById(animalId)) {
-            throw new ApplicationException("Animal with id %d not found".formatted(animalId));
+            throw new ApplicationException("Animal com id %d não encontrado".formatted(animalId));
         }
 
         final var veterinarianId = source.getVeterinarian().getId();
 
         if (!veterinarianRepository.existsById(veterinarianId)) {
-            throw new ApplicationException("Veterinarian with id %d not found".formatted(veterinarianId));
+            throw new ApplicationException("Veterinário com id %d não encontrado".formatted(veterinarianId));
         }
 
         final var vaccineId = source.getVaccine().getId();
 
         if (!vaccineRepository.existsById(vaccineId)) {
-            throw new ApplicationException("Vaccine with id %d not found".formatted(vaccineId));
+            throw new ApplicationException("Vacina com id %d não encontrado".formatted(vaccineId));
         }
 
         // Caso não haja a vacina escolhida em estoque será lançada uma mensagem informativa
-        final var vaccine = vaccineRepository.findById(vaccineId);
+        final var vaccine = vaccineRepository.findById(vaccineId).get();
 
-        if (vaccine.get().getStock() <= 0) {
-            throw new ApplicationException("Vaccine with id %d out of stock".formatted(vaccineId));
+        if (vaccine.getStock() <= 0) {
+            throw new ApplicationException("Vacina com %d não tem estoque disponível".formatted(vaccineId));
         }
+
+        vaccine.decreaseStock();
 
         return repository.save(Objects.requireNonNull(source));
     }

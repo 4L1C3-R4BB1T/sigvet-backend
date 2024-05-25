@@ -49,4 +49,9 @@ public class VaccineEntity extends BaseEntity<Long> {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate expirationDate;
 
+    public void decreaseStock() {
+        if (stock <= 0) return;
+        this.stock -= 1;
+    }
+
 }

@@ -23,26 +23,27 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
 
     @Override
     public void execute(Long id, VaccinationEntity source) {
+        System.out.println("oii eu entrei aqui");
         final var vaccinationOptional = repository.findById(Objects.requireNonNull(id));
 
         List<String> errors = new ArrayList<>();
 
         if (vaccinationOptional.isEmpty()) {
-            throw new ApplicationException("Vaccination with id %d not found".formatted(id));
+            throw new ApplicationException("Vacinação com id %d não encontrada".formatted(id));
         }
 
         final var vaccination = vaccinationOptional.get();
 
         if (vaccination.getVaccine().getId() != source.getVaccine().getId()) {
-            errors.add("Cannot be changing the vaccine id");
+            errors.add("A vacina não pode ser alterada");
         }
 
         if (vaccination.getVeterinarian().getId() != source.getVeterinarian().getId()) {
-            errors.add("Cannot be changing the veterinarian id");
+            errors.add("O veterinário não pode ser alterado");
         }
 
         if (vaccination.getAnimal().getId() != source.getAnimal().getId()) {
-            errors.add("Cannot be changing the animal id");
+            errors.add("O animal não pode ser alterado");
         }
 
         if (!errors.isEmpty()) {

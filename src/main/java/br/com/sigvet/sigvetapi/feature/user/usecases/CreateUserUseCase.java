@@ -30,7 +30,7 @@ public class CreateUserUseCase {
             throw new ApplicationException("Invalid User", errors);
         }
 
-        userEntity.setRoles(List.of(Role.CLIENT, Role.ADMIN));
+        userEntity.setRoles(List.of(Role.CLIENT));
         return repository.save(userEntity);
     }
 }
