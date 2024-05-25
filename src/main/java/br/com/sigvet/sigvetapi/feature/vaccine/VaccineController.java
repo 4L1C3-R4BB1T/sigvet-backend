@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigvet.sigvetapi.common.CrudController;
-import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.entities.VaccineEntity;
 import br.com.sigvet.sigvetapi.feature.vaccine.usecases.SearchVaccineByNameUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +28,7 @@ public class VaccineController extends CrudController<VaccineEntity, VaccineRequ
         this.searchVaccineByNameUseCase = searchVaccineByNameUseCase;
     }
 
-      @Operation(description = "Endpoint para pesquisar vacinas por nome")
+    @Operation(description = "Endpoint para pesquisar vacinas por nome")
     @GetMapping("/search")
     public ResponseEntity<MappingJacksonValue> searchByName(@RequestParam(name = "name") String name) {
         final var newAttributeFilters = new HashMap<>(attributeFilters);
@@ -37,5 +36,4 @@ public class VaccineController extends CrudController<VaccineEntity, VaccineRequ
         return ResponseEntity.ok(buildJacksonValue(searchVaccineByNameUseCase.execute(name), newAttributeFilters));
     }
 
-    
 }

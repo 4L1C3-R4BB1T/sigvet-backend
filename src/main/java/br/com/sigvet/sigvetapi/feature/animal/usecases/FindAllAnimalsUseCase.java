@@ -3,11 +3,8 @@ package br.com.sigvet.sigvetapi.feature.animal.usecases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.nimbusds.jose.proc.SecurityContext;
 
 import br.com.sigvet.sigvetapi.common.EntitySpecification;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;

@@ -9,18 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigvet.sigvetapi.feature.state.usecases.FindAllStatesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@Tag(name = "Estados", description = "Agrupa endpoints para gerenciar estados")
 @RestController
 @RequestMapping("/api/v1/states")
+@RequiredArgsConstructor
 public class StateController {
 
     private final FindAllStatesUseCase findAllStatesUseCase;
     
-    @Operation(description = "Obtém todos os estados")
+    @Operation(summary = "Obter objetos dessa entidade", description = "Obtém todos os estados")
     @GetMapping
     public ResponseEntity<List<StateResponseDTO>> get() {
         return ResponseEntity.ok(findAllStatesUseCase.execute());
     }
+
 }
