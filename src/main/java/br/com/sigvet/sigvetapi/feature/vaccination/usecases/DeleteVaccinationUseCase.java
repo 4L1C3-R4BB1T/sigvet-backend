@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 import br.com.sigvet.sigvetapi.common.usecases.DeleteUseCase;
-import br.com.sigvet.sigvetapi.feature.vaccine.VaccineRepository;
+import br.com.sigvet.sigvetapi.feature.vaccination.VaccinationRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class DeleteVaccinationUseCase implements DeleteUseCase<VaccinationEntity> {
 
-    private final VaccineRepository repository;
+    private final VaccinationRepository repository;
 
     @Override
     public void execute(Long id) {
