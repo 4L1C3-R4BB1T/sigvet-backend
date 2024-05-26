@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.vaccination;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +11,8 @@ public record VaccinationRequestDTO(
 
     @NotNull(message = "Data é obrigatória") 
     LocalDateTime dateTime,
+
+    LocalTime hour,
 
     @NotNull(message = "Veterinário é obrigatório") 
     Long veterinarianId,

@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -35,6 +36,9 @@ public class VaccinationEntity extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @ManyToOne
     private VeterinarianEntity veterinarian;
+
+    @Column(columnDefinition = "TIME")
+    LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne

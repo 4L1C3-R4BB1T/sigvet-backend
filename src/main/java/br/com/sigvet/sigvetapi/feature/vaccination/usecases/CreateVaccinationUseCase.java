@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.vaccination.usecases;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,11 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
     @Override
     public VaccinationEntity execute(VaccinationEntity source) {
         final var animalId = source.getAnimal().getId();
+
+
+        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
+            throw new ApplicationException("Vaccination Invalid", List.of("O horário deve estar entre 8:00 horas e 18:59 horas"));
+        }
         
         if (source.getDateTime().isBefore(LocalDateTime.now())) {
             throw new ApplicationException("Vaccination Invalid", List.of("A data deve estar no presente ou futuro"));
