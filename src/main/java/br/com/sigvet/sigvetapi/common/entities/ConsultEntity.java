@@ -2,6 +2,8 @@ package br.com.sigvet.sigvetapi.common.entities;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLRestriction;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -28,6 +30,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
+@SQLRestriction("deleted is false")
 public class ConsultEntity extends BaseEntity<Long> {
 
     public static final String CONSULT_ENTITY_FILTER_KEY = "consultEntityFilter";

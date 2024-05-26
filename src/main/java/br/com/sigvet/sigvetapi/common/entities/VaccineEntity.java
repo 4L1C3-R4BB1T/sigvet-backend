@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.DialectOverride.SQLSelect;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,6 +29,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @SQLDelete(sql = "UPDATE vaccines SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted is false")
 public class VaccineEntity extends BaseEntity<Long> {
 
     public static final String VACCINE_ENTITY_FILTER_KEY = "vaccineEntityFilter";
@@ -52,6 +55,10 @@ public class VaccineEntity extends BaseEntity<Long> {
     public void decreaseStock() {
         if (stock <= 0) return;
         this.stock -= 1;
+    }
+
+    public void increaseStock() {
+        stock += 1;
     }
 
 }

@@ -65,12 +65,13 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .sessionManagement(
                         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> {
-                    authorizeRequests.requestMatchers(WHITELIST).permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/account/**").permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/photo/**").permitAll();
-                    authorizeRequests.requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("SCOPE_ADMIN");
-                    authorizeRequests.anyRequest().authenticated();
+                    // authorizeRequests.requestMatchers(WHITELIST).permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/account/**").permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.GET, "/api/v1/photo/**").permitAll();
+                    // authorizeRequests.requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("SCOPE_ADMIN");
+                    // authorizeRequests.anyRequest().authenticated();
+                    authorizeRequests.anyRequest().permitAll();
                 })
                 .oauth2ResourceServer(config -> {
                     config.jwt(Customizer.withDefaults());

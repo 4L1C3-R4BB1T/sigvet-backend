@@ -1,5 +1,7 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
+import org.hibernate.annotations.SQLRestriction;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -21,6 +23,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @SuperBuilder
+@SQLRestriction("deleted is false")
 public class StateEntity extends BaseEntity<String> {
 
     public static final String STATE_ENTITY_FILTER_KEY = "stateEntityFilter";

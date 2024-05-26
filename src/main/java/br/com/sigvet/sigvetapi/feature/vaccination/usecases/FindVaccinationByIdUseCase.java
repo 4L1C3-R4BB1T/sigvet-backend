@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.vaccination.usecases;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class FindVaccinationByIdUseCase implements FindByIdUseCase<VaccinationEn
     @Override
     public VaccinationEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Vaccination with id %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Vaccination Invalid", List.of("Vaccination with id %d not found".formatted(id))));
     }
 
 }

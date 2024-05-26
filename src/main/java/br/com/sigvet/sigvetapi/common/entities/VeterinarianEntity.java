@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,6 +27,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @PrimaryKeyJoinColumn(name = "id")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted is false")
 public class VeterinarianEntity extends UserEntity  {
 
     public static final String VETERINARIAN_ENTITY_FILTER_KEY = "veterinarianEntityFilter";

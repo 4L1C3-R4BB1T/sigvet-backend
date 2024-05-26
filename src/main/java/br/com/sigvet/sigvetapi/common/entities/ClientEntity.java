@@ -30,6 +30,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @PrimaryKeyJoinColumn(name = "id")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted is false")
 public class ClientEntity extends UserEntity  {
 
     public static final String CLIENT_ENTITY_FILTER_KEY = "clientEntityFilter";
