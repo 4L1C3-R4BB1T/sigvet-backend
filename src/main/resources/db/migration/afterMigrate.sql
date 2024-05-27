@@ -501,7 +501,12 @@ INSERT INTO diagnostics (diagnosis, comments, consult_id) VALUES
     ('Fratura na Pata', 'Encaminhar para cirurgia ortopédica', 7),
     ('Infecção Respiratória', 'Prescrever antibióticos e repouso', 8),
     ('Gripe Canina', 'Prescrever medicação e repouso', 9),
-    ('Dor de Ouvido', 'Prescrever antibióticos e monitorar', 11),
+    ('Dor de Ouvido', 'Prescrever antibióticos e monitorar', 10),
     ('Dermatite Alérgica', 'Recomendar dieta especial e tratamento tópico', 12),
-    ('Fratura na Pata', 'Encaminhar para cirurgia ortopédica', 13),
-    ('Infecção Respiratória', 'Prescrever antibióticos e repouso', 14);
+    ('Fratura na Pata', 'Encaminhar para cirurgia ortopédica', 14),
+    ('Infecção Respiratória', 'Prescrever antibióticos e repouso', 15),
+    ('Gripe Canina', 'Prescrever medicação e repouso', 16),
+    ('Infecção Respiratória', 'Prescrever antibióticos e repouso', 17),
+    ('Fratura na Pata', 'Encaminhar para cirurgia ortopédica', 18),
+    ('Dermatite Alérgica', 'Recomendar dieta especial e tratamento tópico', 19),
+    ('Dor de Ouvido', 'Prescrever antibióticos e monitorar', 20);
