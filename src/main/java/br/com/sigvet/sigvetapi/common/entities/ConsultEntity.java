@@ -3,6 +3,7 @@ package br.com.sigvet.sigvetapi.common.entities;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -31,6 +32,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
+@SQLDelete(sql = "UPDATE consults SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class ConsultEntity extends BaseEntity<Long> {
 
