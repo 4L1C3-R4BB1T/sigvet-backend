@@ -30,15 +30,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
  
     @ExceptionHandler(ApplicationException.class)
-    ResponseEntity<ResponseResultModel<List<String>>> handleApplicationException(final ApplicationException exception) {
-
-        final var responseResultModel = ResponseResultModel.<List<String>>builder()
-                .title(exception.getMessage())
+    ResponseEntity<ResponseResultModel<?>> handleApplicationException(final ApplicationException exception) {
+        if (exception.hasErrors()) {
+            final var responseResultModel = ResponseResultModel.<List<String>>builder()
+                .title(exception.getTitle())
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .result(exception.getErrors())
                 .build();
-
-        return ResponseEntity.badRequest().body(responseResultModel);
+            return ResponseEntity.badRequest().body(responseResultModel);
+        } else {
+            final var responseResultModel = ResponseResultModel.<String>builder()
+            .title(exception.getTitle())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .result(exception.getMessage())
+            .build();
+            return ResponseEntity.badRequest().body(responseResultModel);
+        }
     }
     
     @ExceptionHandler(AuthenticationException.class)

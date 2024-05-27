@@ -17,7 +17,7 @@ import br.com.sigvet.sigvetapi.feature.vaccine.VaccineRepository;
 import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Component 
 @RequiredArgsConstructor
 public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity> {
 
@@ -34,11 +34,11 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
 
 
         if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
-            throw new ApplicationException("Vaccination Invalid", List.of("O horário deve estar entre 8:00 horas e 18:59 horas"));
+            throw new ApplicationException("O horário deve estar entre 8:00 horas e 18:59 horas");
         }
         
         if (source.getDateTime().isBefore(LocalDateTime.now())) {
-            throw new ApplicationException("Vaccination Invalid", List.of("A data deve estar no presente ou futuro"));
+            throw new ApplicationException("A data deve estar no presente ou futuro");
         }
     
         if (!animalRepository.existsById(animalId)) {
@@ -70,3 +70,4 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
     }
 
 }
+ 

@@ -19,7 +19,7 @@ public class FindVeterinarianByIdUseCase implements FindByIdUseCase<Veterinarian
     @Override
     public VeterinarianEntity execute(Long id) {
         return repository.findById(Objects.requireNonNull(id))
-            .orElseThrow(() -> new ApplicationException("Veterinarian with id %d not found".formatted(id)));
+            .orElseThrow(() -> new ApplicationException("Veterinário com id %d não encontrado".formatted(id)));
     }
     
 }

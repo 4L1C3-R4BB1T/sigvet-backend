@@ -25,6 +25,6 @@ public class UserSecurityService implements UserDetailsService {
                     .roles(userEntity.getRoles())
                     .build();
             })
-            .orElseThrow(() -> new UsernameNotFoundException("Unable to find user"));
+            .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     } 
 }

@@ -24,7 +24,7 @@ public class UpdateVaccineUseCase implements UpdateUseCase<VaccineEntity> {
         final var vaccineOptional = repository.findById(Objects.requireNonNull(id));
 
         if (vaccineOptional.isEmpty()) {
-            throw new ApplicationException("Vaccine with id %d not found".formatted(id));
+            throw new ApplicationException("Vacina com id %d não encontrada".formatted(id));
         }
 
         final var vaccine = vaccineOptional.get();

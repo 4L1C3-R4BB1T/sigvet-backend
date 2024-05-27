@@ -34,7 +34,7 @@ public class UpdateVeterinarianUseCase implements UpdateUseCase<VeterinarianEnti
         final var veterinarianOptional = repository.findById(Objects.requireNonNull(id));
 
         if (veterinarianOptional.isEmpty()) {
-            throw new ApplicationException("Veterinarian with id %d not found".formatted(id));
+            throw new ApplicationException("Veterinário com id %d não encontrado".formatted(id));
         }
 
         final var veterinarian = veterinarianOptional.get();
@@ -43,19 +43,18 @@ public class UpdateVeterinarianUseCase implements UpdateUseCase<VeterinarianEnti
             addressRepository.deleteByUserId(id);
         }
 
-        final var errors = userValidateUseCase.execute(veterinarian, source);
+        final var notification = userValidateUseCase.execute(veterinarian, source);
 
         if (!(normalizeString(veterinarian.getCrmv()).equals(normalizeString(source.getCrmv())) &&
             normalizeString(veterinarian.getCrmvUf()).equals(normalizeString(source.getCrmvUf()))) &&
             repository.existsByCrmvAndCrmvUf(source.getCrmv(), source.getCrmvUf())) {
-            errors.add("CRMV is already being used");
+            notification.addError("O CRMV não está disponível");
         }
 
-        if (!errors.isEmpty()) {
-            throw new ApplicationException("Veterinarian Invalid", errors);
+        if (notification.hasAnyError()) {
+            throw new ApplicationException(notification.getErrors());
         }
         
-
         veterinarianMapper.map(veterinarian, source);
         repository.save(veterinarian);
     }

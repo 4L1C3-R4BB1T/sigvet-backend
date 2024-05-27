@@ -6,11 +6,11 @@ import jakarta.validation.constraints.Size;
 
 @Schema(name = "Login", example = "{ \"emailOrUsername\": \"email@email.com\", \"password\": \"password\" }")
 public record UserAccountRequestDTO (
-    @NotBlank(message = "Email or Username can't be blank")
-    @Size(message = "Email or Username max size is 100 characters", max = 100)
+    @NotBlank(message = "Email ou Apelido são obrigatórios")
+    @Size(message = "Email ou Usuário podem ter no máximo 100 caracteres", max = 100)
     String emailOrUsername, 
     
-    @NotBlank(message = "Password can't be blank")
-    @Size(message = "Password max size is 100 characters", max = 100)
+    @NotBlank(message = "A Senha é obrigatória")
+    @Size(message = "A Senha pode ter no máximo 100 caracteres", max = 100)
     String password
 ) {}

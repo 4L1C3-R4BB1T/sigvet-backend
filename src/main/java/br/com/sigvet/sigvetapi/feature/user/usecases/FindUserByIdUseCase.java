@@ -15,6 +15,6 @@ public class FindUserByIdUseCase {
     
     public UserEntity execute(Long id) {
         return userRepository.findById(id).orElseThrow(() -> 
-            new ApplicationException("User with id %d not found".formatted(id)));
+            new ApplicationException("Usuário com id %d não encontrado".formatted(id)));
     }
 }

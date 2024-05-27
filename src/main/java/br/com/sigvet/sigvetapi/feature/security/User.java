@@ -28,7 +28,8 @@ public class User implements UserDetails {
         if (roles == null) {
             return Collections.emptyList();
         }
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getValue())).toList();
+        return roles.stream().map(role ->
+             new SimpleGrantedAuthority(role.getValue())).toList();
     }
 
     @Override

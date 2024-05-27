@@ -6,21 +6,21 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record RecoverUserRequestDTO(
-    @Email(message = "Email is not valid")
-    @NotBlank(message = "Email is required")
+    @Email(message = "O e-mail não é válido")
+    @NotBlank(message = "O e-mail é obrigatório")
     String email,
 
-    @NotBlank(message = "Document can't be blank")
-    @Size(message = "Document max size is 14 characters", max = 14)
-    @Pattern(message = "Document should be valid", regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$")
+    @NotBlank(message = "O documento não pode estar em branco")
+    @Size(message = "O tamanho máximo do documento é de 14 caracteres", max = 14)
+    @Pattern(message = "O documento deve ser válido", regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}$")
     String document,
 
-    @NotBlank(message = "Password is required")
-    @Size(message = "Password max size is 100 characters", max = 100)
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(message = "O tamanho máximo da senha é de 100 caracteres", max = 100)
     String password,
-    
-    @NotBlank(message = "Confirmation Password is required")
-    @Size(message = "Confirmation Password max size is 100 characters", max = 100)
+
+    @NotBlank(message = "A confirmação de senha é obrigatória")
+    @Size(message = "O tamanho máximo da confirmação de senha é de 100 caracteres", max = 100)
     String confirmationPassword
 ) {
     

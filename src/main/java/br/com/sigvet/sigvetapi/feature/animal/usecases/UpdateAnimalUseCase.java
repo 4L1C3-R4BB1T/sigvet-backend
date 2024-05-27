@@ -27,13 +27,13 @@ public class UpdateAnimalUseCase implements UpdateUseCase<AnimalEntity> {
         final var animalOptional = repository.findById(Objects.requireNonNull(id));
 
         if (animalOptional.isEmpty()) {
-            throw new ApplicationException("Animal Invalid", List.of("Animal com id %d não encontrado".formatted(id)));
+            throw new ApplicationException("Animal com id %d não encontrado".formatted(id));
         }
 
         final var animal = animalOptional.get();
 
         if (animal.getClient().getId() != source.getClient().getId()) {
-            throw new ApplicationException("Animal Invalid", List.of("Não é permitido burlar a identificação do dono do animal"));
+            throw new ApplicationException("Não é permitido burlar a identificação do dono do animal");
         }
 
         animalMapper.map(animal, source);

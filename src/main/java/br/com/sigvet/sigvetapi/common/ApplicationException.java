@@ -15,10 +15,16 @@ import lombok.Setter;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class ApplicationException extends RuntimeException {
 
+    private String title = "Application Error";
+
     private List<String> errors = new ArrayList<>();
 
-    public ApplicationException(String message, List<String> errors) {
-        this(message);
+    public ApplicationException(String title, List<String> errors) {
+        this.title = title;
+        this.errors = errors;
+    }
+
+    public ApplicationException(List<String> errors) {
         this.errors = errors;
     }
 
@@ -31,6 +37,10 @@ public class ApplicationException extends RuntimeException {
             this.errors = new ArrayList<>();
         }
         this.errors.add(errorMessage);
+    }
+
+    public boolean hasErrors() {
+        return Objects.isNull(this.errors) || !this.errors.isEmpty();
     }
 
 }

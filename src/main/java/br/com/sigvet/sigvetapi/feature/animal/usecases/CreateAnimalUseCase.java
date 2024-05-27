@@ -27,7 +27,7 @@ public class CreateAnimalUseCase implements CreateUseCase<AnimalEntity> {
         final var clientId = source.getClient().getId();
 
         if (!clientRepository.existsById(clientId)) {
-            throw new ApplicationException("Client Not Found", List.of("Cliente com id %d não foi encontrado".formatted(clientId)));
+            throw new ApplicationException("Cliente com id %d não foi encontrado".formatted(clientId));
         }
 
         return repository.save(Objects.requireNonNull(source));

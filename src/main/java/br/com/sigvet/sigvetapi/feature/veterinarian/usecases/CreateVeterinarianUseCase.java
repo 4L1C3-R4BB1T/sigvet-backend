@@ -27,14 +27,14 @@ public class CreateVeterinarianUseCase implements CreateUseCase<VeterinarianEnti
     public VeterinarianEntity execute(VeterinarianEntity source) {
         Objects.requireNonNull(source);
 
-        final var errors = userValidateUseCase.execute(source);
+        final var notification = userValidateUseCase.execute(source);
 
         if (repository.existsByCrmvAndCrmvUf(normalizeString(source.getCrmv()), normalizeString(source.getCrmvUf()))) {
-            errors.add("CRMV is already being used");
+            notification.addError("O CRMV não está disponível");
         }
 
-        if (!errors.isEmpty()) {
-            throw new ApplicationException("Veterinarian invalid", errors);
+        if (notification.hasAnyError()) {
+            throw new ApplicationException("Veterinarian invalid", notification.getErrors());
         }
         
         return repository.findById(repository.save(source).getId()).get();

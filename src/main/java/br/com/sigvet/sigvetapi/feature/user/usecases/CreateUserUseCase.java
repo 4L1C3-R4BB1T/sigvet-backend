@@ -24,10 +24,10 @@ public class CreateUserUseCase {
     
     public UserEntity execute(UserRequestDTO record) {
         final var userEntity = userMapper.fromModel(record);
-        final var errors = userValidateUseCase.execute(userEntity);
+        final var notification = userValidateUseCase.execute(userEntity);
 
-        if (!errors.isEmpty()) {
-            throw new ApplicationException("Invalid User", errors);
+        if (notification.hasAnyError()) {
+            throw new ApplicationException(notification.getErrors());
         }
 
         userEntity.setRoles(List.of(Role.CLIENT));

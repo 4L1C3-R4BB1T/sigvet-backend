@@ -22,13 +22,13 @@ public class CreateClientUseCase implements CreateUseCase<ClientEntity> {
 
     @Transactional
     @Override
-    public ClientEntity execute(ClientEntity source) {
+    public ClientEntity execute(final ClientEntity source) {
         Objects.requireNonNull(source);
 
-        final var errors = userValidateUseCase.execute(source);
+        final var notification = userValidateUseCase.execute(source);
 
-        if (!errors.isEmpty()) {
-            throw new ApplicationException("Client invalid", errors);
+        if (notification.hasAnyError()) {
+            throw new ApplicationException(notification.getErrors());
         }
         
         return repository.save(source);

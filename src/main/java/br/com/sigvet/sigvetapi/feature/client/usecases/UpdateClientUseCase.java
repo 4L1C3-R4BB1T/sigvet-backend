@@ -39,10 +39,10 @@ public class UpdateClientUseCase implements UpdateUseCase<ClientEntity> {
             addressRepository.deleteByUserId(id);
         }
 
-        final var errors = userValidateUseCase.execute(client, source);
+        final var notification = userValidateUseCase.execute(client, source);
 
-        if (!errors.isEmpty()) {
-            throw new ApplicationException("Client Invalid", errors);
+        if (notification.hasAnyError()) {
+            throw new ApplicationException("Client Invalid", notification.getErrors());
         }
 
         clientMapper.map(client, source);

@@ -28,19 +28,19 @@ public class UpdateUserUseCase {
     @Transactional
     public boolean execute(final Long id, final UserRequestDTO source) {
         final var user = userRepository.findById(id).orElseThrow(() -> 
-            new ApplicationException("User Not Found", List.of("User with id %d does not exists")));
+            new ApplicationException("Usuário com id %d não encontrado".formatted(id)));
 
             if (Objects.nonNull(user.getAddress())) {
                 addressRepository.deleteByUserId(id);
             }
 
             final var dto = userMapper.fromModel(source);
-            final var errors = userValidateUseCase.execute(user, dto);
-            if (!errors.isEmpty()) {
-                throw new ApplicationException("User Invalid", errors);
+            final var notification = userValidateUseCase.execute(user, dto);
+
+            if (notification.hasAnyError()) {
+                throw new ApplicationException(notification.getErrors());
             }
             
-           
 
             userMapper.map(user, dto);
             userRepository.save(user);
