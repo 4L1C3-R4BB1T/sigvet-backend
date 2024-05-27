@@ -1,7 +1,9 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -30,13 +32,17 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
+@SQLDelete(sql = "UPDATE consults SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class ConsultEntity extends BaseEntity<Long> {
 
     public static final String CONSULT_ENTITY_FILTER_KEY = "consultEntityFilter";
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dateTime;
+    private LocalDate date;
+
+    @Column(columnDefinition = "TIME")
+    private LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne

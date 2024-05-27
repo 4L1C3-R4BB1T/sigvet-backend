@@ -1,8 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.reports;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,22 +127,22 @@ public class ReportsController {
     })
     @GetMapping("/total-billed")
     public final ResponseEntity<TotalBilledResponseDTO> getTotalBilled(@ModelAttribute @Valid ReportDateRequestDTO request) {
-        LocalDateTime initialDate = null;
-        LocalDateTime finalDate = null;
+        LocalDate initialDate = null;
+        LocalDate finalDate = null;
 
         if (request.initialDate() != null) {
-            initialDate = LocalDateTime.of(request.initialDate().toLocalDate(), LocalTime.of(0, 0, 0));
+            initialDate = request.initialDate();
         }
 
         if (request.finalDate() != null) {
-            finalDate = LocalDateTime.of(request.finalDate().toLocalDate(), LocalTime.of(0, 0, 0));
+            finalDate = request.finalDate();
         }
 
         log.info("Entering the getTotalBilled method with initial date {} and final date {}", initialDate, finalDate);
 
         // Se nenhuma data for fornecida, calcula as datas dos últimos 30 dias
         if (initialDate == null && finalDate == null) {
-            finalDate = LocalDateTime.now();
+            finalDate = LocalDate.now();
             initialDate = finalDate.minusDays(30);
         }
 
@@ -185,22 +184,22 @@ public class ReportsController {
     })
     @GetMapping("/veterinarians/consults")
     public final ResponseEntity<VeterinariansConsultsResponse> getVeterinariansConsults(@ModelAttribute @Valid ReportDateRequestDTO request) {
-        LocalDateTime initialDate = null;
-        LocalDateTime finalDate = null;
+        LocalDate initialDate = null;
+        LocalDate finalDate = null;
 
         if (request.initialDate() != null) {
-            initialDate = LocalDateTime.of(request.initialDate().toLocalDate(), LocalTime.of(0, 0, 0));
+            initialDate = request.initialDate();
         }
 
         if (request.finalDate() != null) {
-            finalDate = LocalDateTime.of(request.finalDate().toLocalDate(), LocalTime.of(0, 0, 0));
+            finalDate = request.finalDate();
         }
 
         log.info("Entering the getVeterinariansConsults method with initial date {} and final date {}", initialDate, finalDate);
 
         // Se nenhuma data for fornecida, calcula as datas dos últimos 30 dias
         if (initialDate == null && finalDate == null) {
-            finalDate = LocalDateTime.now();
+            finalDate = LocalDate.now();
             initialDate = finalDate.minusDays(30);
         }
 

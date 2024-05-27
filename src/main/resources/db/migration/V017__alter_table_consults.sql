@@ -1,0 +1,4 @@
+ALTER TABLE consults DROP COLUMN date_time;
+
+ALTER TABLE consults ADD COLUMN "date" DATE NULL;
+ALTER TABLE consults ADD COLUMN "hour" TIME NULL;

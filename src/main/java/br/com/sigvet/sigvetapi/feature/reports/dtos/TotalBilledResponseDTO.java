@@ -1,7 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.reports.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,8 +22,8 @@ public class TotalBilledResponseDTO {
     Long consults;
     Long vaccinations;
     @JsonFormat(pattern = "YYYY-MM-dd")
-    LocalDateTime initialDate;
+    LocalDate initialDate;
     @JsonFormat(pattern = "YYYY-MM-dd")
-    LocalDateTime finalDate;
+    LocalDate finalDate;
 
 }

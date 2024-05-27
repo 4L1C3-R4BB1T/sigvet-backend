@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -25,6 +26,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE diagnostics SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class DiagnosticEntity extends BaseEntity<Long> {
 

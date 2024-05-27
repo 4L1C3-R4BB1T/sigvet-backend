@@ -1,6 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.consult;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ import br.com.sigvet.sigvetapi.common.entities.enums.ConsultationStatus;
 
 public interface ConsultRepository extends JpaRepository<ConsultEntity, Long>, JpaSpecificationExecutor<ConsultEntity> {
 
-    Optional<ConsultEntity> findByDateTimeAndVeterinarianId(LocalDateTime dateTime, Long veterinarianId);
+    Optional<ConsultEntity> findByDateAndHourAndVeterinarianId(LocalDate date, LocalTime hour, Long veterinarianId);
 
     Optional<ConsultEntity> findByIdAndStatus(Long id, ConsultationStatus status);
 
@@ -21,10 +22,10 @@ public interface ConsultRepository extends JpaRepository<ConsultEntity, Long>, J
         return findByIdAndStatus(id, ConsultationStatus.COMPLETED);
     }
 
-    @Query("SELECT c FROM ConsultEntity c WHERE c.dateTime >= :initialDate AND c.dateTime <= :finalDate")
-    List<ConsultEntity> findAllByDataBetween(LocalDateTime initialDate, LocalDateTime finalDate);
+    @Query("SELECT c FROM ConsultEntity c WHERE c.date >= :initialDate AND c.date <= :finalDate")
+    List<ConsultEntity> findAllByDataBetween(LocalDate initialDate, LocalDate finalDate);
 
-    @Query("SELECT c FROM ConsultEntity c WHERE c.veterinarian.id = :id AND c.dateTime >= :initialDate AND c.dateTime <= :finalDate")
-    List<ConsultEntity> findAllByVeterinarianAndDataBetween(LocalDateTime initialDate, LocalDateTime finalDate, Long id);
+    @Query("SELECT c FROM ConsultEntity c WHERE c.veterinarian.id = :id AND c.date >= :initialDate AND c.date <= :finalDate")
+    List<ConsultEntity> findAllByVeterinarianAndDataBetween(LocalDate initialDate, LocalDate finalDate, Long id);
 
 }

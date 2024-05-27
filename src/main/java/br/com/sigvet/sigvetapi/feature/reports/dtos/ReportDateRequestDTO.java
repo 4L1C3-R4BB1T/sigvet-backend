@@ -1,6 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.reports.dtos;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.PastOrPresent;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.PastOrPresent;
 public record ReportDateRequestDTO(
     
     @PastOrPresent(message = "Date Time should be past or present")
-    Date initialDate,
-    Date finalDate
+    LocalDate initialDate,
+    LocalDate finalDate
 
 ) {}

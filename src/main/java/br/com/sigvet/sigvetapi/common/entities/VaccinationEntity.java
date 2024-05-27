@@ -1,8 +1,9 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -28,20 +29,21 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
+@SQLDelete(sql = "UPDATE vaccinations SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted is false")
 public class VaccinationEntity extends BaseEntity<Long> {
 
     public static final String VACCINATION_ENTITY_FILTER_KEY = "vaccinationEntityFilter";
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dateTime;
+    private LocalDate date;
+    
+    @Column(columnDefinition = "TIME")
+    private LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne
     private VeterinarianEntity veterinarian;
-
-    @Column(columnDefinition = "TIME")
-    LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne
