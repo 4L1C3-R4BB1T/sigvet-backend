@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+  	id "org.flywaydb.flyway" version "10.13.0"
 }
 
 group = 'br.com.sigvet'
@@ -9,6 +10,12 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/sigvetdb'
+    user = 'admin'
+    password = 'admin'
 }
 
 configurations {

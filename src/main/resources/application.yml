@@ -3,9 +3,9 @@ spring:
       name: sigvet-api
 
     datasource:
-        url: jdbc:postgresql://localhost:5432/sigvetdb
-        username: admin
-        password: admin
+        url: ${postgres.url}
+        username: ${postgres.username}
+        password: ${postgres.password}
     jpa:
       hibernate:
           ddl-auto: none

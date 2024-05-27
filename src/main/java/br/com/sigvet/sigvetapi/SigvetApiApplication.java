@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class SigvetApiApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.profiles.active", "development");
 		SpringApplication.run(SigvetApiApplication.class, args);
 	}
 
