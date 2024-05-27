@@ -1,6 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.vaccination;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,8 +32,8 @@ public interface VaccinationRepository extends JpaRepository<VaccinationEntity, 
     """, nativeQuery = true)
     List<VaccinationEntity> search(String term);
 
-    @Query("SELECT v FROM VaccinationEntity v WHERE v.dateTime >= :initialDate AND v.dateTime <= :finalDate")
-    List<VaccinationEntity> findAllByDataBetween(LocalDateTime initialDate, LocalDateTime finalDate);
+    @Query("SELECT v FROM VaccinationEntity v WHERE v.date >= :initialDate AND v.date <= :finalDate")
+    List<VaccinationEntity> findAllByDataBetween(LocalDate initialDate, LocalDate finalDate);
 
 }
 

@@ -29,7 +29,6 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
     @Transactional
     @Override
     public void execute(Long id, VaccinationEntity source) {
-        System.out.println("oii eu entrei aqui");
         final var vaccinationOptional = repository.findById(Objects.requireNonNull(id));
 
         List<String> errors = new ArrayList<>();
@@ -39,7 +38,7 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
         }
 
         final var vaccination = vaccinationOptional.get();
-
+        
         if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
             throw new ApplicationException("Vaccination Invalid", List.of("O horário deve estar entre 8:00 horas e 18:59 horas"));
         }
@@ -49,6 +48,10 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
         final var vaccine = vaccineRepository.findById(source.getVaccine().getId()).orElseThrow(() -> new ApplicationException("Vaccination Invalid", List.of("Vacina com id %d não encontrada".formatted(vaccineId))));
        
         if (vaccination.getVaccine().getId() != vaccineId) { // Se alterar a vacina eu aumento o stock dela em mais 1
+            // Caso a vacina pra qual se deseja alterar não possua estoque disponível
+            if (vaccine.getStock() <= 0) {
+                throw new ApplicationException("Vacina com %d não tem estoque disponível".formatted(vaccineId));
+            }
             vaccination.getVaccine().increaseStock();
             vaccine.decreaseStock();
         }

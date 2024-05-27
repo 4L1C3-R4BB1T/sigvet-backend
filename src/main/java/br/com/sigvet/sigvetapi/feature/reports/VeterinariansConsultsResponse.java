@@ -1,6 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.reports;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -20,8 +20,8 @@ public class VeterinariansConsultsResponse {
     
     List<VeterinarianConsults> veterinarianConsults;
     @JsonFormat(pattern = "YYYY-MM-dd")
-    LocalDateTime initialDate;
+    LocalDate initialDate;
     @JsonFormat(pattern = "YYYY-MM-dd")
-    LocalDateTime finalDate;
+    LocalDate finalDate;
 
 }

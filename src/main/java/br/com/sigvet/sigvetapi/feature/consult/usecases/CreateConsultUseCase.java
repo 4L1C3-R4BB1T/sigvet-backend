@@ -1,5 +1,7 @@
 package br.com.sigvet.sigvetapi.feature.consult.usecases;
 
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -27,6 +29,10 @@ public class CreateConsultUseCase implements CreateUseCase<ConsultEntity> {
     public ConsultEntity execute(ConsultEntity source) {
         final var animalId = source.getAnimal().getId();
 
+        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
+            throw new ApplicationException("Consult Invalid", List.of("O horário deve estar entre 8:00 horas e 18:59 horas"));
+        }
+
         if (!animalRepository.existsById(animalId)) {
             throw new ApplicationException("Animal com id %d não encontrado".formatted(animalId));
         }
@@ -38,11 +44,11 @@ public class CreateConsultUseCase implements CreateUseCase<ConsultEntity> {
         }
 
         // Caso não haja horário disponível para o veterinário escolhido será lançada uma mensagem informativa
-        final var consultOptional = repository.findByDateTimeAndVeterinarianId(source.getDateTime(), veterinarianId);
+        final var consultOptional = repository.findByDateAndHourAndVeterinarianId(source.getDate(), source.getHour(), veterinarianId);
 
         if (consultOptional.isPresent() && consultOptional.get().getVeterinarian().getId() == veterinarianId) {
-            throw new ApplicationException("Consulta com data " + source.getDateTime()
-                    + " e veterinário com id " + veterinarianId + " já existem");
+            throw new ApplicationException("Consulta com data " + source.getDate() + " e horário "
+                    + source.getHour() + " e veterinário com id " + veterinarianId + " já existem");
         }
 
         return repository.save(Objects.requireNonNull(source));

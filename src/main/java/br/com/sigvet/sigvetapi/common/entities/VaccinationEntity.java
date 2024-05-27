@@ -1,6 +1,6 @@
 package br.com.sigvet.sigvetapi.common.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.hibernate.annotations.SQLRestriction;
@@ -34,14 +34,14 @@ public class VaccinationEntity extends BaseEntity<Long> {
     public static final String VACCINATION_ENTITY_FILTER_KEY = "vaccinationEntityFilter";
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dateTime;
+    private LocalDate date;
+    
+    @Column(columnDefinition = "TIME")
+    private LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne
     private VeterinarianEntity veterinarian;
-
-    @Column(columnDefinition = "TIME")
-    LocalTime hour;
 
     @JoinColumn(nullable = false)
     @ManyToOne
