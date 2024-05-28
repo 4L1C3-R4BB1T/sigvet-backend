@@ -5,17 +5,18 @@ plugins {
   	id "org.flywaydb.flyway" version "10.13.0"
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/sigvetdb'
+    user = 'username'
+    password = 'username'
+    driver = 'org.postgresql.Driver'
+}
+
 group = 'br.com.sigvet'
 version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
-}
-
-flyway {
-	url = 'jdbc:postgresql://localhost:5432/sigvetdb'
-    user = 'admin'
-    password = 'admin'
 }
 
 configurations {

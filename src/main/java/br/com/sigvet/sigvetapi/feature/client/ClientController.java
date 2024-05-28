@@ -43,7 +43,7 @@ public class ClientController extends CrudController<ClientEntity, ClientRequest
     @GetMapping("/search")
     public ResponseEntity<MappingJacksonValue> searchByName(@RequestParam(name = "name") String name) {
         final var newAttributeFilters = new HashMap<>(attributeFilters);
-        newAttributeFilters.put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("password", "address", "animals", "roles", "createdAt", "updatedAt"));
+        newAttributeFilters.put(ClientEntity.CLIENT_ENTITY_FILTER_KEY, List.of("password", "address","roles"));
         return ResponseEntity.ok(buildJacksonValue(searchClientByNameUseCase.execute(name), newAttributeFilters));
     }
 
