@@ -5,12 +5,25 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.sigvet.sigvetapi.common.entities.VaccinationEntity;
 
+
+
 public interface VaccinationRepository extends JpaRepository<VaccinationEntity, Long>, JpaSpecificationExecutor<VaccinationEntity> {
-    
+
+    @Modifying
+    int deleteByAnimalId(Long id);
+
+    @Modifying
+    int deleteByVaccineId(Long id);
+
+    @Modifying
+    int deleteByVeterinarianId(Long id);
+
+
     @Query(value = """
         SELECT * FROM vaccinations v1
                 INNER JOIN animals a ON a.id = v1.animal_id

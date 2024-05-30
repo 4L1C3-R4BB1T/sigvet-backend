@@ -50,4 +50,5 @@ public class AnimalEntity extends BaseEntity<Long> {
     @ManyToOne
     private ClientEntity client;
     
+    
 }
