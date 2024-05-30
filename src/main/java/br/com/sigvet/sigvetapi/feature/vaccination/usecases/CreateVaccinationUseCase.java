@@ -2,7 +2,6 @@ package br.com.sigvet.sigvetapi.feature.vaccination.usecases;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -58,6 +57,10 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
 
         // Caso não haja a vacina escolhida em estoque será lançada uma mensagem informativa
         final var vaccine = vaccineRepository.findById(vaccineId).get();
+
+        if (vaccine.getExpirationDate().isBefore(LocalDate.now()) || vaccine.getExpirationDate().isEqual(LocalDate.now())) {
+            throw new ApplicationException("A vacina está vencida");
+        }
 
         if (vaccine.getStock() <= 0) {
             throw new ApplicationException("Vacina com %d não tem estoque disponível".formatted(vaccineId));

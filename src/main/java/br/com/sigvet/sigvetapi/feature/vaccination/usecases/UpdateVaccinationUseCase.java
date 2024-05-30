@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.vaccination.usecases;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -44,6 +45,11 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
         final var vaccine = vaccineRepository.findById(
             source.getVaccine().getId()).orElseThrow(
                 () -> new ApplicationException("Vacina com id %d não encontrada".formatted(vaccineId)));
+        
+        if (vaccine.getExpirationDate().isBefore(LocalDate.now()) || vaccine.getExpirationDate().isEqual(LocalDate.now())) {
+            throw new ApplicationException("A vacina está vencida");
+        }
+
        
         if (vaccination.getVaccine().getId() != vaccineId) { // Se alterar a vacina eu aumento o stock dela em mais 1
             // Caso a vacina pra qual se deseja alterar não possua estoque disponível
