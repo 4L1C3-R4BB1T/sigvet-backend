@@ -1,6 +1,5 @@
 package br.com.sigvet.sigvetapi.feature.animal.usecases;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;

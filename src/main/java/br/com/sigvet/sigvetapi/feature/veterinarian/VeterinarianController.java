@@ -39,7 +39,7 @@ public class VeterinarianController extends CrudController<VeterinarianEntity, V
     @GetMapping("/search")
     public ResponseEntity<MappingJacksonValue> search(@RequestParam("name") final String name) {
         final var newAttributeFilters = new HashMap<>(attributeFilters);
-        newAttributeFilters.put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of("password", "address", "roles", "createdAt", "updatedAt"));
+        newAttributeFilters.put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of("password", "address", "roles"));
         return ResponseEntity.ok(buildJacksonValue(searchVeterinarianByNameUseCase.execute(name), newAttributeFilters));
     } 
 
