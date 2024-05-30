@@ -1,9 +1,7 @@
 package br.com.sigvet.sigvetapi.common;
 
 import java.util.Objects;
-
 import org.springframework.data.jpa.domain.Specification;
-
 import br.com.sigvet.sigvetapi.common.entities.BaseEntity;
 import br.com.sigvet.sigvetapi.common.models.EqualityFilterModel;
 import br.com.sigvet.sigvetapi.common.models.InFilterModel;
@@ -28,8 +26,8 @@ public class EntitySpecification {
             var path = pathBuilder.get(root, eq.getColumn());
             if (Objects.isNull(path)) return cb.and();
             Predicate predicate = eq.isEqual() ? 
-                cb.equal(cb.lower(cb.function("unaccent", String.class, path)), eq.getValue().toLowerCase()) : 
-                cb.notEqual(cb.lower(cb.function("unaccent", String.class, path)), eq.getValue().toLowerCase());
+                cb.equal(cb.lower(cb.function("unaccent", String.class, path.as(String.class))), cb.function("unaccent", String.class, cb.literal(eq.getValue().toLowerCase()))) : 
+                cb.notEqual(cb.lower(cb.function("unaccent", String.class, path.as(String.class))), cb.function("unaccent", String.class, cb.literal(eq.getValue().toLowerCase())));
             return predicate;
         };
     }

@@ -19,7 +19,7 @@ public interface VeterinarianRepository extends JpaRepository<VeterinarianEntity
         return findByIdAndDeleted(id, false);
     }
 
-    @Query(value = "SELECT * FROM veterinarians v INNER JOIN users u ON u.id = v.id  WHERE LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) AND u.deleted is false", nativeQuery = true)
+    @Query(value = "SELECT * FROM veterinarians v INNER JOIN users u ON u.id = v.id  WHERE (LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) OR LOWER(unaccent(v.specialty)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))) AND u.deleted is false", nativeQuery = true)
     List<VeterinarianEntity> searchByName(String name);
 
 }
