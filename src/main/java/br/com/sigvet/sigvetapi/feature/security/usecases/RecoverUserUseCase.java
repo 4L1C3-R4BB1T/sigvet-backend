@@ -1,6 +1,4 @@
-package br.com.sigvet.sigvetapi.feature.security;
-
-import java.util.ArrayList;
+package br.com.sigvet.sigvetapi.feature.security.usecases;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -9,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.Notification;
 import br.com.sigvet.sigvetapi.common.utils.StringNormalizer;
+import br.com.sigvet.sigvetapi.feature.security.RecoverUserRequestDTO;
 import br.com.sigvet.sigvetapi.feature.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 

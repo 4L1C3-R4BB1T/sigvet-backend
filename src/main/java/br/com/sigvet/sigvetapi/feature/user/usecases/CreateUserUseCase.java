@@ -30,7 +30,7 @@ public class CreateUserUseCase {
             throw new ApplicationException(notification.getErrors());
         }
 
-        userEntity.setRoles(List.of(Role.CLIENT));
+        userEntity.setRoles(List.of(Role.VIEWER));
         return repository.save(userEntity);
     }
 }

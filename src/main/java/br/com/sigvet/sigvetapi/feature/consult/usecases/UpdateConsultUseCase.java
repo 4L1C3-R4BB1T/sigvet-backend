@@ -12,6 +12,7 @@ import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
 import br.com.sigvet.sigvetapi.common.usecases.UpdateUseCase;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultMapper;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
+import br.com.sigvet.sigvetapi.feature.veterinarian.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -21,6 +22,8 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
     private final ConsultRepository repository;
 
     private final ConsultMapper consultMapper;
+
+    private final VeterinarianRepository veterinarianRepository;
 
     @Override
     public void execute(Long id, ConsultEntity source) {
@@ -38,11 +41,12 @@ public class UpdateConsultUseCase implements UpdateUseCase<ConsultEntity> {
 
         // Caso não haja horário disponível para o veterinário escolhido será lançada uma mensagem informativa
         final var veterinarianId = source.getVeterinarian().getId();
+        final var veterinarian = veterinarianRepository.findById(veterinarianId).get();
         final var consultExists = repository.findByDateAndHourAndVeterinarianId(source.getDate(), source.getHour(), veterinarianId);
 
         if (consultExists.isPresent() && consultExists.get().getVeterinarian().getId() == veterinarianId) {
             throw new ApplicationException("Consulta com data " + source.getDate() + " e horário "
-                    + source.getHour() + " e veterinário com id " + veterinarianId + " já existem");
+                    + source.getHour() + " para o veterinário " + veterinarian.getName() + " já existem nesse horário.");
         }
 
         final var consult = consultOptional.get();

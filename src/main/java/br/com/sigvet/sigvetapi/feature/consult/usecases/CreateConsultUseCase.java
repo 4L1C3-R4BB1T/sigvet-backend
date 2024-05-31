@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
+import br.com.sigvet.sigvetapi.common.entities.enums.ConsultationStatus;
 import br.com.sigvet.sigvetapi.common.usecases.CreateUseCase;
 import br.com.sigvet.sigvetapi.feature.animal.AnimalRepository;
 import br.com.sigvet.sigvetapi.feature.consult.ConsultRepository;
@@ -51,6 +52,7 @@ public class CreateConsultUseCase implements CreateUseCase<ConsultEntity> {
                     + source.getHour() + " e veterinário com id " + veterinarianId + " já existem");
         }
 
+        source.setStatus(ConsultationStatus.SCHEDULED);
         return repository.save(Objects.requireNonNull(source));
     }
 

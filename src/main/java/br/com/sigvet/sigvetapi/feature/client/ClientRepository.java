@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
@@ -19,5 +20,9 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long>, Jpa
 
     @Query(value = "SELECT * FROM clients c INNER JOIN users u ON u.id = c.id WHERE LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) AND u.deleted = false", nativeQuery = true)
     List<ClientEntity> searchByName(String name);
+
+    @Modifying
+    @Query(value = "INSERT INTO clients(id) VALUES (?1)", nativeQuery = true)
+    void saveByUserId(Long id);
 
 }

@@ -25,6 +25,8 @@ import br.com.sigvet.sigvetapi.common.entities.UserEntity;
 import br.com.sigvet.sigvetapi.common.entities.enums.EntityType;
 import br.com.sigvet.sigvetapi.common.models.ResponseResultModel;
 import br.com.sigvet.sigvetapi.feature.photo.usecases.FindPhotoUseCase;
+import br.com.sigvet.sigvetapi.feature.security.usecases.GrantUserAccessUseCase;
+import br.com.sigvet.sigvetapi.feature.security.usecases.RecoverUserUseCase;
 import br.com.sigvet.sigvetapi.feature.user.UserRequestDTO;
 import br.com.sigvet.sigvetapi.feature.user.usecases.CreateUserUseCase;
 import br.com.sigvet.sigvetapi.feature.user.usecases.FindUserByIdUseCase;
@@ -56,6 +58,15 @@ public class AccountController {
     private final RecoverUserUseCase recoverUserUseCase;
 
     private final UpdateUserUseCase updateUserUseCase;
+
+    private final GrantUserAccessUseCase grantUserAccessUseCase;
+
+    @Operation(summary = "Endpoint para permitir acesso para um usuário visualizador")
+    @PostMapping("/allow-access/{id}")
+    public ResponseEntity<Void> postAllowAccess(@PathVariable("id") Long id) {
+        grantUserAccessUseCase.execute(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @Operation(summary = "Endpoint para atualizar perfil do usuário") 
     @PutMapping("/profile/{id}/update")
