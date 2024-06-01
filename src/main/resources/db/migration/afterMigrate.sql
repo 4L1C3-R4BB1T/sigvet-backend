@@ -146,6 +146,7 @@ INSERT INTO users (username, password, email, name, document, phone) VALUES
     ('user57', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user57@email.com', 'Rafael Lima', '57345678917', '5734567890'),
     ('user58', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user58@email.com', 'Camila Oliveira', '58345678918', '5834567890'),
     ('user59', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user59@email.com', 'Bruno Almeida', '59345678919', '5934567890'),
+    ('admin', '$2a$12$qkVIuERmOM1IRbsdfRHMZ.0KktaTI9jH4TipM40UxvGJTL5TjlvkC', 'admin@admin.com', 'Sigvet', '59345678910', '5934567890'),
     ('user60', '$2a$12$9l3NLPa7qYLwGzHbikLciOdKZDlQc9t54pJyD9J0JgPafuR4SyXsC', 'user60@email.com', 'Fernanda Costa', '60345678910', '6034567890');
 
 -- Populando a tabela clientes
@@ -218,15 +219,19 @@ INSERT INTO veterinarians (id, specialty, crmv, crmv_uf) VALUES
 INSERT INTO roles (user_id, role)
 SELECT id, 'CLIENT' FROM clients;
 
-INSERT INTO roles (user_id, role)
-SELECT id, 'ADMIN' FROM clients;
+-- INSERT INTO roles (user_id, role)
+-- SELECT id, 'ADMIN' FROM clients;
 
 -- Populando a tabela roles para veterinarios
 INSERT INTO roles (user_id, role)
-SELECT id, 'CLIENT' FROM veterinarians;
+SELECT id, 'VET' FROM veterinarians;
 
 INSERT INTO roles (user_id, role)
-SELECT id, 'ADMIN' FROM veterinarians;
+    SELECT u.id, 'ADMIN' FROM users u WHERE u.username = 'admin';
+
+
+-- INSERT INTO roles (user_id, role)
+-- SELECT id, 'ADMIN' FROM veterinarians;
 
 -- Populando a tabela enderecos
 INSERT INTO addresses (street, neighborhood, zip_code, number, city_id, user_id) VALUES
@@ -410,9 +415,9 @@ INSERT INTO animals (name, breed, birth_date, client_id, created_at, updated_at)
 
 -- Populando a tabela vacinas
 INSERT INTO vaccines (name, manufacturer, lot, unit_price, stock, expiration_date) VALUES
-    ('Raiva', 'Zoetis', 'RA12345', 45.00, 100, '2024-12-31'),
-    ('V10', 'MSD Animal Health', 'V101234', 60.00, 150, '2024-11-30'),
-    ('V8', 'Boehringer Ingelheim', 'V81234', 55.00, 200, '2024-10-31'),
+    ('Raiva', 'Zoetis', 'RA12345', 45.00, 100, '2024-05-28'),
+    ('V10', 'MSD Animal Health', 'V101234', 60.00, 150, '2024-05-20'),
+    ('V8', 'Boehringer Ingelheim', 'V81234', 55.00, 200, '2024-06-08'),
     ('Leptospirose', 'Virbac', 'LEP1234', 50.00, 250, '2024-09-30'),
     ('Gripe Canina', 'Ceva', 'GC12345', 65.00, 300, '2024-08-31'),
     ('Giárdia', 'Zoetis', 'GI12345', 70.00, 110, '2024-07-31'),

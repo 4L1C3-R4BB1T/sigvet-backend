@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class FindUserByViewerRoleUseCase {
+public class FindUserByUnknownRoleUseCase {
 
     private final UserRepository userRepository;
     
     public List<UserResponseProjection> execute() {
-        return userRepository.findByViewerRole();
+        return userRepository.findByUnknownRole();
     }
 }

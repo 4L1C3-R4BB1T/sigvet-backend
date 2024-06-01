@@ -13,14 +13,24 @@ import br.com.sigvet.sigvetapi.common.entities.CityEntity;
 import br.com.sigvet.sigvetapi.common.entities.ClientEntity;
 import br.com.sigvet.sigvetapi.common.entities.ConsultEntity;
 import br.com.sigvet.sigvetapi.common.entities.VeterinarianEntity;
+import br.com.sigvet.sigvetapi.feature.consult.usecases.SearchConsultByTermUseCase;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "Consultas", description = "Agrupa endpoints para gerenciar consultas")
 @RestController
 @RequestMapping("/api/v1/consults")
 public class ConsultController extends CrudController<ConsultEntity, ConsultRequestDTO> {
 
-    public ConsultController(ConsultFacade facade, ConsultMapper mapper) {
+    private final SearchConsultByTermUseCase searchConsultByTermUseCase;
+
+    public ConsultController(ConsultFacade facade, ConsultMapper mapper, SearchConsultByTermUseCase searchConsultByTermUseCase) {
         super(facade, mapper);
         attributeFilters.putAll(new HashMap<>() {
             {
@@ -31,6 +41,14 @@ public class ConsultController extends CrudController<ConsultEntity, ConsultRequ
                 put(VeterinarianEntity.VETERINARIAN_ENTITY_FILTER_KEY, List.of("createdAt", "roles","updatedAt", "password", "address"));
             }
         });
+        this.searchConsultByTermUseCase = searchConsultByTermUseCase;
     }
+
+    @Operation(description = "Permite pesquisar consultas por termo")
+    @GetMapping("/search")
+    public ResponseEntity<MappingJacksonValue> search(@RequestParam("term") String term) {
+        return ResponseEntity.ok(buildJacksonValue(searchConsultByTermUseCase.execute(term)));
+    }
+    
 
 }

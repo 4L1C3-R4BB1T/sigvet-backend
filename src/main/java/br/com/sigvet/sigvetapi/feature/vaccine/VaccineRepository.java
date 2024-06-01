@@ -10,7 +10,7 @@ import br.com.sigvet.sigvetapi.common.entities.VaccineEntity;
 
 public interface VaccineRepository extends JpaRepository<VaccineEntity, Long>, JpaSpecificationExecutor<VaccineEntity> {
 
-    @Query(value = "SELECT * FROM vaccines v WHERE v.deleted IS FALSE AND LOWER(unaccent(v.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))", nativeQuery = true)
+    @Query(value = "SELECT * FROM vaccines v WHERE v.deleted IS FALSE AND (LOWER(unaccent(v.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) OR LOWER(unaccent(v.manufacturer)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')) OR LOWER(unaccent(v.lot)) LIKE unaccent(CONCAT('%', LOWER(?1), '%')))", nativeQuery = true)
     List<VaccineEntity> searchByName(String name);
 }
  

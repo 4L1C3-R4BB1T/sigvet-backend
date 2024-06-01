@@ -28,4 +28,34 @@ public interface ConsultRepository extends JpaRepository<ConsultEntity, Long>, J
     @Query("SELECT c FROM ConsultEntity c WHERE c.veterinarian.id = :id AND c.date >= :initialDate AND c.date <= :finalDate")
     List<ConsultEntity> findAllByVeterinarianAndDataBetween(LocalDate initialDate, LocalDate finalDate, Long id);
 
+    @Query(
+        value = """
+            SELECT c.*
+            FROM consults c
+            INNER JOIN veterinarians v ON v.id = c.veterinarian_id
+            INNER JOIN animals a ON a.id = c.animal_id 
+            INNER JOIN users u ON u.id = v.id 
+            INNER JOIN users u2 ON u2.id = a.client_id
+            WHERE 
+                c.deleted IS FALSE 
+            AND 
+                (
+                    LOWER(unaccent(u.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                    OR
+                    LOWER(unaccent(v.specialty)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                    OR
+                    LOWER(unaccent(a.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                    OR
+                    LOWER(unaccent(a.breed)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                    OR
+                    LOWER(unaccent(u2.name)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                    OR
+                    LOWER(unaccent(c.status)) LIKE unaccent(CONCAT('%', LOWER(?1), '%'))
+                );
+            
+            """,
+            nativeQuery = true
+    )
+    List<ConsultEntity> search(String term);
+
 }

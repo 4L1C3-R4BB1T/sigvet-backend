@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigvet.sigvetapi.feature.user.UserRepository.UserResponseProjection;
 import br.com.sigvet.sigvetapi.feature.user.usecases.DeleteUserByIdUseCase;
-import br.com.sigvet.sigvetapi.feature.user.usecases.FindUserByViewerRoleUseCase;
-import br.com.sigvet.sigvetapi.feature.user.usecases.SearchUserByViewerRoleUseCase;
+import br.com.sigvet.sigvetapi.feature.user.usecases.FindUserByUnknownRoleUseCase;
+import br.com.sigvet.sigvetapi.feature.user.usecases.SearchUserByUnknownRoleUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
@@ -24,9 +24,9 @@ public class UserController {
     
     private final DeleteUserByIdUseCase deleteUserByIdUseCase;
 
-    private final FindUserByViewerRoleUseCase findUserByViewerRoleUseCase;
+    private final FindUserByUnknownRoleUseCase findUserByUnknownRoleUseCase;
 
-    private final SearchUserByViewerRoleUseCase searchUserByViewerRoleUserCase;
+    private final SearchUserByUnknownRoleUseCase searchUserByUnknownRoleUserCase;
 
     @Operation(description = "Permite remover um usuário")
     @DeleteMapping("/{id}")
@@ -38,13 +38,13 @@ public class UserController {
     @Operation(description = "Permite obter usuários dentro da role viewer")
     @GetMapping("/in-view-role")
     public ResponseEntity<List<UserResponseProjection>> get() {
-        return ResponseEntity.ok(findUserByViewerRoleUseCase.execute());
+        return ResponseEntity.ok(findUserByUnknownRoleUseCase.execute());
     }
 
     @Operation(description = "Permite obter usuários dentro da role viewer")
     @GetMapping("/in-view-role/search")
     public ResponseEntity<List<UserResponseProjection>> get(@RequestParam("term") String term) {
-        return ResponseEntity.ok(searchUserByViewerRoleUserCase.execute(term));
+        return ResponseEntity.ok(searchUserByUnknownRoleUserCase.execute(term));
     }
 
 }

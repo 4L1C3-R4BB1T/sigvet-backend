@@ -30,21 +30,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         @Value("#{target.phone.replaceAll(\"(\\d{2})(\\d{5})(\\d{4})\", \"($1) $2-$3\").trim()}")
         String getPhone();
         LocalDateTime getCreatedAt();
-
-        default String hello() {
-            return "oi";
-        }
     }
 
     @Query(value = """
         SELECT 
-            u.id as id, 
-            u.name as name, 
-            u.username as username, 
-            u.email as email, 
-            u.document as document, 
-            u.phone as phone, 
-            u.created_at as "createdAt" 
+            u.*, u.created_at as "createdAt"
         FROM 
             users u 
         INNER JOIN 
@@ -52,7 +42,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         ON 
             r.user_id = u.id
         WHERE 
-            'VIEWER' IN (SELECT r.role FROM roles r)
+            'UNKNOWN' IN (SELECT r.role FROM roles r WHERE r.user_id = u.id)
         AND 
             (
                 LOWER(unaccent(u.name)) LIKE LOWER(unaccent(CONCAT('%', LOWER(?1), '%'))) 
@@ -70,15 +60,15 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         HAVING 
             COUNT(u.id) = 1;
     """, nativeQuery = true)
-    List<UserResponseProjection> searchByTermAndViewerRole(String term);
+    List<UserResponseProjection> searchByTermAndUnknownRole(String term);
 
     @Query(value = """
-                select u.id as id, u.name as name, u.username as username, u.email as email, u.document as document, u.phone as phone, u.created_at as "createdAt" from users u inner join roles r on r.user_id = u.id
-                where 'VIEWER' IN (SELECT r.role FROM roles r)
-                group by u.id
-                having count(u.id) = 1;
+            select  u.*, u.created_at as "createdAt" from users u inner join roles r on r.user_id = u.id
+            where 'UNKNOWN' IN (SELECT r.role FROM roles r WHERE r.user_id = u.id)
+            group by u.id, r.user_id, r.role
+            having count(u.id) = 1;
             """, nativeQuery = true)
-    List<UserResponseProjection> findByViewerRole();
+    List<UserResponseProjection> findByUnknownRole();
 
     Optional<UserEntity> findByEmailOrUsername(String email, String username);
 

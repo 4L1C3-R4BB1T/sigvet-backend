@@ -1,5 +1,6 @@
 package br.com.sigvet.sigvetapi.feature.consult.usecases;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,11 @@ public class CreateConsultUseCase implements CreateUseCase<ConsultEntity> {
     public ConsultEntity execute(ConsultEntity source) {
         final var animalId = source.getAnimal().getId();
 
-        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
+        if (source.getDate().isBefore(LocalDate.now())) {
+            throw new ApplicationException("A data deve estar no presente");
+        }
+
+        if (!(source.getHour().isAfter(LocalTime.of(7, 59)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
             throw new ApplicationException("Consult Invalid", List.of("O horário deve estar entre 8:00 horas e 18:59 horas"));
         }
 
