@@ -2,8 +2,6 @@ package br.com.sigvet.sigvetapi.common.converts;
 
 import java.util.Objects;
 
-import org.springframework.util.Assert;
-
 import jakarta.persistence.AttributeConverter;
 
 public class CPFConverter implements AttributeConverter<String, String> {

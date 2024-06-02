@@ -1,12 +1,10 @@
 package br.com.sigvet.sigvetapi.feature.animal.usecases;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.sigvet.sigvetapi.common.ApplicationException;
 import br.com.sigvet.sigvetapi.common.entities.AnimalEntity;
 import br.com.sigvet.sigvetapi.common.entities.enums.EntityType;
 import br.com.sigvet.sigvetapi.feature.animal.AnimalRepository;

@@ -36,7 +36,7 @@ public class UpdateVaccinationUseCase implements UpdateUseCase<VaccinationEntity
 
         final var vaccination = vaccinationOptional.get();
         
-        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
+        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(7, 59)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
             throw new ApplicationException("O horário deve estar entre 8:00 horas e 18:59 horas");
         }
 

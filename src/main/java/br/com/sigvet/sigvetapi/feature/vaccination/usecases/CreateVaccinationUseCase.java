@@ -31,7 +31,7 @@ public class CreateVaccinationUseCase implements CreateUseCase<VaccinationEntity
     public VaccinationEntity execute(VaccinationEntity source) {
         final var animalId = source.getAnimal().getId();
 
-        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(8, 0)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
+        if (Objects.nonNull(source.getHour()) && !(source.getHour().isAfter(LocalTime.of(7, 59)) && source.getHour().isBefore(LocalTime.of(19, 0)))) {
             throw new ApplicationException("O horário deve estar entre 8:00 horas e 18:59 horas");
         }
         
