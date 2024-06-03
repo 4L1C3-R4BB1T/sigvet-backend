@@ -63,9 +63,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserResponseProjection> searchByTermAndUnknownRole(String term);
 
     @Query(value = """
-            select  u.*, u.created_at as "createdAt" from users u inner join roles r on r.user_id = u.id
+            select u.*, u.created_at as "createdAt" from users u inner join roles r on r.user_id = u.id
             where 'UNKNOWN' IN (SELECT r.role FROM roles r WHERE r.user_id = u.id)
-            group by u.id, r.user_id, r.role
+            group by u.id, r.user_id
             having count(u.id) = 1;
             """, nativeQuery = true)
     List<UserResponseProjection> findByUnknownRole();
